@@ -1,26 +1,28 @@
 <template>
-  <div class="dashboard-container">
-    <!-- 数据卡片 -->
-    <a-row :gutter="16" class="mb-16">
-      <a-col :span="6" v-for="(item, index) in statCards" :key="index">
-        <a-card>
-          <a-statistic :title="item.title" :value="item.value" :precision="2" :value-style="{ color: item.color }">
-            <template #prefix><component :is="item.icon" /></template>
+  <div class="dashboard">
+    <!-- 统计卡片区 -->
+    <a-row :gutter="16" class="stat-row">
+      <a-col :span="6" v-for="(stat, index) in stats" :key="index">
+        <a-card class="stat-card fin-card" :bordered="false">
+          <a-statistic :title="stat.title" :value="stat.value" :suffix="stat.suffix" :value-style="{ color: stat.color, fontWeight: 'bold' }">
+            <template #prefix>
+              <component :is="stat.icon" style="margin-right: 8px" />
+            </template>
           </a-statistic>
         </a-card>
       </a-col>
     </a-row>
 
-    <!-- 图表区域 -->
+    <!-- 图表区 -->
     <a-row :gutter="16">
       <a-col :span="16">
-        <a-card title="资产价值走势">
-          <v-chart :option="lineChartOption" style="height: 400px;" autoresize />
+        <a-card title="资产趋势分析" class="chart-card fin-card" :bordered="false">
+          <v-chart class="chart" :option="lineOption" autoresize />
         </a-card>
       </a-col>
       <a-col :span="8">
-        <a-card title="资产配置比例">
-          <v-chart :option="pieChartOption" style="height: 400px;" autoresize />
+        <a-card title="资产分布" class="chart-card fin-card" :bordered="false">
+          <v-chart class="chart" :option="pieOption" autoresize />
         </a-card>
       </a-col>
     </a-row>
@@ -35,55 +37,60 @@ import { CanvasRenderer } from 'echarts/renderers';
 import { LineChart, PieChart } from 'echarts/charts';
 import { GridComponent, TooltipComponent, LegendComponent } from 'echarts/components';
 import request from '@/utils/request';
-import { ArrowDownOutlined, ArrowUpOutlined, StockOutlined, DollarOutlined } from '@ant-design/icons-vue';
+import { UserOutlined, DollarOutlined, WarningOutlined, TeamOutlined } from '@ant-design/icons-vue';
 
-// 注册 ECharts 组件
 use([CanvasRenderer, LineChart, PieChart, GridComponent, TooltipComponent, LegendComponent]);
 
-const statCards = ref([
-  { title: '总资产 (AUM)', value: 120000000, color: '#3f8600', icon: DollarOutlined },
-  { title: '今日盈亏', value: 45200.50, color: '#cf1322', icon: StockOutlined },
-  { title: '持仓风险度', value: 0.235, color: '#1890ff', icon: ArrowDownOutlined },
-  { title: '夏普比率', value: 1.89, color: '#722ed1', icon: ArrowUpOutlined },
+const stats = ref([
+  { title: '总资产', value: 0, suffix: '元', color: '#1890ff', icon: DollarOutlined },
+  { title: '今日盈亏', value: 0, suffix: '元', color: '#52c41a', icon: 'stock' },
+  { title: '风险指数', value: '0%', suffix: '', color: '#faad14', icon: WarningOutlined },
+  { title: '活跃用户', value: 0, suffix: '人', color: '#722ed1', icon: TeamOutlined },
 ]);
 
-const lineChartOption = ref({});
-const pieChartOption = ref({});
+const lineOption = ref({});
+const pieOption = ref({});
 
 onMounted(async () => {
-  // 获取 Mock 数据
-  const res = await request({ url: '/dashboard/market', method: 'get' });
+  // 获取统计数据
+  const data = await request({ url: '/dashboard/stats', method: 'get' });
+  stats.value[0].value = data.totalAssets;
+  stats.value[1].value = data.todayProfit;
+  stats.value[2].value = data.riskRate;
+  stats.value[3].value = data.activeUsers;
+
+  // 获取图表数据
+  const chartData = await request({ url: '/dashboard/chart', method: 'get' });
   
-  // 生成折线图配置
-  lineChartOption.value = {
+  // 配置折线图
+  lineOption.value = {
     tooltip: { trigger: 'axis' },
-    xAxis: { type: 'category', data: res.kline.map((i: any) => i.date) },
+    xAxis: { type: 'category', data: chartData.map((i: any) => i.month) },
     yAxis: { type: 'value' },
-    series: [{ data: res.kline.map((i: any) => i.value), type: 'line', smooth: true, areaStyle: {} }]
+    series: [{ data: chartData.map((i: any) => i.value), type: 'line', smooth: true, areaStyle: { color: '#1890ff', opacity: 0.1 } }],
+    grid: { left: '3%', right: '4%', bottom: '3%', containLabel: true }
   };
 
-  // 生成饼图配置
-  pieChartOption.value = {
+  // 配置饼图
+  pieOption.value = {
     tooltip: { trigger: 'item' },
-    legend: { top: '5%', left: 'center' },
     series: [{
-      name: '资产配置',
       type: 'pie',
-      radius: ['40%', '70%'],
-      avoidLabelOverlap: false,
-      itemStyle: { borderRadius: 10, borderColor: '#fff', borderWidth: 2 },
-      label: { show: false, position: 'center' },
-      emphasis: { label: { show: true, fontSize: 20, fontWeight: 'bold' } },
-      labelLine: { show: false },
-      data: res.assets
+      radius: ['50%', '70%'],
+      data: [
+        { value: 1048, name: '股票' },
+        { value: 735, name: '债券' },
+        { value: 580, name: '现金' },
+      ]
     }]
   };
 });
 </script>
 
 <style scoped>
-.dashboard-container {
-  padding: 0; /* layout has margin */
-}
-.mb-16 { margin-bottom: 16px; }
+.dashboard { padding: 0; }
+.stat-row { margin-bottom: 24px; }
+.stat-card { text-align: left; }
+.chart-card { height: 400px; }
+.chart { height: 320px; width: 100%; }
 </style>
