@@ -3,7 +3,7 @@ import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { createI18n } from '@/locales'
+import createI18n from '@/locales'
 import router from './router'
 import App from './App.vue'
 import './styles/index.scss'
@@ -24,7 +24,7 @@ function bootstrap() {
 
   app.mount('#app')
 
-  console.log('🚀 DATA started')
+  console.log('🚀 FinSphere Pro started')
 }
 
 bootstrap().catch(error => {

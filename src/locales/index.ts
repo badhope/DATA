@@ -1,13 +1,13 @@
 /**
  * 国际化配置
+ * 支持中英文切换
  */
 import { createI18n } from 'vue-i18n'
 
-// 中文语言包
 const zhCN = {
   app: {
     title: 'FinSphere Pro',
-    description: '企业级金融数据管理平台'
+    description: '企业级金融数据管理平台',
   },
   common: {
     ok: '确定',
@@ -22,7 +22,7 @@ const zhCN = {
     reset: '重置',
     loading: '加载中...',
     noData: '暂无数据',
-    operate: '操作'
+    operate: '操作',
   },
   auth: {
     login: '登录',
@@ -32,44 +32,43 @@ const zhCN = {
     password: '密码',
     confirmPassword: '确认密码',
     rememberMe: '记住我',
-    forgotPassword: '忘记密码'
+    forgotPassword: '忘记密码',
   },
   dashboard: {
     totalAssets: '总资产',
     todayProfit: '今日收益',
     holdings: '持仓数量',
-    returnRate: '收益率'
+    returnRate: '收益率',
   },
   portfolio: {
     list: '组合列表',
     detail: '组合详情',
     create: '创建组合',
     edit: '编辑组合',
-    delete: '删除组合'
+    delete: '删除组合',
   },
   market: {
     watchlist: '自选股',
     analysis: '行情分析',
-    realtime: '实时行情'
+    realtime: '实时行情',
   },
   trade: {
     history: '交易历史',
     buy: '买入',
     sell: '卖出',
-    record: '交易记录'
+    record: '交易记录',
   },
   system: {
     profile: '个人资料',
     settings: '系统设置',
-    notifications: '消息通知'
-  }
+    notifications: '消息通知',
+  },
 }
 
-// 英文语言包
 const enUS = {
   app: {
     title: 'FinSphere Pro',
-    description: 'Enterprise Financial Data Management Platform'
+    description: 'Enterprise Financial Data Management Platform',
   },
   common: {
     ok: 'OK',
@@ -84,7 +83,7 @@ const enUS = {
     reset: 'Reset',
     loading: 'Loading...',
     noData: 'No data',
-    operate: 'Operate'
+    operate: 'Operate',
   },
   auth: {
     login: 'Login',
@@ -94,49 +93,49 @@ const enUS = {
     password: 'Password',
     confirmPassword: 'Confirm Password',
     rememberMe: 'Remember Me',
-    forgotPassword: 'Forgot Password'
+    forgotPassword: 'Forgot Password',
   },
   dashboard: {
     totalAssets: 'Total Assets',
     todayProfit: 'Today Profit',
     holdings: 'Holdings',
-    returnRate: 'Return Rate'
+    returnRate: 'Return Rate',
   },
   portfolio: {
     list: 'Portfolio List',
     detail: 'Portfolio Detail',
     create: 'Create Portfolio',
     edit: 'Edit Portfolio',
-    delete: 'Delete Portfolio'
+    delete: 'Delete Portfolio',
   },
   market: {
     watchlist: 'Watchlist',
     analysis: 'Market Analysis',
-    realtime: 'Real-time Quotes'
+    realtime: 'Real-time Quotes',
   },
   trade: {
     history: 'Trade History',
     buy: 'Buy',
     sell: 'Sell',
-    record: 'Trade Record'
+    record: 'Trade Record',
   },
   system: {
     profile: 'Profile',
     settings: 'Settings',
-    notifications: 'Notifications'
-  }
+    notifications: 'Notifications',
+  },
 }
 
-export const i18n = createI18n({
-  legacy: false,
-  locale: 'zh-CN',
-  fallbackLocale: 'en-US',
-  messages: {
-    'zh-CN': zhCN,
-    'en-US': enUS
-  }
-})
-
-export async function setupI18n(app: any) {
-  app.use(i18n)
+export function createI18nInstance() {
+  return createI18n({
+    legacy: false,
+    locale: 'zh-CN',
+    fallbackLocale: 'en-US',
+    messages: {
+      'zh-CN': zhCN,
+      'en-US': enUS,
+    },
+  })
 }
+
+export default createI18nInstance

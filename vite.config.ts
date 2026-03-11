@@ -20,7 +20,7 @@ export default defineConfig(({ mode }) => {
         resolvers: [ElementPlusResolver()],
         imports: ['vue', 'pinia', '@vueuse/core'],
         dts: 'src/auto-imports.d.ts',
-        dirs: ['src/composables', 'src/stores'],
+        dirs: ['src/stores'],
       }),
       Components({
         resolvers: [ElementPlusResolver()],
@@ -35,7 +35,7 @@ export default defineConfig(({ mode }) => {
     css: {
       preprocessorOptions: {
         scss: {
-          additionalData: `@use "@/styles/variables.scss" as *;`,
+          additionalData: `@use "@/styles/variables/_colors.scss" as *;`,
         },
       },
     },
