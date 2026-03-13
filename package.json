@@ -48,6 +48,7 @@
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@rushstack/eslint-patch": "^1.7.2",
     "@testing-library/jest-dom": "^6.4.2",
     "@testing-library/vue": "^8.0.2",
