@@ -191,7 +191,7 @@ const toggleSidebar = () => {
       </ElMain>
 
       <ElFooter class="footer">
-        <div class="copyright">© 2024 FinSphere Pro. All rights reserved.</div>
+        <div class="copyright">© 2024 data. All rights reserved.</div>
       </ElFooter>
     </ElContainer>
   </ElContainer>

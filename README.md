@@ -1,4 +1,4 @@
-# FinSphere Pro
+# data
 
 <div align="center">
 
@@ -13,9 +13,9 @@
 
 ---
 
-## 项目简介
+## data
 
-FinSphere Pro 是一个基于 **Vue 3 + TypeScript + Vite** 构建的现代化企业级金融数据管理平台。项目采用最新的前端技术栈，提供完整的资产管理、投资组合、行情分析和交易记录功能。
+data 是一个基于 **Vue 3 + TypeScript + Vite** 构建的现代化企业级数据管理平台。项目采用最新的前端技术栈，提供完整的数据资产管理、功能模块管理等功能。
 
 ### 核心特性
 

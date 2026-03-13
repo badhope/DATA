@@ -78,7 +78,7 @@ const handleKeyPress = (event: KeyboardEvent) => {
       <ElCard class="register-card" shadow="always">
         <div class="register-header">
           <h1 class="register-title">注册账户</h1>
-          <p class="register-subtitle">创建您的FinSphere Pro账户</p>
+          <p class="register-subtitle">创建您的data账户</p>
         </div>
 
         <ElForm

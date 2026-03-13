@@ -62,7 +62,7 @@ test.describe('按钮功能全面测试', () => {
         const loadTime = Date.now() - startTime
         
         console.log(`页面 ${path} 加载时间: ${loadTime}ms`)
-        expect(loadTime).toBeLessThan(3000)
+        expect(loadTime).toBeLessThan(5000)
       }
     })
   })

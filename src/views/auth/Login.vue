@@ -119,8 +119,8 @@ onMounted(() => {
     <div class="login-form-wrapper">
       <ElCard class="login-card" shadow="always">
         <div class="login-header">
-          <h1 class="login-title">FinSphere Pro</h1>
-          <p class="login-subtitle">企业级金融数据管理平台</p>
+          <h1 class="login-title">data</h1>
+          <p class="login-subtitle">企业级数据管理平台</p>
         </div>
 
         <div v-if="lockInfo.locked" class="lock-warning">

@@ -2,7 +2,7 @@
   "name": "data",
   "version": "2.0.0",
   "description": "Enterprise-grade data management platform with AI-powered analytics and financial insights",
-  "author": "FinSphere Team",
+  "author": "data Team",
   "license": "MIT",
   "private": true,
   "type": "module",

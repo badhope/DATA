@@ -6,8 +6,8 @@ import { createI18n } from 'vue-i18n'
 
 const zhCN = {
   app: {
-    title: 'FinSphere Pro',
-    description: '企业级金融数据管理平台',
+    title: 'data',
+    description: '企业级数据管理平台',
   },
   common: {
     ok: '确定',
@@ -67,8 +67,8 @@ const zhCN = {
 
 const enUS = {
   app: {
-    title: 'FinSphere Pro',
-    description: 'Enterprise Financial Data Management Platform',
+    title: 'data',
+    description: 'Enterprise Data Management Platform',
   },
   common: {
     ok: 'OK',

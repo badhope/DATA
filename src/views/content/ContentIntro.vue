@@ -237,7 +237,7 @@ onUnmounted(() => {
               />
             </svg>
           </div>
-          <span class="brand-name">FinSphere Pro</span>
+          <span class="brand-name">data</span>
         </div>
 
         <nav class="main-nav" :class="{ 'mobile-open': isMenuOpen }">
@@ -402,7 +402,7 @@ onUnmounted(() => {
                   />
                 </svg>
               </div>
-              <span class="brand-name">FinSphere Pro</span>
+              <span class="brand-name">data</span>
             </div>
             <p class="footer-desc">企业级数据管理与分析平台</p>
           </div>
@@ -440,7 +440,7 @@ onUnmounted(() => {
           </div>
         </div>
         <div class="footer-bottom">
-          <p class="copyright">© 2024 FinSphere Pro. All rights reserved.</p>
+          <p class="copyright">© 2024 data. All rights reserved.</p>
           <div class="legal-links">
             <a href="#">隐私政策</a>
             <a href="#">服务条款</a>
