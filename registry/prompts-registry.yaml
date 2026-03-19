@@ -1,0 +1,2020 @@
+# Prompts Registry
+# This registry收录仓库中所有可用的 Prompts，供 AI 筛选和路由使用
+# 最后更新：2026-03-19
+
+prompts:
+
+  # ==================== ROUTING ====================
+
+  - id: prompt-routing-scan-repository
+    name: Scan Repository and Build Task Map
+    path: prompts/_routing/scan-repository-and-build-task-map.md
+    type: routing
+    category: routing
+    sub_category: repository-scan
+    summary: 扫描仓库结构，构建任务类型地图
+    intent: 帮助 AI 在首次接触仓库时，快速了解可用资源并构建任务映射
+    when_to_use:
+      - 首次使用这个仓库时
+      - 需要了解仓库全貌时
+      - 需要快速定位可用资源时
+    when_not_to_use:
+      - 已经熟悉仓库结构时
+      - 只需要执行具体任务时
+    input_requirements:
+      - 无需特殊输入
+    output_shape:
+      - 仓库结构概览
+      - 任务类型映射表
+      - 快速导航路径
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [routing, bootstrap, repository-understanding]
+    keywords: [扫描, 仓库, 任务地图, 自举]
+    related_prompts:
+      - prompt-routing-identify-task-type
+      - prompt-routing-select-relevant
+    related_skills:
+      - skill-repo-analysis
+    related_workflows: []
+    selection_hints:
+      - 当需要了解"这个仓库能做什么"时使用
+    model_fit: "*"
+    status: active
+
+  - id: prompt-routing-identify-task-type
+    name: Identify Task Type and Route
+    path: prompts/_routing/identify-task-type-and-route.md
+    type: routing
+    category: routing
+    sub_category: task-identification
+    summary: 识别用户任务类型并推荐合适的 prompt
+    intent: 根据用户需求判断任务类型，推荐最合适的 prompts 组合
+    when_to_use:
+      - 用户需求不明确时
+      - 不确定该用哪个 prompt 时
+      - 需要 AI 自动路由时
+    when_not_to_use:
+      - 用户已经明确指定 prompt 类型时
+      - 只需要执行单个 prompt 时
+    input_requirements:
+      - 用户需求描述
+    output_shape:
+      - 任务类型判断
+      - 推荐 prompt 列表
+      - 路由理由
+    tool_requirements: []
+    priority: high
+    difficulty: medium
+    tags: [routing, task-identification, selection]
+    keywords: [识别, 路由, 任务类型, 选择]
+    related_prompts:
+      - prompt-routing-scan-repository
+      - prompt-routing-select-relevant
+      - prompt-routing-compose
+    related_skills: []
+    related_workflows:
+      - workflow-vague-request-to-action
+    selection_hints:
+      - 当用户说"帮我看看这个项目"但不确定具体要什么时使用
+    model_fit: "*"
+    status: active
+
+  - id: prompt-routing-select-relevant
+    name: Select Relevant Prompts from Index
+    path: prompts/_routing/select-relevant-prompts-from-index.md
+    type: routing
+    category: routing
+    sub_category: prompt-selection
+    summary: 从索引中选择与任务相关的 prompts
+    intent: 根据任务上下文从仓库中选择最相关的 prompts
+    when_to_use:
+      - 需要从多个候选中选择时
+      - 需要确认 prompt 适用性时
+    when_not_to_use:
+      - 任务类型已确定
+      - 只需要单个特定 prompt
+    input_requirements:
+      - 任务描述
+      - 可选的上下文信息
+    output_shape:
+      - 推荐的 prompts 列表
+      - 选择理由
+      - 适用性评估
+    tool_requirements: []
+    priority: medium
+    difficulty: medium
+    tags: [routing, selection, index]
+    keywords: [选择, 索引, 相关性]
+    related_prompts:
+      - prompt-routing-identify-task-type
+      - prompt-routing-compose
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - 与 identify-task-type 配合使用
+    model_fit: "*"
+    status: active
+
+  - id: prompt-routing-compose
+    name: Compose Multiple Prompts for One Task
+    path: prompts/_routing/compose-multiple-prompts-for-one-task.md
+    type: routing
+    category: routing
+    sub_category: composition
+    summary: 将多个 prompts 组合为一个连贯的工作流程
+    intent: 指导 AI 如何将多个 prompts 组合使用，处理复杂任务
+    when_to_use:
+      - 任务需要多个步骤时
+      - 需要组合不同类型的 prompts 时
+      - 需要建立 prompt 执行顺序时
+    when_not_to_use:
+      - 单个 prompt 就能完成任务时
+      - 任务步骤非常简单时
+    input_requirements:
+      - 任务目标
+      - 可用的 prompts 列表
+    output_shape:
+      - 组合后的 prompt 序列
+      - 每个 prompt 的输入输出
+      - 执行顺序说明
+    tool_requirements: []
+    priority: medium
+    difficulty: high
+    tags: [routing, composition, workflow]
+    keywords: [组合, 编排, 多步骤]
+    related_prompts:
+      - prompt-routing-identify-task-type
+      - prompt-routing-select-relevant
+    related_skills: []
+    related_workflows:
+      - workflow-prompt-selection-composition
+    selection_hints:
+      - 用于复杂任务的 prompt 规划
+    model_fit: "*"
+    status: active
+
+  # ==================== SYSTEM ====================
+
+  - id: prompt-system-general-ai-workbench
+    name: General AI Workbench
+    path: prompts/system/prompt-system-general-ai-workbench.md
+    type: system
+    category: system
+    sub_category: general
+    summary: 通用 AI 工作台基础配置
+    intent: 为 AI 提供通用任务处理的基础行为准则
+    when_to_use:
+      - 执行通用任务时
+      - 没有特定 system prompt 可用时
+      - 需要基础 AI 行为时
+    when_not_to_use:
+      - 有更具体的 system prompt 时
+      - 任务有特定领域要求时
+    input_requirements:
+      - 无特殊要求
+    output_shape:
+      - 遵循通用准则的响应
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [system, general, base]
+    keywords: [通用, 基础, 工作台]
+    related_prompts:
+      - prompt-system-coding-agent
+      - prompt-system-debugging-agent
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - 作为默认基础 system prompt
+    model_fit: "*"
+    status: active
+
+  - id: prompt-system-coding-agent
+    name: Coding Agent
+    path: prompts/system/prompt-system-coding-agent.md
+    type: system
+    category: system
+    sub_category: coding
+    summary: 编程任务专用 system prompt
+    intent: 为 AI 定义编程相关任务的行为准则
+    when_to_use:
+      - 执行代码生成任务时
+      - 执行代码审查任务时
+      - 执行重构任务时
+    when_not_to_use:
+      - 非编程任务时
+      - 用户明确要求通用模式时
+    input_requirements:
+      - 编程相关上下文
+    output_shape:
+      - 代码优先的响应
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [system, coding, agent]
+    keywords: [编程, 代码, Agent]
+    related_prompts:
+      - prompt-system-general-ai-workbench
+      - prompt-task-coding-generate-code
+    related_skills:
+      - skill-coding
+    related_workflows:
+      - workflow-feature-implementation
+    selection_hints:
+      - 编程任务的默认 system prompt
+    model_fit: "*"
+    status: active
+
+  - id: prompt-system-debugging-agent
+    name: Debugging Agent
+    path: prompts/system/prompt-system-debugging-agent.md
+    type: system
+    category: system
+    sub_category: debugging
+    summary: 调试任务专用 system prompt
+    intent: 为 AI 定义调试相关任务的行为准则
+    when_to_use:
+      - 执行 bug 调查任务时
+      - 执行错误分析任务时
+      - 执行修复验证任务时
+    when_not_to_use:
+      - 非调试任务时
+      - 用户明确要求通用模式时
+    input_requirements:
+      - 错误信息或异常上下文
+    output_shape:
+      - 结构化调试分析
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [system, debugging, agent]
+    keywords: [调试, Bug, 错误分析]
+    related_prompts:
+      - prompt-system-general-ai-workbench
+      - prompt-task-debugging-identify-root-cause
+    related_skills:
+      - skill-debugging
+    related_workflows:
+      - workflow-bug-investigation
+    selection_hints:
+      - 调试任务的默认 system prompt
+    model_fit: "*"
+    status: active
+
+  - id: prompt-system-ai-assistant
+    name: AI Assistant
+    path: prompts/system/prompt-system-ai-assistant.md
+    type: system
+    category: system
+    sub_category: assistant
+    summary: 标准 AI 助手配置
+    intent: 提供标准的 AI 助手对话配置
+    when_to_use:
+      - 需要对话交互时
+      - 需要问答交互时
+    when_not_to_use:
+      - 执行特定领域任务时
+      - 需要特殊配置时
+    input_requirements:
+      - 对话上下文
+    output_shape:
+      - 对话式响应
+    tool_requirements: []
+    priority: medium
+    difficulty: low
+    tags: [system, assistant, conversation]
+    keywords: [助手, 对话, 问答]
+    related_prompts:
+      - prompt-system-general-ai-workbench
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - 对话场景的默认配置
+    model_fit: "*"
+    status: active
+
+  # ==================== TASK / CODING ====================
+
+  - id: prompt-task-coding-generate-code
+    name: Generate Code from Requirement
+    path: prompts/task/coding/prompt-task-coding-generate-code-from-requirement.md
+    type: task
+    category: coding
+    sub_category: code-generation
+    summary: 根据需求描述生成代码
+    intent: 将自然语言需求转换为可执行代码
+    when_to_use:
+      - 用户有明确的功能需求时
+      - 需要生成新代码时
+      - 需要从描述生成实现时
+    when_not_to_use:
+      - 已有代码需要修改时
+      - 需要审查现有代码时
+      - 需求非常模糊时（先用 planning）
+    input_requirements:
+      - 需求描述（功能点）
+      - 可选：技术栈约束
+      - 可选：代码规范要求
+    output_shape:
+      - 生成的代码
+      - 代码说明
+      - 使用示例
+    tool_requirements:
+      - read-files-before-answering（读取参考文件时）
+    priority: high
+    difficulty: medium
+    tags: [task, coding, code-generation, requirements]
+    keywords: [生成代码, 实现, 从需求]
+    related_prompts:
+      - prompt-task-coding-implement-feature
+      - prompt-task-coding-review-code
+    related_skills:
+      - skill-coding
+    related_workflows:
+      - workflow-feature-implementation
+    selection_hints:
+      - "用户说：'帮我写一个XXX功能'、'实现XXX'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-task-coding-implement-feature
+    name: Implement Feature from Spec
+    path: prompts/task/coding/prompt-task-coding-implement-feature-from-spec.md
+    type: task
+    category: coding
+    sub_category: feature-implementation
+    summary: 根据规格说明实现功能
+    intent: 将结构化规格说明转换为代码实现
+    when_to_use:
+      - 有详细的功能规格时
+      - 需要精确实现指定功能时
+      - 有验收标准需要满足时
+    when_not_to_use:
+      - 只有模糊需求时
+      - 需要先做需求分析时
+      - 需要生成测试时
+    input_requirements:
+      - 功能规格说明
+      - 验收标准
+      - 技术约束
+    output_shape:
+      - 实现代码
+      - 与规格的对应关系
+    tool_requirements:
+      - read-files-before-answering
+    priority: high
+    difficulty: medium
+    tags: [task, coding, implementation, spec]
+    keywords: [实现, 功能, 规格]
+    related_prompts:
+      - prompt-task-coding-generate-code
+      - prompt-task-coding-review-code
+    related_skills:
+      - skill-coding
+    related_workflows:
+      - workflow-feature-implementation
+    selection_hints:
+      - "用户说：'按照这个规格实现'、'根据文档写代码'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-task-coding-review-code
+    name: Review Code for Quality
+    path: prompts/task/coding/prompt-task-coding-review-code-for-quality.md
+    type: task
+    category: coding
+    sub_category: code-review
+    summary: 对代码进行质量审查
+    intent: 检查代码质量、提出改进建议
+    when_to_use:
+      - 代码完成后需要审查时
+      - 需要发现潜在问题时
+      - 需要改进建议时
+    when_not_to_use:
+      - 代码还在编写中时
+      - 只需要修复特定 bug 时
+      - 需要生成代码时
+    input_requirements:
+      - 待审查的代码
+      - 可选：代码规范
+      - 可选：审查重点
+    output_shape:
+      - 质量评分
+      - 问题列表
+      - 改进建议
+    tool_requirements:
+      - read-files-before-answering
+    priority: medium
+    difficulty: medium
+    tags: [task, coding, review, quality]
+    keywords: [审查, 代码质量, 检查]
+    related_prompts:
+      - prompt-task-coding-generate-code
+      - prompt-task-coding-implement-feature
+    related_skills:
+      - skill-coding-code-review
+    related_workflows: []
+    selection_hints:
+      - "用户说：'帮我看看这段代码'、'代码审查'、'检查代码质量'时使用"
+    model_fit: "*"
+    status: active
+
+  # ==================== TASK / DEBUGGING ====================
+
+  - id: prompt-task-debugging-identify-root-cause
+    name: Identify Root Cause
+    path: prompts/task/debugging/prompt-task-debugging-identify-root-cause.md
+    type: task
+    category: debugging
+    sub_category: root-cause-analysis
+    summary: 识别问题的根本原因
+    intent: 从错误现象追溯到根本原因
+    when_to_use:
+      - 需要找出 bug 真正原因时
+      - 表面修复无效时
+      - 需要深入分析问题时
+    when_not_to_use:
+      - 原因已经很明显时
+      - 只需要临时修复时
+      - 需要生成修复方案时（用下一步）
+    input_requirements:
+      - 错误信息
+      - 相关代码
+      - 可选：复现步骤
+    output_shape:
+      - 根因分析
+      - 影响范围
+      - 证据链
+    tool_requirements:
+      - read-files-before-answering
+      - use-command-output-safely
+    priority: high
+    difficulty: high
+    tags: [task, debugging, root-cause, analysis]
+    keywords: [根因, 分析, 原因]
+    related_prompts:
+      - prompt-task-debugging-generate-plan
+      - prompt-task-debugging-fix-bug
+      - prompt-task-debugging-verify-fix
+    related_skills:
+      - skill-debugging
+    related_workflows:
+      - workflow-bug-investigation
+      - workflow-tool-assisted-debug
+    selection_hints:
+      - "用户说：'为什么会有这个bug'、'根本原因是什么'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-task-debugging-generate-plan
+    name: Generate Debug Plan
+    path: prompts/task/debugging/prompt-task-debugging-generate-debug-plan.md
+    type: task
+    category: debugging
+    sub_category: debug-planning
+    summary: 生成调试计划
+    intent: 制定系统性调试步骤
+    when_to_use:
+      - 问题复杂需要步骤时
+      - 需要规划调试方向时
+      - 需要验证假设时
+    when_not_to_use:
+      - 问题简单直接时
+      - 已经有明确修复方案时
+      - 需要立即修复时
+    input_requirements:
+      - 问题描述
+      - 已知的错误信息
+    output_shape:
+      - 调试步骤列表
+      - 每步的验证方法
+      - 预期结果
+    tool_requirements:
+      - use-tools-step-by-step
+    priority: high
+    difficulty: medium
+    tags: [task, debugging, planning]
+    keywords: [调试计划, 步骤, 规划]
+    related_prompts:
+      - prompt-task-debugging-identify-root-cause
+      - prompt-task-debugging-fix-bug
+    related_skills:
+      - skill-debugging
+    related_workflows:
+      - workflow-bug-investigation
+    selection_hints:
+      - "用户说：'怎么排查这个问题'、'调试步骤是什么'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-task-debugging-fix-bug
+    name: Fix Bug Safely
+    path: prompts/task/debugging/prompt-task-debugging-fix-bug-safely.md
+    type: task
+    category: debugging
+    sub_category: bug-fixing
+    summary: 安全修复 bug
+    intent: 在理解根因的基础上实施修复
+    when_to_use:
+      - 已经确定 bug 原因时
+      - 需要实施修复时
+      - 需要确保修复安全时
+    when_not_to_use:
+      - 原因未确定时
+      - 需要先做分析时
+      - 只是猜测时
+    input_requirements:
+      - bug 描述
+      - 根因分析
+      - 相关代码
+    output_shape:
+      - 修复代码
+      - 修改说明
+      - 风险评估
+    tool_requirements:
+      - read-files-before-answering
+    priority: high
+    difficulty: high
+    tags: [task, debugging, bug-fixing, safe]
+    keywords: [修复, Bug, 安全]
+    related_prompts:
+      - prompt-task-debugging-identify-root-cause
+      - prompt-task-debugging-verify-fix
+    related_skills:
+      - skill-coding-bug-fixing
+    related_workflows:
+      - workflow-bug-investigation
+      - workflow-change-verify-and-report
+    selection_hints:
+      - "用户说：'帮我修复这个bug'、'解决这个问题'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-task-debugging-verify-fix
+    name: Verify Fix After Change
+    path: prompts/task/debugging/prompt-task-debugging-verify-fix-after-change.md
+    type: task
+    category: debugging
+    sub_category: verification
+    summary: 验证修复结果
+    intent: 确保修复有效且未引入新问题
+    when_to_use:
+      - 修复完成后需要验证时
+      - 需要确认问题已解决时
+      - 需要确保没有副作用时
+    when_not_to_use:
+      - 修复还没做时
+      - 不需要验证时
+    input_requirements:
+      - 修复内容
+      - 原问题描述
+    output_shape:
+      - 验证结果
+      - 测试用例
+      - 结论
+    tool_requirements:
+      - use-command-output-safely
+    priority: high
+    difficulty: medium
+    tags: [task, debugging, verification]
+    keywords: [验证, 确认, 测试]
+    related_prompts:
+      - prompt-task-debugging-fix-bug
+      - prompt-task-debugging-identify-root-cause
+    related_skills:
+      - skill-debugging
+    related_workflows:
+      - workflow-change-verify-and-report
+    selection_hints:
+      - "用户说：'验证一下修复'、'确认问题解决了'时使用"
+    model_fit: "*"
+    status: active
+
+  # ==================== TASK / REPO ANALYSIS ====================
+
+  - id: prompt-task-repo-analysis-structure
+    name: Analyze Repository Structure
+    path: prompts/task/repo-analysis/prompt-task-repo-analysis-analyze-repository-structure.md
+    type: task
+    category: repo-analysis
+    sub_category: structure-analysis
+    summary: 分析仓库结构
+    intent: 快速了解项目的代码组织和技术架构
+    when_to_use:
+      - 接手新项目时
+      - 需要了解项目结构时
+      - 需要定位文件时
+    when_not_to_use:
+      - 已经熟悉项目结构时
+      - 只需要特定文件内容时
+    input_requirements:
+      - 仓库路径或代码库内容
+    output_shape:
+      - 项目结构说明
+      - 目录用途
+      - 关键文件位置
+    tool_requirements:
+      - analyze-folder-then-plan
+      - read-files-before-answering
+    priority: high
+    difficulty: low
+    tags: [task, repo-analysis, structure]
+    keywords: [分析, 仓库结构, 项目理解]
+    related_prompts:
+      - prompt-task-repo-analysis-locate-files
+      - prompt-task-repo-analysis-summarize-architecture
+    related_skills:
+      - skill-repo-analysis
+    related_workflows:
+      - workflow-new-repo-onboarding
+    selection_hints:
+      - "用户说：'分析一下这个项目'、'这是什么项目'、'项目结构是怎样的'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-task-repo-analysis-locate-files
+    name: Locate Bug Related Files
+    path: prompts/task/repo-analysis/prompt-task-repo-analysis-locate-bug-related-files.md
+    type: task
+    category: repo-analysis
+    sub_category: file-locating
+    summary: 定位与问题相关的文件
+    intent: 根据错误信息或问题描述找到相关代码文件
+    when_to_use:
+      - 需要找出问题所在文件时
+      - bug 位置不明确时
+      - 需要缩小排查范围时
+    when_not_to_use:
+      - 知道问题具体位置时
+      - 只需要理解代码逻辑时
+    input_requirements:
+      - 错误信息
+      - 或问题描述
+    output_shape:
+      - 相关文件列表
+      - 相关程度评估
+      - 定位理由
+    tool_requirements:
+      - search-before-concluding
+      - read-files-before-answering
+    priority: high
+    difficulty: medium
+    tags: [task, repo-analysis, file-locating, debugging]
+    keywords: [定位, 文件, Bug相关]
+    related_prompts:
+      - prompt-task-repo-analysis-structure
+      - prompt-task-debugging-identify-root-cause
+    related_skills:
+      - skill-repo-analysis
+    related_workflows:
+      - workflow-bug-investigation
+      - workflow-repo-reading-to-change
+    selection_hints:
+      - "用户说：'这个错误在哪'、'问题在哪个文件'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-task-repo-analysis-summarize-architecture
+    name: Summarize Project Architecture
+    path: prompts/task/repo-analysis/prompt-task-repo-analysis-summarize-project-architecture.md
+    type: task
+    category: repo-analysis
+    sub_category: architecture-summary
+    summary: 总结项目架构
+    intent: 深入理解项目的技术架构和设计模式
+    when_to_use:
+      - 需要理解整体设计时
+      - 接手新项目需要深入了解时
+      - 需要评估技术选型时
+    when_not_to_use:
+      - 只需要了解表面结构时
+      - 只需要定位特定文件时
+    input_requirements:
+      - 项目代码
+      - 可选的架构文档
+    output_shape:
+      - 架构概览
+      - 核心组件
+      - 设计模式
+      - 数据流
+    tool_requirements:
+      - analyze-folder-then-plan
+      - read-files-before-answering
+    priority: medium
+    difficulty: high
+    tags: [task, repo-analysis, architecture]
+    keywords: [架构, 设计, 总结]
+    related_prompts:
+      - prompt-task-repo-analysis-structure
+    related_skills:
+      - skill-repo-analysis
+    related_workflows:
+      - workflow-new-repo-onboarding
+    selection_hints:
+      - "用户说：'架构是怎样的'、'设计模式是什么'、'技术选型'时使用"
+    model_fit: "*"
+    status: active
+
+  # ==================== TASK / PLANNING ====================
+
+  - id: prompt-task-planning-break-down
+    name: Break Down Task into Subtasks
+    path: prompts/task/planning/prompt-task-planning-break-down-task-into-subtasks.md
+    type: task
+    category: planning
+    sub_category: task-decomposition
+    summary: 将大任务分解为子任务
+    intent: 把复杂任务拆分为可管理的小步骤
+    when_to_use:
+      - 任务太大太复杂时
+      - 需要规划执行步骤时
+      - 需要估算工作量时
+    when_not_to_use:
+      - 任务已经很简单时
+      - 只需要一步时
+      - 需要立即执行时
+    input_requirements:
+      - 任务描述
+      - 可选：约束条件
+    output_shape:
+      - 子任务列表
+      - 依赖关系
+      - 预估时间
+    tool_requirements: []
+    priority: high
+    difficulty: medium
+    tags: [task, planning, decomposition]
+    keywords: [分解, 任务拆解, 步骤]
+    related_prompts:
+      - prompt-task-planning-create-plan
+    related_skills:
+      - skill-planning
+    related_workflows: []
+    selection_hints:
+      - "用户说：'这个需求怎么做'、'任务太大了'、'怎么拆解'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-task-planning-create-plan
+    name: Create Execution Plan
+    path: prompts/task/planning/prompt-task-planning-create-execution-plan.md
+    type: task
+    category: planning
+    sub_category: plan-creation
+    summary: 创建执行计划
+    intent: 制定详细的执行计划
+    when_to_use:
+      - 需要具体执行方案时
+      - 需要明确时间线时
+      - 需要分配资源时
+    when_not_to_use:
+      - 只需要了解做什么时
+      - 任务太简单不需要计划时
+    input_requirements:
+      - 目标
+      - 可用资源
+      - 约束条件
+    output_shape:
+      - 执行计划
+      - 时间线
+      - 里程碑
+    tool_requirements: []
+    priority: high
+    difficulty: medium
+    tags: [task, planning, execution-plan]
+    keywords: [计划, 执行, 时间线]
+    related_prompts:
+      - prompt-task-planning-break-down
+    related_skills:
+      - skill-planning
+    related_workflows: []
+    selection_hints:
+      - "用户说：'制定一个计划'、'怎么做'、'时间线是什么'时使用"
+    model_fit: "*"
+    status: active
+
+  # ==================== TASK / RESEARCH ====================
+
+  - id: prompt-task-research-brief
+    name: Prepare Research Brief
+    path: prompts/task/research/prompt-task-research-prepare-research-brief.md
+    type: task
+    category: research
+    sub_category: research-planning
+    summary: 准备研究简报
+    intent: 制定研究计划，明确研究范围和方法
+    when_to_use:
+      - 需要做调研时
+      - 需要了解某个主题时
+      - 需要评估方案时
+    when_not_to_use:
+      - 已经有明确答案时
+      - 只需要简单查询时
+    input_requirements:
+      - 研究主题
+      - 可选：研究目的
+    output_shape:
+      - 研究范围
+      - 关键问题
+      - 方法论
+    tool_requirements:
+      - search-before-concluding
+    priority: medium
+    difficulty: medium
+    tags: [task, research, planning]
+    keywords: [研究, 调研, 简报]
+    related_prompts: []
+    related_skills:
+      - skill-research
+    related_workflows:
+      - workflow-research-to-summary
+    selection_hints:
+      - "用户说：'研究一下'、'调研'、'了解一下XXX'时使用"
+    model_fit: "*"
+    status: active
+
+  # ==================== WORKFLOW ====================
+
+  - id: workflow-bug-investigation
+    name: Bug Investigation Workflow
+    path: prompts/workflow/bug-investigation-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: debugging
+    summary: 4 步系统性 Bug 调查流程
+    intent: 识别根因 → 生成计划 → 安全修复 → 验证结果
+    when_to_use:
+      - 需要完整调查 Bug 时
+      - 问题不明确时
+      - 需要系统性方法时
+    when_not_to_use:
+      - 问题已经定位
+      - 只需要快速修复
+      - 明显知道原因时
+    input_requirements:
+      - 错误信息或问题描述
+    output_shape:
+      - 根因分析
+      - 修复方案
+      - 验证结果
+    tool_requirements:
+      - read-files-before-answering
+      - search-before-concluding
+    priority: high
+    difficulty: high
+    tags: [workflow, debugging, multi-step]
+    keywords: [Bug调查, 系统性调试, 完整流程]
+    related_prompts:
+      - prompt-task-debugging-identify-root-cause
+      - prompt-task-debugging-generate-plan
+      - prompt-task-debugging-fix-bug
+      - prompt-task-debugging-verify-fix
+    related_skills:
+      - skill-debugging
+    related_workflows: []
+    selection_hints:
+      - "用户说：'帮我调查这个bug'、'不知道为什么出错了'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-feature-implementation
+    name: Feature Implementation Workflow
+    path: prompts/workflow/feature-implementation-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: coding
+    summary: 从需求到实现的完整流程
+    intent: 需求分析 → 代码生成 → 代码审查 → 集成验证
+    when_to_use:
+      - 需要完整实现功能时
+      - 有明确需求时
+      - 需要确保代码质量时
+    when_not_to_use:
+      - 只需要简单代码片段
+      - 已有代码需要修改
+    input_requirements:
+      - 功能需求
+      - 技术约束
+    output_shape:
+      - 实现代码
+      - 测试结果
+    tool_requirements:
+      - read-files-before-answering
+    priority: high
+    difficulty: high
+    tags: [workflow, coding, implementation]
+    keywords: [功能实现, 完整流程, 代码生成]
+    related_prompts:
+      - prompt-task-coding-generate-code
+      - prompt-task-coding-implement-feature
+      - prompt-task-coding-review-code
+    related_skills:
+      - skill-coding
+    related_workflows: []
+    selection_hints:
+      - "用户说：'实现这个功能'、'写代码实现'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-new-repo-onboarding
+    name: New Repo Onboarding Workflow
+    path: prompts/workflow/new-repo-onboarding-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: repo-analysis
+    summary: 新项目接手流程
+    intent: 快速了解新项目，定位关键文件，建立工作上下文
+    when_to_use:
+      - 接手新项目时
+      - 首次分析代码库时
+      - 需要快速上手时
+    when_not_to_use:
+      - 已经熟悉项目
+      - 只需要执行特定任务
+    input_requirements:
+      - 项目代码或仓库路径
+    output_shape:
+      - 项目概览
+      - 关键文件
+      - 工作建议
+    tool_requirements:
+      - analyze-folder-then-plan
+      - read-files-before-answering
+    priority: high
+    difficulty: medium
+    tags: [workflow, repo-analysis, onboarding]
+    keywords: [新项目, 接手, 了解项目]
+    related_prompts:
+      - prompt-task-repo-analysis-structure
+      - prompt-task-repo-analysis-summarize-architecture
+    related_skills:
+      - skill-repo-analysis
+    related_workflows: []
+    selection_hints:
+      - "用户说：'这是什么项目'、'接手新项目'、'帮我了解这个代码库'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-vague-request-to-action
+    name: Vague Request to Action Workflow
+    path: prompts/workflow/vague-request-to-action-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: clarification
+    summary: 将模糊需求转化为具体行动计划
+    intent: 澄清模糊需求，确定任务类型，制定行动方案
+    when_to_use:
+      - 用户需求不明确时
+      - 不知道该选哪个 prompt 时
+      - 需要先澄清再执行时
+    when_not_to_use:
+      - 需求已经明确
+      - 只需要执行已知任务
+    input_requirements:
+      - 模糊的用户需求
+    output_shape:
+      - 澄清的问题
+      - 确定的任务类型
+      - 推荐的行动
+    tool_requirements: []
+    priority: high
+    difficulty: medium
+    tags: [workflow, clarification, routing]
+    keywords: [模糊需求, 澄清, 行动]
+    related_prompts:
+      - prompt-routing-identify-task-type
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "用户说：'帮我看看'、'处理一下'但没有具体说明时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-research-to-summary
+    name: Research to Summary Workflow
+    path: prompts/workflow/research-to-summary-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: research
+    summary: 从研究到报告的完整流程
+    intent: 制定研究计划 → 执行研究 → 整理结论 → 生成报告
+    when_to_use:
+      - 需要深入研究主题时
+      - 需要生成研究报告时
+      - 需要评估多个方案时
+    when_not_to_use:
+      - 只需要简单查询
+      - 已经有结论
+    input_requirements:
+      - 研究主题
+      - 可选：研究范围
+    output_shape:
+      - 研究报告
+      - 结论和建议
+    tool_requirements:
+      - search-before-concluding
+    priority: medium
+    difficulty: high
+    tags: [workflow, research, report]
+    keywords: [研究, 报告, 调研]
+    related_prompts:
+      - prompt-task-research-brief
+    related_skills:
+      - skill-research
+    related_workflows: []
+    selection_hints:
+      - "用户说：'研究一下这个主题'、'做个调研'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-repo-reading-to-change
+    name: Repo Reading to Change Plan Workflow
+    path: prompts/workflow/repo-reading-to-change-plan-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: coding
+    summary: 阅读代码后制定修改计划
+    intent: 理解现有代码 → 分析影响 → 制定修改计划
+    when_to_use:
+      - 需要修改现有代码时
+      - 需要评估修改影响时
+      - 不确定如何修改时
+    when_not_to_use:
+      - 只需要理解代码
+      - 已经有修改方案
+    input_requirements:
+      - 待修改的代码
+      - 修改目标
+    output_shape:
+      - 代码分析
+      - 影响评估
+      - 修改计划
+    tool_requirements:
+      - read-files-before-answering
+    priority: high
+    difficulty: high
+    tags: [workflow, coding, change-planning]
+    keywords: [代码修改, 影响分析, 计划]
+    related_prompts:
+      - prompt-task-repo-analysis-structure
+      - prompt-task-planning-break-down
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "用户说：'我想改这个代码'、'怎么修改'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-change-verify-and-report
+    name: Change Verify and Report Workflow
+    path: prompts/workflow/change-verify-and-report-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: verification
+    summary: 变更验证和报告流程
+    intent: 验证变更有效 → 确保无副作用 → 生成报告
+    when_to_use:
+      - 代码变更后需要验证时
+      - 需要确认修改效果时
+      - 需要记录变更时
+    when_not_to_use:
+      - 变更很简单不需要验证
+      - 只需要执行修改
+    input_requirements:
+      - 变更内容
+      - 原问题/目标
+    output_shape:
+      - 验证结果
+      - 测试报告
+    tool_requirements:
+      - use-command-output-safely
+    priority: medium
+    difficulty: medium
+    tags: [workflow, verification, reporting]
+    keywords: [验证, 变更, 报告]
+    related_prompts:
+      - prompt-task-debugging-verify-fix
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "用户说：'验证一下我的修改'、'测试结果'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-tool-assisted-debug
+    name: Tool Assisted Debug Workflow
+    path: prompts/workflow/tool-assisted-debug-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: debugging
+    summary: 工具辅助调试流程
+    intent: 结合工具执行系统性调试
+    when_to_use:
+      - 需要读取多个文件时
+      - 需要执行命令验证时
+      - 需要组合工具结果时
+    when_not_to_use:
+      - 问题简单不需要工具
+      - 只需要分析已有信息
+    input_requirements:
+      - 问题描述
+      - 可用的上下文
+    output_shape:
+      - 工具执行结果
+      - 分析结论
+    tool_requirements:
+      - read-files-before-answering
+      - use-command-output-safely
+      - combine-multiple-tool-results
+    priority: medium
+    difficulty: high
+    tags: [workflow, debugging, tool-assisted]
+    keywords: [工具调试, 辅助, 系统性]
+    related_prompts:
+      - prompt-task-debugging-identify-root-cause
+    related_skills: []
+    related_workflows:
+      - workflow-bug-investigation
+    selection_hints:
+      - "用户说：'帮我调试'、'执行命令看看'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-documentation-generation
+    name: Documentation Generation Workflow
+    path: prompts/workflow/documentation-generation-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: documentation
+    summary: 文档生成流程
+    intent: 分析代码 → 提取信息 → 生成文档
+    when_to_use:
+      - 需要生成文档时
+      - 需要整理代码说明时
+      - 需要输出项目文档时
+    when_not_to_use:
+      - 只需要简单注释
+      - 已经有完整文档
+    input_requirements:
+      - 代码或项目
+      - 文档类型要求
+    output_shape:
+      - 生成的文档
+    tool_requirements:
+      - read-files-before-answering
+    priority: low
+    difficulty: medium
+    tags: [workflow, documentation, generation]
+    keywords: [文档生成, 文档]
+    related_prompts: []
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "用户说：'生成文档'、'写文档'时使用"
+    model_fit: "*"
+    status: active
+
+  - id: workflow-prompt-selection-composition
+    name: Prompt Selection and Composition Workflow
+    path: prompts/workflow/prompt-selection-composition-workflow.md
+    type: workflow
+    category: workflow
+    sub_category: routing
+    summary: Prompt 选择和组合流程
+    intent: 选择合适的 prompts → 组合成工作流
+    when_to_use:
+      - 复杂任务需要多个 prompts 时
+      - 不确定如何组合时
+      - 需要规划 prompt 使用时
+    when_not_to_use:
+      - 只需要单个 prompt
+      - 任务非常简单
+    input_requirements:
+      - 任务目标
+    output_shape:
+      - 推荐的 prompts 组合
+      - 执行顺序
+    tool_requirements: []
+    priority: medium
+    difficulty: medium
+    tags: [workflow, routing, prompt-composition]
+    keywords: [Prompt选择, 组合]
+    related_prompts:
+      - prompt-routing-identify-task-type
+      - prompt-routing-compose
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "不确定该用哪些 prompts 时使用"
+    model_fit: "*"
+    status: active
+
+  # ==================== TOOL-USE ====================
+
+  - id: prompt-tool-use-read-files
+    name: Read Files Before Answering
+    path: prompts/tool-use/read-files-before-answering.md
+    type: tool-use
+    category: tool-use
+    sub_category: file-reading
+    summary: 读取文件后回答的指导
+    intent: 指导 AI 在回答问题前先读取相关文件
+    when_to_use:
+      - 需要基于代码回答时
+      - 涉及文件内容的问题
+      - 需要准确信息时
+    when_not_to_use:
+      - 不需要文件信息时
+      - 已经是明确的事实
+    input_requirements:
+      - 文件路径
+    output_shape:
+      - 文件内容摘要
+      - 基于内容的回答
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [tool-use, file-reading, prerequisite]
+    keywords: [读取文件, 前提]
+    related_prompts:
+      - prompt-tool-use-analyze-folder
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要准确回答代码相关问题时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-tool-use-analyze-folder
+    name: Analyze Folder Then Plan
+    path: prompts/tool-use/analyze-folder-then-plan.md
+    type: tool-use
+    category: tool-use
+    sub_category: folder-analysis
+    summary: 分析文件夹结构后制定计划
+    intent: 先了解项目结构，再制定行动计划
+    when_to_use:
+      - 需要了解项目结构时
+      - 接手新项目时
+      - 需要定位文件时
+    when_not_to_use:
+      - 已经了解结构时
+      - 只需要特定文件内容
+    input_requirements:
+      - 文件夹路径
+    output_shape:
+      - 结构分析
+      - 行动计划
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [tool-use, folder-analysis, planning]
+    keywords: [分析文件夹, 计划]
+    related_prompts:
+      - prompt-task-repo-analysis-structure
+    related_skills: []
+    related_workflows:
+      - workflow-new-repo-onboarding
+    selection_hints:
+      - "需要了解项目结构时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-tool-use-search-before-concluding
+    name: Search Before Concluding
+    path: prompts/tool-use/search-before-concluding.md
+    type: tool-use
+    category: tool-use
+    sub_category: search
+    summary: 下结论前先搜索
+    intent: 确保结论有充分依据
+    when_to_use:
+      - 需要下结论时
+      - 需要提供建议时
+      - 涉及不确定信息时
+    when_not_to_use:
+      - 已经是明确事实
+      - 只需要简单回答
+    input_requirements:
+      - 问题或话题
+    output_shape:
+      - 搜索结果
+      - 基于证据的结论
+    tool_requirements: []
+    priority: medium
+    difficulty: low
+    tags: [tool-use, search, verification]
+    keywords: [搜索, 结论依据]
+    related_prompts: []
+    related_skills: []
+    related_workflows:
+      - workflow-research-to-summary
+    selection_hints:
+      - "需要提供有依据的结论时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-tool-use-use-command
+    name: Use Command Output Safely
+    path: prompts/tool-use/use-command-output-safely.md
+    type: tool-use
+    category: tool-use
+    sub_category: command-execution
+    summary: 安全使用命令输出
+    intent: 正确解读和验证命令输出
+    when_to_use:
+      - 需要执行命令时
+      - 需要验证结果时
+      - 需要基于输出做判断时
+    when_not_to_use:
+      - 不需要命令执行
+      - 已经有明确信息
+    input_requirements:
+      - 命令
+    output_shape:
+      - 命令输出解读
+      - 验证结果
+    tool_requirements: []
+    priority: high
+    difficulty: medium
+    tags: [tool-use, command, safety]
+    keywords: [命令, 安全, 输出]
+    related_prompts:
+      - prompt-task-debugging-verify-fix
+    related_skills: []
+    related_workflows:
+      - workflow-tool-assisted-debug
+    selection_hints:
+      - "需要执行命令时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-tool-use-combine-results
+    name: Combine Multiple Tool Results
+    path: prompts/tool-use/combine-multiple-tool-results.md
+    type: tool-use
+    category: tool-use
+    sub_category: result-combination
+    summary: 组合多个工具的结果
+    intent: 整合多个工具的输出，形成完整结论
+    when_to_use:
+      - 使用了多个工具时
+      - 需要整合信息时
+      - 形成综合报告时
+    when_not_to_use:
+      - 只用了单个工具
+      - 结果已经明确
+    input_requirements:
+      - 多个工具的输出
+    output_shape:
+      - 整合后的分析
+      - 综合结论
+    tool_requirements: []
+    priority: medium
+    difficulty: medium
+    tags: [tool-use, combination, integration]
+    keywords: [组合, 整合, 多个工具]
+    related_prompts:
+      - prompt-tool-use-read-files
+      - prompt-tool-use-use-command
+    related_skills: []
+    related_workflows:
+      - workflow-tool-assisted-debug
+    selection_hints:
+      - "使用了多个工具时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-tool-use-inspect-config
+    name: Inspect Config Then Act
+    path: prompts/tool-use/inspect-config-then-act.md
+    type: tool-use
+    category: tool-use
+    sub_category: config-inspection
+    summary: 检查配置后再行动
+    intent: 确保行动前先了解配置
+    when_to_use:
+      - 需要修改配置时
+      - 需要基于配置做决策时
+      - 涉及环境设置时
+    when_not_to_use:
+      - 不涉及配置
+      - 已经有配置信息
+    input_requirements:
+      - 配置文件路径
+    output_shape:
+      - 配置分析
+      - 行动建议
+    tool_requirements: []
+    priority: medium
+    difficulty: low
+    tags: [tool-use, config, prerequisite]
+    keywords: [配置, 检查]
+    related_prompts: []
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要理解配置后行动时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-tool-use-tools-step-by-step
+    name: Use Tools Step by Step
+    path: prompts/tool-use/use-tools-step-by-step.md
+    type: tool-use
+    category: tool-use
+    sub_category: sequential-tools
+    summary: 按顺序使用工具
+    intent: 指导有序使用多个工具
+    when_to_use:
+      - 需要按顺序执行操作时
+      - 步骤之间有依赖时
+      - 需要系统性方法时
+    when_not_to_use:
+      - 工具使用无顺序要求
+      - 操作简单
+    input_requirements:
+      - 任务目标
+      - 可用工具列表
+    output_shape:
+      - 执行步骤
+      - 工具使用顺序
+    tool_requirements: []
+    priority: medium
+    difficulty: medium
+    tags: [tool-use, sequential, step-by-step]
+    keywords: [步骤, 顺序, 工具链]
+    related_prompts:
+      - prompt-tool-use-combine-results
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要系统性使用工具时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-tool-use-structured-summary
+    name: Produce Structured Tool Summary
+    path: prompts/tool-use/produce-structured-tool-summary.md
+    type: tool-use
+    category: tool-use
+    sub_category: output-formatting
+    summary: 生成结构化工具摘要
+    intent: 将工具输出格式化为易读的摘要
+    when_to_use:
+      - 工具输出需要整理时
+      - 需要清晰呈现结果时
+      - 需要结构化报告时
+    when_not_to_use:
+      - 输出已经清晰
+      - 不需要整理
+    input_requirements:
+      - 原始工具输出
+    output_shape:
+      - 结构化摘要
+      - 格式化结果
+    tool_requirements: []
+    priority: low
+    difficulty: low
+    tags: [tool-use, formatting, summary]
+    keywords: [结构化, 摘要, 格式化]
+    related_prompts:
+      - prompt-output-json-structure
+      - prompt-output-markdown-report
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要清晰呈现工具结果时使用"
+    model_fit: "*"
+    status: active
+
+  # ==================== OUTPUT ====================
+
+  - id: prompt-output-markdown-report
+    name: Output as Markdown Report
+    path: prompts/output/output-as-markdown-report.md
+    type: output
+    category: output
+    sub_category: document
+    summary: 标准化 Markdown 报告格式
+    intent: 输出格式化的 Markdown 报告
+    when_to_use:
+      - 需要生成报告时
+      - 需要结构化输出时
+      - 需要清晰呈现分析结果时
+    when_not_to_use:
+      - 需要结构化数据（用 JSON/YAML）
+      - 只需要简单回答
+    input_requirements:
+      - 要输出的内容
+      - 报告类型
+      - 标题
+    output_shape:
+      - 格式化 Markdown
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [output, markdown, report]
+    keywords: [Markdown, 报告, 文档]
+    related_prompts:
+      - prompt-output-json-structure
+      - prompt-output-yaml-config
+    related_skills: []
+    related_workflows:
+      - workflow-research-to-summary
+    selection_hints:
+      - "需要生成 Markdown 报告时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-output-json-structure
+    name: Output as JSON Structure
+    path: prompts/output/output-as-json-structure.md
+    type: output
+    category: output
+    sub_category: data-format
+    summary: 标准化 JSON 数据格式
+    intent: 输出结构化的 JSON 数据
+    when_to_use:
+      - 需要 API 响应格式时
+      - 需要结构化数据时
+      - 需要数据交换格式时
+    when_not_to_use:
+      - 只需要人类可读文档（用 Markdown）
+      - 只需要配置文件（用 YAML）
+    input_requirements:
+      - 要输出的数据
+      - 数据结构定义
+    output_shape:
+      - JSON 格式字符串
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [output, json, data-format]
+    keywords: [JSON, 结构化数据]
+    related_prompts:
+      - prompt-output-yaml-config
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要 JSON 格式输出时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-output-yaml-config
+    name: Output as YAML Config
+    path: prompts/output/output-as-yaml-config.md
+    type: output
+    category: output
+    sub_category: config-format
+    summary: 标准化 YAML 配置文件格式
+    intent: 输出 YAML 格式的配置
+    when_to_use:
+      - 需要配置文件时
+      - 需要可读性好的配置时
+      - 需要环境设置时
+    when_not_to_use:
+      - 需要结构化数据（用 JSON）
+      - 只需要文档（用 Markdown）
+    input_requirements:
+      - 配置数据
+      - 配置类型
+    output_shape:
+      - YAML 格式配置
+    tool_requirements: []
+    priority: medium
+    difficulty: low
+    tags: [output, yaml, config]
+    keywords: [YAML, 配置]
+    related_prompts:
+      - prompt-output-json-structure
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要 YAML 配置输出时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-output-checklist
+    name: Output as Checklist
+    path: prompts/output/output-as-checklist.md
+    type: output
+    category: output
+    sub_category: checklist
+    summary: 标准化检查清单格式
+    intent: 输出任务检查清单
+    when_to_use:
+      - 需要分解任务时
+      - 需要验证清单时
+      - 需要待办事项时
+    when_not_to_use:
+      - 需要详细说明时
+      - 只需要简单列表
+    input_requirements:
+      - 检查项列表
+      - 清单标题
+      - 类型
+    output_shape:
+      - Markdown 检查清单
+    tool_requirements: []
+    priority: medium
+    difficulty: low
+    tags: [output, checklist, todo]
+    keywords: [检查清单, 待办]
+    related_prompts:
+      - prompt-task-planning-break-down
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要生成检查清单时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-output-comparison-table
+    name: Output as Comparison Table
+    path: prompts/output/output-as-comparison-table.md
+    type: output
+    category: output
+    sub_category: table
+    summary: 标准化对比表格格式
+    intent: 输出选项对比表格
+    when_to_use:
+      - 需要对比多个选项时
+      - 需要方案选型时
+      - 需要特性比较时
+    when_not_to_use:
+      - 只需要简单列表
+      - 选项太少不需要对比
+      - 需要详细说明时
+    input_requirements:
+      - 要对比的选项
+      - 对比维度
+      - 对比目的
+    output_shape:
+      - Markdown 表格
+    tool_requirements: []
+    priority: medium
+    difficulty: low
+    tags: [output, comparison, table]
+    keywords: [对比, 表格, 比较]
+    related_prompts: []
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要对比多个方案时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-output-step-by-step-plan
+    name: Output as Step by Step Plan
+    path: prompts/output/output-as-step-by-step-plan.md
+    type: output
+    category: output
+    sub_category: plan
+    summary: 标准化分步骤计划格式
+    intent: 输出详细的执行计划
+    when_to_use:
+      - 需要执行计划时
+      - 需要时间线时
+      - 需要明确步骤时
+    when_not_to_use:
+      - 只需要简单列表
+      - 步骤已经很明显
+    input_requirements:
+      - 任务目标
+      - 约束条件
+      - 优先级
+    output_shape:
+      - Markdown 格式计划
+    tool_requirements: []
+    priority: high
+    difficulty: low
+    tags: [output, plan, steps]
+    keywords: [计划, 步骤, 时间线]
+    related_prompts:
+      - prompt-task-planning-create-plan
+      - prompt-task-planning-break-down
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要生成执行计划时使用"
+    model_fit: "*"
+    status: active
+
+  # ==================== META ====================
+
+  - id: prompt-meta-expand-rough-idea
+    name: Expand Rough Idea into High Quality Prompt
+    path: prompts/meta/expand-rough-idea-into-high-quality-prompt.md
+    type: meta
+    category: meta
+    sub_category: prompt-creation
+    summary: 将粗糙想法扩展为高质量 Prompt
+    intent: 把模糊的想法转化为结构完整、可执行的高质量 Prompt
+    when_to_use:
+      - 用户有模糊想法需要转化为 Prompt 时
+      - Prompt 初始构建时
+      - 需求描述不完整时
+    when_not_to_use:
+      - Prompt 已经完整
+      - 只需要优化现有 Prompt（用其他 meta prompt）
+    input_requirements:
+      - 粗糙的想法
+      - 可选：目标任务类型
+    output_shape:
+      - 扩展后的完整 Prompt
+      - 缺失元素列表
+      - 需要澄清的问题
+    tool_requirements: []
+    priority: high
+    difficulty: medium
+    tags: [meta, prompt-creation, expansion]
+    keywords: [扩展, 粗糙想法, Prompt生成]
+    related_prompts:
+      - prompt-meta-refine-ambiguous
+      - prompt-meta-convert-natural
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "用户说'帮我写个 Prompt'但想法模糊时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-meta-refine-ambiguous
+    name: Refine Ambiguous Request
+    path: prompts/meta/refine-ambiguous-request.md
+    type: meta
+    category: meta
+    sub_category: clarification
+    summary: 精炼歧义请求
+    intent: 消除用户请求中的歧义，转化为明确的行动指令
+    when_to_use:
+      - 请求存在歧义时
+      - 有多种理解方式时
+      - 需要澄清才能执行时
+    when_not_to_use:
+      - 请求已经很明确
+      - 只需要执行已明确的任务
+    input_requirements:
+      - 存在歧义的用户请求
+      - 可用的上下文
+    output_shape:
+      - 精炼后的请求
+      - 识别的歧义点
+      - 澄清问题
+    tool_requirements: []
+    priority: high
+    difficulty: medium
+    tags: [meta, clarification, ambiguity]
+    keywords: [歧义, 澄清, 精炼]
+    related_prompts:
+      - prompt-meta-expand-rough-idea
+      - prompt-routing-identify-task-type
+    related_skills: []
+    related_workflows:
+      - workflow-vague-request-to-action
+    selection_hints:
+      - "发现用户请求有多种理解时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-meta-convert-natural
+    name: Convert Natural Language to Structured Prompt
+    path: prompts/meta/convert-natural-language-to-structured-prompt.md
+    type: meta
+    category: meta
+    sub_category: conversion
+    summary: 将自然语言转换为结构化 Prompt
+    intent: 把非结构化的文本描述转换为标准格式的 Prompt
+    when_to_use:
+      - 需要将描述转化为结构化 Prompt 时
+      - Prompt 格式化时
+      - 需要标准化 Prompt 时
+    when_not_to_use:
+      - 已经是结构化描述
+      - 只需要内容本身
+    input_requirements:
+      - 自然语言描述
+      - 目标结构类型
+    output_shape:
+      - 转换后的结构化 Prompt
+      - 要素映射关系
+    tool_requirements: []
+    priority: medium
+    difficulty: medium
+    tags: [meta, conversion, structured]
+    keywords: [自然语言, 转换, 结构化]
+    related_prompts:
+      - prompt-meta-expand-rough-idea
+      - prompt-meta-evaluate-quality
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要将描述转化为标准 Prompt 格式时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-meta-debug-failing
+    name: Debug a Failing Prompt
+    path: prompts/meta/debug-a-failing-prompt.md
+    type: meta
+    category: meta
+    sub_category: debugging
+    summary: 诊断和修复不生效的 Prompt
+    intent: 系统性诊断 Prompt 问题并进行修复
+    when_to_use:
+      - Prompt 不生效时
+      - 输出不符合预期时
+      - Prompt 需要调试时
+    when_not_to_use:
+      - Prompt 工作正常
+      - 只需要轻微调整
+    input_requirements:
+      - 不生效的 Prompt
+      - 期望行为
+      - 实际行为
+    output_shape:
+      - 诊断结果
+      - 发现的问题
+      - 修复方案
+    tool_requirements: []
+    priority: high
+    difficulty: high
+    tags: [meta, debugging, troubleshooting]
+    keywords: [调试, 修复, 不生效]
+    related_prompts:
+      - prompt-meta-evaluate-quality
+      - prompt-meta-shorten
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "Prompt 不工作或输出不符合预期时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-meta-shorten
+    name: Shorten Prompt Without Losing Quality
+    path: prompts/meta/shorten-prompt-without-losing-quality.md
+    type: meta
+    category: meta
+    sub_category: optimization
+    summary: 压缩 Prompt 长度但不损失质量
+    intent: 在保持效果的前提下精简 Prompt
+    when_to_use:
+      - Prompt 太长时
+      - 需要提高效率时
+      - Token 有限制时
+    when_not_to_use:
+      - Prompt 已经很短
+      - 长度不是问题
+    input_requirements:
+      - 原始 Prompt
+      - 质量要求
+    output_shape:
+      - 压缩后的 Prompt
+      - 移除的元素
+      - 质量影响评估
+    tool_requirements: []
+    priority: medium
+    difficulty: medium
+    tags: [meta, optimization, compression]
+    keywords: [压缩, 精简, 优化]
+    related_prompts:
+      - prompt-meta-evaluate-quality
+      - prompt-meta-debug-failing
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "Prompt 太长或 Token 有限制时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-meta-adapt-general
+    name: Adapt Prompt for General Model Use
+    path: prompts/meta/adapt-prompt-for-general-model-use.md
+    type: meta
+    category: meta
+    sub_category: adaptation
+    summary: 将 Prompt 调整为通用版本
+    intent: 提高 Prompt 的跨模型兼容性
+    when_to_use:
+      - Prompt 需要适配多个模型时
+      - 针对特定模型的优化需要通用化时
+      - 需要提高兼容性时
+    when_not_to_use:
+      - 只针对单个模型
+      - Prompt 已经通用
+    input_requirements:
+      - 原始 Prompt
+      - 源模型
+      - 目标模型
+    output_shape:
+      - 适配后的 Prompt
+      - 修改内容
+      - 兼容性说明
+    tool_requirements: []
+    priority: low
+    difficulty: high
+    tags: [meta, adaptation, compatibility]
+    keywords: [适配, 通用, 跨模型]
+    related_prompts:
+      - prompt-meta-shorten
+      - prompt-meta-evaluate-quality
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要 Prompt 在多个模型上都能良好工作时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-meta-evaluate-quality
+    name: Evaluate Prompt Quality
+    path: prompts/meta/evaluate-prompt-quality.md
+    type: meta
+    category: meta
+    sub_category: evaluation
+    summary: 评估 Prompt 质量
+    intent: 系统性评估 Prompt 的质量并给出改进建议
+    when_to_use:
+      - 需要评估 Prompt 质量时
+      - Prompt 上线前检查时
+      - 发现问题时
+    when_not_to_use:
+      - Prompt 明显有问题（直接用 debug）
+      - 不需要评估
+    input_requirements:
+      - 待评估的 Prompt
+      - 评估重点
+    output_shape:
+      - 各维度评分
+      - 发现的问题
+      - 改进建议
+    tool_requirements: []
+    priority: medium
+    difficulty: medium
+    tags: [meta, evaluation, quality]
+    keywords: [评估, 质量, 检查]
+    related_prompts:
+      - prompt-meta-debug-failing
+      - prompt-meta-shorten
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "需要系统性评估 Prompt 时使用"
+    model_fit: "*"
+    status: active
+
+  - id: prompt-meta-split-modules
+    name: Split Large Prompt into Modules
+    path: prompts/meta/split-large-prompt-into-modules.md
+    type: meta
+    category: meta
+    sub_category: modularization
+    summary: 将长 Prompt 拆分为模块
+    intent: 把过长或复杂的 Prompt 拆分为可维护的模块
+    when_to_use:
+      - Prompt 过长难以维护时
+      - 需要模块化设计时
+      - 需要灵活组合时
+    when_not_to_use:
+      - Prompt 已经很简洁
+      - 不需要模块化
+    input_requirements:
+      - 过长的 Prompt
+      - 目标模块数量
+    output_shape:
+      - 模块化结构设计
+      - 拆分后的模块列表
+      - 组合指南
+    tool_requirements: []
+    priority: low
+    difficulty: high
+    tags: [meta, modularization, refactoring]
+    keywords: [拆分, 模块化, 重构]
+    related_prompts:
+      - prompt-meta-shorten
+      - prompt-meta-evaluate-quality
+    related_skills: []
+    related_workflows: []
+    selection_hints:
+      - "Prompt 过长或需要模块化设计时使用"
+    model_fit: "*"
+    status: active
+
+# ==================== 待补全项 ====================
+pending_items:
+  - |
+    以下 related_skills 和 related_workflows 引用了尚不存在的内容：
+    - skill-coding-code-review (在 prompt-task-coding-review-code 中引用)
+    - skill-coding (在多个 coding prompts 中引用)
+    - skill-debugging (在多个 debugging prompts 中引用)
+    - skill-planning (在多个 planning prompts 中引用)
+    - skill-research (在多个 research prompts 中引用)
+    - skill-repo-analysis (在多个 repo-analysis prompts 中引用)
+    - workflow-feature-implementation (在 prompt-system-coding-agent 中引用)
+    - workflow-bug-investigation (在 prompt-system-debugging-agent 中引用)
+  - |
+    建议：这些 Skills 应该在 .trae/skills/ 目录中创建对应的 SKILL.md 文件，
+    以便与 registry 中的引用对应。

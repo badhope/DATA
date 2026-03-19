@@ -1,0 +1,538 @@
+# Relations Registry
+# 建立 prompt / skill / workflow 之间的关系
+# 最后更新：2026-03-19
+
+relations:
+
+  # ==================== ROUTING PROMPTS RELATIONS ====================
+
+  - source_id: prompt-routing-scan-repository
+    target_id: prompt-routing-identify-task-type
+    relation_type: precedes
+    strength: strong
+    reason: 扫描仓库后才知道有哪些任务类型可选
+    usage_note: 首次使用仓库时先执行扫描，再进行任务识别
+
+  - source_id: prompt-routing-identify-task-type
+    target_id: prompt-routing-select-relevant
+    relation_type: requires
+    strength: strong
+    reason: 识别任务类型后才能选择相关 prompts
+    usage_note: 确定任务类型后执行 prompt 选择
+
+  - source_id: prompt-routing-identify-task-type
+    target_id: prompt-routing-compose
+    relation_type: precedes
+    strength: medium
+    reason: 识别任务类型后才能决定是否需要组合多个 prompts
+    usage_note: 复杂任务需要组合时使用
+
+  - source_id: prompt-routing-select-relevant
+    target_id: prompt-routing-compose
+    relation_type: precedes
+    strength: medium
+    reason: 选择了相关 prompts 后才能决定如何组合
+    usage_note: 需要多 prompt 组合时使用
+
+  # ==================== SYSTEM PROMPTS RELATIONS ====================
+
+  - source_id: prompt-system-coding-agent
+    target_id: prompt-task-coding-generate-code
+    relation_type: grouped_with
+    strength: strong
+    reason: Coding agent system prompt 通常配合代码生成 task prompts 使用
+    usage_note: 编程任务时先加载 system prompt，再选择 task prompt
+
+  - source_id: prompt-system-coding-agent
+    target_id: prompt-task-coding-implement-feature
+    relation_type: grouped_with
+    strength: strong
+    reason: Coding agent system prompt 是代码实现的系统级支持
+    usage_note: 功能实现任务时配合使用
+
+  - source_id: prompt-system-coding-agent
+    target_id: prompt-task-coding-review-code
+    relation_type: grouped_with
+    strength: strong
+    reason: 代码审查是 coding agent 的核心能力之一
+    usage_note: 代码审查任务时配合使用
+
+  - source_id: prompt-system-debugging-agent
+    target_id: prompt-task-debugging-identify-root-cause
+    relation_type: grouped_with
+    strength: strong
+    reason: Debugging agent 专用于调试任务
+    usage_note: 调试任务时先加载 debugging agent system prompt
+
+  - source_id: prompt-system-debugging-agent
+    target_id: prompt-task-debugging-generate-plan
+    relation_type: grouped_with
+    strength: strong
+    reason: 调试计划是 debugging agent 的标准输出
+    usage_note: 调试任务规划时配合使用
+
+  - source_id: prompt-system-debugging-agent
+    target_id: prompt-task-debugging-fix-bug
+    relation_type: grouped_with
+    strength: strong
+    reason: Bug 修复是 debugging agent 的核心输出
+    usage_note: 实施 bug 修复时配合使用
+
+  - source_id: prompt-system-debugging-agent
+    target_id: prompt-task-debugging-verify-fix
+    relation_type: grouped_with
+    strength: strong
+    reason: 修复验证是调试闭环的必要环节
+    usage_note: 验证修复结果时配合使用
+
+  - source_id: prompt-system-general-ai-workbench
+    target_id: workflow-vague-request-to-action
+    relation_type: recommends
+    strength: medium
+    reason: 通用 AI workbench 为模糊需求处理提供基础
+    usage_note: 处理模糊需求时作为基础
+
+  # ==================== CODING TASK RELATIONS ====================
+
+  - source_id: prompt-task-coding-generate-code
+    target_id: prompt-task-coding-review-code
+    relation_type: follows
+    strength: medium
+    reason: 代码生成后通常需要审查确保质量
+    usage_note: 生成代码后建议进行代码审查
+
+  - source_id: prompt-task-coding-implement-feature
+    target_id: prompt-task-coding-review-code
+    relation_type: follows
+    strength: medium
+    reason: 功能实现后需要审查
+    usage_note: 实现功能后建议审查代码
+
+  - source_id: prompt-task-coding-generate-code
+    target_id: prompt-output-markdown-report
+    relation_type: outputs_to
+    strength: weak
+    reason: 代码生成结果可以报告形式输出
+    usage_note: 需要记录生成结果时使用
+
+  - source_id: prompt-task-coding-review-code
+    target_id: prompt-task-coding-fix-bug
+    relation_type: specializes
+    strength: medium
+    reason: 代码审查发现的问题需要通过修复解决
+    usage_note: 审查发现问题后使用修复 prompt
+
+  - source_id: prompt-task-coding-review-code
+    target_id: prompt-meta-evaluate-quality
+    relation_type: alternative_to
+    strength: weak
+    reason: 两者都涉及质量评估，但角度不同
+    usage_note: 如只需简单评估可用 meta evaluate quality
+
+  # ==================== DEBUGGING TASK RELATIONS ====================
+
+  - source_id: prompt-task-debugging-identify-root-cause
+    target_id: prompt-task-debugging-generate-plan
+    relation_type: precedes
+    strength: strong
+    reason: 找到根因后才能制定调试计划
+    usage_note: 根因分析后必须制定调试计划
+
+  - source_id: prompt-task-debugging-generate-plan
+    target_id: prompt-task-debugging-fix-bug
+    relation_type: precedes
+    strength: strong
+    reason: 有计划后才能实施修复
+    usage_note: 调试计划制定后执行修复
+
+  - source_id: prompt-task-debugging-fix-bug
+    target_id: prompt-task-debugging-verify-fix
+    relation_type: requires
+    strength: strong
+    reason: 修复后必须验证
+    usage_note: 修复完成后必须验证
+
+  - source_id: prompt-task-debugging-identify-root-cause
+    target_id: prompt-task-repo-analysis-locate-files
+    relation_type: requires
+    strength: strong
+    reason: 定位相关文件是根因分析的基础
+    usage_note: 根因分析前先定位相关文件
+
+  - source_id: prompt-task-debugging-fix-bug
+    target_id: workflow-change-verify-and-report
+    relation_type: follows
+    strength: medium
+    reason: 修复后需要变更验证流程
+    usage_note: 修复完成后执行变更验证
+
+  # ==================== REPO ANALYSIS RELATIONS ====================
+
+  - source_id: prompt-task-repo-analysis-structure
+    target_id: prompt-task-repo-analysis-locate-files
+    relation_type: precedes
+    strength: medium
+    reason: 了解结构后才能更好定位文件
+    usage_note: 结构分析后可进一步定位文件
+
+  - source_id: prompt-task-repo-analysis-structure
+    target_id: prompt-task-repo-analysis-summarize-architecture
+    relation_type: precedes
+    strength: medium
+    reason: 结构分析是架构总结的基础
+    usage_note: 结构分析后可深入总结架构
+
+  - source_id: prompt-task-repo-analysis-locate-files
+    target_id: prompt-task-debugging-identify-root-cause
+    relation_type: requires
+    strength: strong
+    reason: 调试前需要先找到相关文件
+    usage_note: Bug 调查时先定位相关文件
+
+  - source_id: prompt-task-repo-analysis-locate-files
+    target_id: prompt-task-coding-implement-feature
+    relation_type: requires
+    strength: medium
+    reason: 实现功能前需要了解相关代码位置
+    usage_note: 功能实现时先定位相关文件
+
+  # ==================== PLANNING RELATIONS ====================
+
+  - source_id: prompt-task-planning-break-down
+    target_id: prompt-task-planning-create-plan
+    relation_type: precedes
+    strength: strong
+    reason: 任务分解后才能创建详细计划
+    usage_note: 分解后继续创建执行计划
+
+  - source_id: prompt-task-planning-break-down
+    target_id: prompt-output-checklist
+    relation_type: outputs_to
+    strength: medium
+    reason: 任务分解结果可以用检查清单形式输出
+    usage_note: 需要清单形式时使用
+
+  - source_id: prompt-task-planning-create-plan
+    target_id: prompt-output-step-by-step-plan
+    relation_type: outputs_to
+    strength: medium
+    reason: 执行计划可以用分步骤形式输出
+    usage_note: 需要步骤计划时使用
+
+  # ==================== RESEARCH RELATIONS ====================
+
+  - source_id: prompt-task-research-brief
+    target_id: workflow-research-to-summary
+    relation_type: grouped_with
+    strength: strong
+    reason: 研究简报是研究工作流的一部分
+    usage_note: 研究工作流中包含研究简报准备
+
+  - source_id: workflow-research-to-summary
+    target_id: prompt-output-markdown-report
+    relation_type: outputs_to
+    strength: medium
+    reason: 研究报告通常用 Markdown 格式输出
+    usage_note: 研究报告输出时使用
+
+  # ==================== WORKFLOW RELATIONS ====================
+
+  - source_id: workflow-bug-investigation
+    target_id: prompt-task-debugging-identify-root-cause
+    relation_type: requires
+    strength: strong
+    reason: Bug 调查工作流的核心是根因分析
+    usage_note: 工作流中必须包含根因分析步骤
+
+  - source_id: workflow-bug-investigation
+    target_id: prompt-task-debugging-generate-plan
+    relation_type: requires
+    strength: strong
+    reason: Bug 调查工作流需要调试计划
+    usage_note: 工作流中包含计划生成步骤
+
+  - source_id: workflow-bug-investigation
+    target_id: prompt-task-debugging-fix-bug
+    relation_type: requires
+    strength: strong
+    reason: Bug 调查工作流包含修复步骤
+    usage_note: 工作流中包含修复执行步骤
+
+  - source_id: workflow-bug-investigation
+    target_id: prompt-task-debugging-verify-fix
+    relation_type: requires
+    strength: strong
+    reason: Bug 调查工作流需要验证步骤完成闭环
+    usage_note: 工作流最后必须验证修复
+
+  - source_id: workflow-feature-implementation
+    target_id: prompt-task-coding-generate-code
+    relation_type: requires
+    strength: strong
+    reason: 功能实现工作流包含代码生成
+    usage_note: 工作流中包含代码生成步骤
+
+  - source_id: workflow-feature-implementation
+    target_id: prompt-task-coding-review-code
+    relation_type: requires
+    strength: strong
+    reason: 功能实现工作流包含代码审查
+    usage_note: 工作流中包含代码审查步骤
+
+  - source_id: workflow-new-repo-onboarding
+    target_id: prompt-task-repo-analysis-structure
+    relation_type: requires
+    strength: strong
+    reason: 新项目上手首先分析结构
+    usage_note: 工作流第一步是结构分析
+
+  - source_id: workflow-new-repo-onboarding
+    target_id: prompt-task-repo-analysis-summarize-architecture
+    relation_type: recommends
+    strength: medium
+    reason: 深入了解项目可以总结架构
+    usage_note: 有时间可深入分析架构
+
+  - source_id: workflow-vague-request-to-action
+    target_id: prompt-routing-identify-task-type
+    relation_type: requires
+    strength: strong
+    reason: 模糊需求转行动首先需要识别任务类型
+    usage_note: 工作流核心是任务类型识别
+
+  - source_id: workflow-repo-reading-to-change
+    target_id: prompt-task-repo-analysis-structure
+    relation_type: requires
+    strength: medium
+    reason: 修改前需要理解代码结构
+    usage_note: 工作流包含结构分析步骤
+
+  - source_id: workflow-repo-reading-to-change
+    target_id: prompt-task-planning-break-down
+    relation_type: requires
+    strength: medium
+    reason: 修改前需要规划任务分解
+    usage_note: 工作流包含任务分解步骤
+
+  - source_id: workflow-change-verify-and-report
+    target_id: prompt-task-debugging-verify-fix
+    relation_type: specializes
+    strength: strong
+    reason: 变更验证是调试验证的具体应用
+    usage_note: 变更验证场景使用此工作流
+
+  - source_id: workflow-tool-assisted-debug
+    target_id: prompt-task-debugging-identify-root-cause
+    relation_type: requires
+    strength: strong
+    reason: 工具辅助调试用于根因分析
+    usage_note: 工作流基于根因分析步骤
+
+  - source_id: workflow-tool-assisted-debug
+    target_id: prompt-tool-use-read-files
+    relation_type: requires
+    strength: strong
+    reason: 工具辅助调试需要读取文件
+    usage_note: 工作流包含文件读取步骤
+
+  - source_id: workflow-tool-assisted-debug
+    target_id: prompt-tool-use-use-command
+    relation_type: requires
+    strength: strong
+    reason: 工具辅助调试需要执行命令
+    usage_note: 工作流包含命令执行步骤
+
+  - source_id: workflow-tool-assisted-debug
+    target_id: prompt-tool-use-combine-results
+    relation_type: requires
+    strength: medium
+    reason: 工具辅助调试需要组合结果
+    usage_note: 工作流包含结果组合步骤
+
+  # ==================== TOOL-USE RELATIONS ====================
+
+  - source_id: prompt-tool-use-read-files
+    target_id: prompt-task-debugging-identify-root-cause
+    relation_type: requires
+    strength: strong
+    reason: 根因分析通常需要读取相关代码文件
+    usage_note: 分析前先读取文件
+
+  - source_id: prompt-tool-use-read-files
+    target_id: prompt-task-coding-generate-code
+    relation_type: recommends
+    strength: medium
+    reason: 生成代码时可能需要参考现有代码
+    usage_note: 有参考代码时先读取
+
+  - source_id: prompt-tool-use-analyze-folder
+    target_id: prompt-task-repo-analysis-structure
+    relation_type: requires
+    strength: strong
+    reason: 分析仓库结构需要先分析文件夹
+    usage_note: 结构分析前先分析文件夹
+
+  - source_id: prompt-tool-use-analyze-folder
+    target_id: workflow-new-repo-onboarding
+    relation_type: requires
+    strength: strong
+    reason: 新项目上手需要分析文件夹
+    usage_note: 工作流前置步骤
+
+  - source_id: prompt-tool-use-search-before-concluding
+    target_id: prompt-task-research-brief
+    relation_type: recommends
+    strength: medium
+    reason: 研究前先搜索可以明确研究范围
+    usage_note: 研究简报准备前搜索
+
+  - source_id: prompt-tool-use-use-command
+    target_id: prompt-task-debugging-verify-fix
+    relation_type: requires
+    strength: strong
+    reason: 验证修复常需要执行测试命令
+    usage_note: 验证步骤包含命令执行
+
+  - source_id: prompt-tool-use-combine-results
+    target_id: workflow-tool-assisted-debug
+    relation_type: requires
+    strength: strong
+    reason: 工具辅助调试需要组合多个工具结果
+    usage_note: 工作流中包含结果组合步骤
+
+  - source_id: prompt-tool-use-inspect-config
+    target_id: workflow-feature-implementation
+    relation_type: recommends
+    strength: medium
+    reason: 功能实现可能需要先了解配置
+    usage_note: 有配置需求时使用
+
+  - source_id: prompt-tool-use-tools-step-by-step
+    target_id: workflow-bug-investigation
+    relation_type: recommends
+    strength: medium
+    reason: Bug 调查需要按步骤使用工具
+    usage_note: 调试时按步骤执行
+
+  # ==================== OUTPUT RELATIONS ====================
+
+  - source_id: workflow-research-to-summary
+    target_id: prompt-output-markdown-report
+    relation_type: outputs_to
+    strength: medium
+    reason: 研究报告适合 Markdown 格式
+    usage_note: 研究结果输出时使用
+
+  - source_id: workflow-bug-investigation
+    target_id: prompt-output-markdown-report
+    relation_type: outputs_to
+    strength: weak
+    reason: Bug 调查结果可以 Markdown 报告输出
+    usage_note: 需要报告时使用
+
+  - source_id: workflow-feature-implementation
+    target_id: prompt-output-json-structure
+    relation_type: outputs_to
+    strength: weak
+    reason: 功能实现结果可以用结构化数据表示
+    usage_note: 需要数据格式时使用
+
+  - source_id: prompt-task-planning-break-down
+    target_id: prompt-output-checklist
+    relation_type: outputs_to
+    strength: medium
+    reason: 任务分解结果适合检查清单格式
+    usage_note: 需要清单输出时使用
+
+  - source_id: prompt-task-planning-create-plan
+    target_id: prompt-output-step-by-step-plan
+    relation_type: outputs_to
+    strength: medium
+    reason: 执行计划适合分步骤格式
+    usage_note: 需要计划输出时使用
+
+  - source_id: prompt-task-coding-review-code
+    target_id: prompt-output-comparison-table
+    relation_type: outputs_to
+    strength: weak
+    reason: 代码审查结果可以对比表格形式呈现
+    usage_note: 多维度审查时使用
+
+  # ==================== META PROMPT RELATIONS ====================
+
+  - source_id: prompt-meta-expand-rough-idea
+    target_id: prompt-meta-refine-ambiguous
+    relation_type: follows
+    strength: medium
+    reason: 扩展粗糙想法后可能还需要精炼
+    usage_note: 扩展后如仍需澄清使用精炼
+
+  - source_id: prompt-meta-refine-ambiguous
+    target_id: workflow-vague-request-to-action
+    relation_type: follows
+    strength: medium
+    reason: 精炼歧义后可转化为行动
+    usage_note: 精炼后走需求转化工作流
+
+  - source_id: prompt-meta-debug-failing
+    target_id: prompt-meta-evaluate-quality
+    relation_type: precedes
+    strength: medium
+    reason: 调试失败 prompt 之前可以先评估质量
+    usage_note: 调试前可先评估
+
+  - source_id: prompt-meta-debug-failing
+    target_id: prompt-meta-shorten
+    relation_type: alternative_to
+    strength: weak
+    reason: 调试不生效可以尝试精简
+    usage_note: 精简可能解决不生效问题
+
+  - source_id: prompt-meta-evaluate-quality
+    target_id: prompt-meta-debug-failing
+    relation_type: follows
+    strength: medium
+    reason: 评估发现问题后可调试
+    usage_note: 评估后如有问题进行调试
+
+  - source_id: prompt-meta-shorten
+    target_id: prompt-meta-evaluate-quality
+    relation_type: follows
+    strength: medium
+    reason: 精简后需要评估质量影响
+    usage_note: 精简后验证质量
+
+  - source_id: prompt-meta-split-modules
+    target_id: prompt-meta-shorten
+    relation_type: alternative_to
+    strength: weak
+    reason: 拆分和精简都是优化手段
+    usage_note: 根据场景选择优化方式
+
+  - source_id: prompt-meta-convert-natural
+    target_id: prompt-meta-expand-rough-idea
+    relation_type: follows
+    strength: medium
+    reason: 转换后可进一步扩展
+    usage_note: 转换后再扩展
+
+  - source_id: workflow-prompt-selection-composition
+    target_id: prompt-routing-compose
+    relation_type: grouped_with
+    strength: strong
+    reason: Prompt 选择组合工作流使用 compose 功能
+    usage_note: 工作流中调用 compose prompt
+
+# ==================== 待补全项 ====================
+pending_items:
+  - |
+    以下 relation_type 需要更多实例验证：
+    - alternative_to 关系目前较少
+    - grouped_with 关系可以按需增加
+  - |
+    未来可以建立与 Skills 的关系（当 .trae/skills/ 目录内容完善后）：
+    - skill-coding 与 coding task prompts 的关系
+    - skill-debugging 与 debugging task prompts 的关系
+    - skill-planning 与 planning prompts 的关系
+    - skill-repo-analysis 与 repo-analysis prompts 的关系
+    - skill-research 与 research prompts 的关系

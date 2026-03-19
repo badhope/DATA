@@ -1,0 +1,468 @@
+# Routes Registry
+# 把用户需求映射到推荐 prompt / skill / workflow 组合
+# 最后更新：2026-03-19
+
+routes:
+
+  # ==================== CODING ROUTE ====================
+
+  - route_id: route-coding
+    trigger_patterns:
+      zh:
+        - "写代码"
+        - "帮我写"
+        - "实现"
+        - "生成代码"
+        - "写个功能"
+        - "代码生成"
+        - "怎么实现"
+        - "写一个XXX功能"
+      en:
+        - "write code"
+        - "generate code"
+        - "implement"
+        - "create a function"
+        - "build a feature"
+        - "write a script"
+        - "how to implement"
+        - "I need code for"
+    task_type: coding
+    description: 代码生成、编程实现相关任务
+    first_step: |
+      判断用户需求是"生成新代码"还是"修改现有代码"：
+      - 如果是生成新代码 → 使用 prompt-task-coding-generate-code
+      - 如果是修改现有代码 → 先了解代码结构
+    required_questions:
+      - "需要实现的具体功能是什么？"
+      - "有技术栈或语言要求吗？"
+      - "有参考代码或示例吗？"
+    recommended_prompts:
+      - prompt-task-coding-generate-code
+      - prompt-task-coding-implement-feature
+      - prompt-task-coding-review-code
+    recommended_skills:
+      - skill-coding
+    recommended_workflows:
+      - workflow-feature-implementation
+    optional_supporting_prompts:
+      - prompt-tool-use-read-files
+      - prompt-output-markdown-report
+      - prompt-output-json-structure
+    fallback_strategy: |
+      如果用户需求过于模糊（如只说"帮我写代码"）：
+      1. 先用 prompt-meta-refine-ambiguous 精炼需求
+      2. 或使用 workflow-vague-request-to-action 引导澄清
+      3. 如果只知道大致方向，用 prompt-meta-expand-rough-idea 扩展
+    output_recommendation: |
+      优先输出：代码 + 使用示例 + 简要说明
+      如需记录：Markdown 报告格式
+      如需结构化：JSON 格式（API 相关）
+
+  # ==================== DEBUGGING ROUTE ====================
+
+  - route_id: route-debugging
+    trigger_patterns:
+      zh:
+        - "报错"
+        - "出错了"
+        - "bug"
+        - "有问题"
+        - "错误"
+        - "为什么不行"
+        - "不对"
+        - "修复"
+        - "调试"
+        - "出了什么问题"
+      en:
+        - "error"
+        - "bug"
+        - "not working"
+        - "something is wrong"
+        - "failed"
+        - "fix this"
+        - "debug"
+        - "why doesn't it work"
+        - "issue"
+        - "exception"
+    task_type: debugging
+    description: Bug 调查、错误分析、问题修复相关任务
+    first_step: |
+      判断问题状态：
+      - 如果已知错误信息 → 使用 prompt-task-debugging-identify-root-cause
+      - 如果问题不明确 → 使用 prompt-task-debugging-generate-plan
+      - 如果已知原因 → 使用 prompt-task-debugging-fix-bug
+    required_questions:
+      - "具体的错误信息是什么？"
+      - "这个问题在什么情况下出现？"
+      - "能提供复现步骤吗？"
+    recommended_prompts:
+      - prompt-task-debugging-identify-root-cause
+      - prompt-task-debugging-generate-plan
+      - prompt-task-debugging-fix-bug
+      - prompt-task-debugging-verify-fix
+    recommended_skills:
+      - skill-debugging
+    recommended_workflows:
+      - workflow-bug-investigation
+      - workflow-tool-assisted-debug
+      - workflow-change-verify-and-report
+    optional_supporting_prompts:
+      - prompt-task-repo-analysis-locate-files
+      - prompt-tool-use-read-files
+      - prompt-tool-use-use-command
+      - prompt-tool-use-combine-results
+    fallback_strategy: |
+      如果信息严重不足：
+      1. 使用 prompt-task-debugging-generate-plan 生成排查计划
+      2. 让用户提供更多上下文（错误日志、代码、环境）
+      3. 使用 prompt-tool-use-analyze-folder 先了解项目结构
+    output_recommendation: |
+      优先输出：根因分析 + 修复方案 + 验证步骤
+      如需记录：Markdown 报告格式
+      如需步骤清单：使用 prompt-output-checklist
+
+  # ==================== REPO-ANALYSIS ROUTE ====================
+
+  - route_id: route-repo-analysis
+    trigger_patterns:
+      zh:
+        - "分析项目"
+        - "这是什么项目"
+        - "项目结构"
+        - "帮我看看这个代码库"
+        - "了解项目"
+        - "代码库结构"
+        - "这个项目是做什么的"
+        - "项目概览"
+      en:
+        - "analyze project"
+        - "what is this project"
+        - "project structure"
+        - "look at this codebase"
+        - "understand the project"
+        - "codebase structure"
+        - "what does this project do"
+        - "project overview"
+    task_type: repo-analysis
+    description: 代码库分析、项目理解、文件定位相关任务
+    first_step: |
+      判断分析深度：
+      - 如果是快速了解 → 使用 prompt-task-repo-analysis-structure
+      - 如果需要深入理解 → 使用 prompt-task-repo-analysis-summarize-architecture
+      - 如果是找特定内容 → 使用 prompt-task-repo-analysis-locate-files
+    required_questions:
+      - "想了解项目的哪些方面？"
+      - "有特定的文件或功能需要定位吗？"
+    recommended_prompts:
+      - prompt-task-repo-analysis-structure
+      - prompt-task-repo-analysis-summarize-architecture
+      - prompt-task-repo-analysis-locate-files
+    recommended_skills:
+      - skill-repo-analysis
+    recommended_workflows:
+      - workflow-new-repo-onboarding
+      - workflow-repo-reading-to-change
+    optional_supporting_prompts:
+      - prompt-tool-use-analyze-folder
+      - prompt-tool-use-read-files
+      - prompt-output-markdown-report
+    fallback_strategy: |
+      如果需求非常模糊（如"帮我看看"）：
+      1. 使用 workflow-new-repo-onboarding 进行系统性上手
+      2. 或先用 prompt-tool-use-analyze-folder 分析项目结构
+      3. 再根据初步结果确定下一步
+    output_recommendation: |
+      优先输出：项目结构 + 关键文件 + 核心组件说明
+      如需架构详情：Markdown 报告格式
+      如需文件列表：结构化列表
+
+  # ==================== PLANNING ROUTE ====================
+
+  - route_id: route-planning
+    trigger_patterns:
+      zh:
+        - "怎么规划"
+        - "任务拆解"
+        - "制定计划"
+        - "怎么做"
+        - "步骤是什么"
+        - "拆解一下"
+        - "如何执行"
+        - "工作流程"
+        - "时间线"
+      en:
+        - "how to plan"
+        - "break down task"
+        - "make a plan"
+        - "what are the steps"
+        - "how to do this"
+        - "decompose"
+        - "execution plan"
+        - "timeline"
+        - "workflow"
+    task_type: planning
+    description: 任务规划、分解、执行计划相关任务
+    first_step: |
+      判断规划需求：
+      - 如果任务太大需要拆解 → 使用 prompt-task-planning-break-down
+      - 如果需要详细执行计划 → 使用 prompt-task-planning-create-plan
+    required_questions:
+      - "目标是什么？"
+      - "有什么约束条件吗？（时间、资源、技术等）"
+      - "优先级是什么？"
+    recommended_prompts:
+      - prompt-task-planning-break-down
+      - prompt-task-planning-create-plan
+    recommended_skills:
+      - skill-planning
+    recommended_workflows: []
+    optional_supporting_prompts:
+      - prompt-output-checklist
+      - prompt-output-step-by-step-plan
+      - prompt-output-comparison-table
+    fallback_strategy: |
+      如果任务非常模糊：
+      1. 先用 prompt-meta-refine-ambiguous 澄清目标
+      2. 再进行任务分解
+      3. 如果是大型任务，先分解再制定计划
+    output_recommendation: |
+      优先输出：分解后的子任务 + 依赖关系 + 优先级
+      如需步骤清单：prompt-output-checklist
+      如需时间线：prompt-output-step-by-step-plan
+
+  # ==================== RESEARCH ROUTE ====================
+
+  - route_id: route-research
+    trigger_patterns:
+      zh:
+        - "研究"
+        - "调研"
+        - "了解一下"
+        - "对比"
+        - "评估"
+        - "分析一下"
+        - "调查"
+        - "研究一下"
+        - "了解一下XXX"
+      en:
+        - "research"
+        - "investigate"
+        - "find out about"
+        - "compare"
+        - "evaluate"
+        - "analyze"
+        - "study"
+        - "look into"
+        - "what is the best way to"
+    task_type: research
+    description: 信息研究、主题调研、方案对比相关任务
+    first_step: |
+      判断研究深度：
+      - 如果是简单了解 → 直接提供信息
+      - 如果需要系统研究 → 使用 prompt-task-research-brief
+      - 如果需要完整报告 → 使用 workflow-research-to-summary
+    required_questions:
+      - "研究的主题是什么？"
+      - "研究目的是什么？（了解、选型、决策等）"
+      - "有范围限制吗？"
+    recommended_prompts:
+      - prompt-task-research-brief
+    recommended_skills:
+      - skill-research
+    recommended_workflows:
+      - workflow-research-to-summary
+    optional_supporting_prompts:
+      - prompt-tool-use-search-before-concluding
+      - prompt-output-markdown-report
+      - prompt-output-comparison-table
+    fallback_strategy: |
+      如果信息严重不足：
+      1. 先使用 prompt-task-research-brief 制定研究计划
+      2. 明确需要回答的关键问题
+      3. 如果无法直接获取信息，使用 search-before-concluding
+    output_recommendation: |
+      优先输出：研究结论 + 关键发现 + 建议
+      如需完整报告：Markdown 报告格式
+      如需对比：prompt-output-comparison-table
+
+  # ==================== CODE REVIEW ROUTE ====================
+
+  - route_id: route-code-review
+    trigger_patterns:
+      zh:
+        - "审查代码"
+        - "代码审查"
+        - "看看代码"
+        - "检查代码"
+        - "review"
+        - "代码质量"
+        - "优化建议"
+      en:
+        - "review code"
+        - "code review"
+        - "check this code"
+        - "look at the code"
+        - "code quality"
+        - "review this"
+    task_type: coding
+    sub_type: code-review
+    description: 代码审查、质量评估、优化建议相关任务
+    first_step: |
+      直接进入代码审查流程：
+      - 使用 prompt-task-coding-review-code 进行审查
+      - 如需发现的问题修复，配合 prompt-task-debugging-fix-bug
+    required_questions:
+      - "需要审查的代码在哪里？"
+      - "有特定的审查重点吗？（性能、安全、可读性等）"
+    recommended_prompts:
+      - prompt-task-coding-review-code
+    recommended_skills:
+      - skill-coding
+      - skill-coding-code-review
+    recommended_workflows: []
+    optional_supporting_prompts:
+      - prompt-tool-use-read-files
+      - prompt-output-comparison-table
+      - prompt-meta-evaluate-quality
+    fallback_strategy: |
+      如果代码量很大或分散：
+      1. 先使用 prompt-tool-use-read-files 读取代码
+      2. 分批次审查
+      3. 最后汇总结果
+    output_recommendation: |
+      优先输出：质量评分 + 问题列表 + 改进建议
+      如需多维度对比：prompt-output-comparison-table
+
+  # ==================== FUZZY REQUEST ROUTE ====================
+
+  - route_id: route-fuzzy-request
+    trigger_patterns:
+      zh:
+        - "帮我看看"
+        - "处理一下"
+        - "搞一下"
+        - "弄一下"
+        - "帮我"
+        - "有个问题"
+        - "想问一下"
+      en:
+        - "help me with"
+        - "take a look at"
+        - "can you"
+        - "I need help"
+        - "something is wrong"
+        - "I have a question"
+    task_type: clarification
+    description: 模糊需求，需要先澄清才能确定任务类型
+    first_step: |
+      这是模糊请求路由：
+      - 首先使用 prompt-meta-refine-ambiguous 精炼需求
+      - 或使用 workflow-vague-request-to-action 引导用户
+      - 根据澄清结果重新路由到对应任务
+    required_questions:
+      - "具体想解决什么问题？"
+      - "期望的结果是什么？"
+      - "有具体的场景或例子吗？"
+    recommended_prompts:
+      - prompt-meta-refine-ambiguous
+      - prompt-routing-identify-task-type
+    recommended_skills: []
+    recommended_workflows:
+      - workflow-vague-request-to-action
+    optional_supporting_prompts:
+      - prompt-meta-expand-rough-idea
+    fallback_strategy: |
+      如果用户无法提供更多信息：
+      1. 提供常见场景选项让用户选择
+      2. 使用 scan-repository 了解仓库能力后给出建议
+      3. 询问用户是想：开发新功能 / 修复问题 / 了解项目 / 其他
+    output_recommendation: |
+      优先输出：澄清的问题列表 + 可能的选项
+      确认后重新路由到对应任务类型
+
+  # ==================== PROMPT ENGINEERING ROUTE ====================
+
+  - route_id: route-prompt-engineering
+    trigger_patterns:
+      zh:
+        - "优化Prompt"
+        - "写一个Prompt"
+        - "帮我写提示词"
+        - "Prompt不工作"
+        - "Prompt太长了"
+        - "压缩Prompt"
+        - "Prompt怎么写"
+      en:
+        - "optimize prompt"
+        - "write a prompt"
+        - "create a prompt"
+        - "prompt not working"
+        - "prompt is too long"
+        - "shorten prompt"
+        - "how to write a prompt"
+    task_type: meta
+    sub_type: prompt-engineering
+    description: Prompt 工程相关任务
+    first_step: |
+      判断 Prompt 需求阶段：
+      - 如果是从想法开始 → prompt-meta-expand-rough-idea
+      - 如果是精炼现有 → prompt-meta-refine-ambiguous
+      - 如果是转换格式 → prompt-meta-convert-natural
+      - 如果是调试不工作 → prompt-meta-debug-failing
+      - 如果是压缩长度 → prompt-meta-shorten
+      - 如果是评估质量 → prompt-meta-evaluate-quality
+    required_questions:
+      - "现在的 Prompt 是什么？（如有）"
+      - "存在什么问题？"
+      - "目标是什么？（优化、压缩、修复等）"
+    recommended_prompts:
+      - prompt-meta-expand-rough-idea
+      - prompt-meta-refine-ambiguous
+      - prompt-meta-convert-natural
+      - prompt-meta-debug-failing
+      - prompt-meta-shorten
+      - prompt-meta-evaluate-quality
+      - prompt-meta-split-modules
+      - prompt-meta-adapt-general
+    recommended_skills: []
+    recommended_workflows:
+      - workflow-prompt-selection-composition
+    optional_supporting_prompts: []
+    fallback_strategy: |
+      如果不确定具体需求：
+      1. 先用 prompt-meta-evaluate-quality 评估现状
+      2. 根据评估结果决定优化方向
+      3. 如果是想创建新 Prompt，用 prompt-meta-expand-rough-idea
+    output_recommendation: |
+      优先输出：优化后的 Prompt 完整内容
+      如需对比：原 Prompt vs 新 Prompt 对照
+
+# ==================== GLOBAL FALLBACK ====================
+global_fallback:
+  strategy: |
+    如果以上路由都不匹配：
+    1. 使用 prompt-routing-scan-repository 扫描仓库了解能力
+    2. 使用 prompt-routing-identify-task-type 识别任务类型
+    3. 根据识别结果重新路由
+  required_questions:
+    - "你想完成什么任务？"
+    - "是开发新功能、修复问题、还是了解项目？"
+    - "有具体的代码或错误信息可以提供吗？"
+
+# ==================== 待补全项 ====================
+pending_items:
+  - |
+    当前路由覆盖了主要场景：
+    - coding: 代码生成和实现
+    - debugging: Bug 调查和修复
+    - repo-analysis: 项目理解和分析
+    - planning: 任务规划和分解
+    - research: 调研和研究
+    - code-review: 代码审查
+    - fuzzy-request: 模糊需求澄清
+    - prompt-engineering: Prompt 工程
+  - |
+    以下路由可以考虑未来扩展：
+    - documentation: 文档生成（当前可使用 workflow-documentation-generation）
+    - refactoring: 代码重构（当前可使用 workflow-repo-reading-to-change）
+    - testing: 测试相关（未来可添加专门测试路由）
