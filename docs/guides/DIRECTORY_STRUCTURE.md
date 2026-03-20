@@ -6,8 +6,8 @@
 
 ```
 skill/
-├── README.md              # 仓库入口 (必须)
-├── INDEX.md               # 全局索引 (必须)
+├── README。md              # 仓库入口 (必须)
+├── INDEX。md               # 全局索引 (必须)
 ├── LICENSE                # 开源协议
 │
 ├── skills/                # Skills 目录 (必须)
@@ -47,11 +47,11 @@ skill/
 
 ```
 skill/
-├── README.md              # 仓库入口
-├── INDEX.md               # 全局索引
+├── README。md              # 仓库入口
+├── INDEX。md               # 全局索引
 ├── LICENSE                # 开源协议
-├── CONTRIBUTING.md        # 贡献指南
-├── CHANGELOG.md           # 变更日志
+├── CONTRIBUTING。md        # 贡献指南
+├── CHANGELOG。md           # 变更日志
 │
 ├── skills/                # Skills 目录
 │   ├── README.md
@@ -88,7 +88,7 @@ skill/
 │
 ├── workflows/             # Workflows 目录
 │   ├── README.md
-│   ├── multi-step/        # 多步骤工作流
+│   ├── multi—step/        # 多步骤工作流
 │   ├── sequential/        # 顺序工作流
 │   └── conditional/       # 条件工作流
 │
@@ -152,12 +152,12 @@ skill/
 ## 建议
 
 **个人维护者起步**：
-- 先用简单版 MVP
-- 按需逐步扩展
-- 不要过度设计
+— 先用简单版 MVP
+— 按需逐步扩展
+— 不要过度设计
 
 **未来开源协作**：
-- 提前规划好分类
-- 预留扩展目录
-- 完善 CONTRIBUTING.md
-- 建立贡献流程
+— 提前规划好分类
+— 预留扩展目录
+— 完善 CONTRIBUTING。md
+— 建立贡献流程

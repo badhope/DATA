@@ -29,21 +29,21 @@ draft → active → deprecated
 ### 语义化版本
 
 ```
-主版本.次版本.修订号
+主版本。次版本。修订号
 X.Y.Z
 ```
 
 | 版本类型 | 何时升级 | 示例 |
 |----------|----------|------|
-| **修订号** | Bug 修复，向后兼容 | 1.0.0 → 1.0.1 |
-| **次版本** | 新增功能，向后兼容 | 1.0.0 → 1.1.0 |
-| **主版本** | 破坏性变更 | 1.0.0 → 2.0.0 |
+| **修订号** | Bug 修复，向后兼容 | 1。0。0 → 1。0。1 |
+| **次版本** | 新增功能，向后兼容 | 1。0。0 → 1。1。0 |
+| **主版本** | 破坏性变更 | 1。0。0 → 2。0。0 |
 
 ### 破坏性变更
 
 以下情况需要升级主版本：
 
-1. **输入格式变化**
+1。 **输入格式变化**
    ```yaml
    # 变更前
    input: code (string)
@@ -52,7 +52,7 @@ X.Y.Z
    input: { code: string, language: string }
    ```
 
-2. **输出格式变化**
+2。 **输出格式变化**
    ```yaml
    # 变更前
    output: { result: string }
@@ -61,11 +61,11 @@ X.Y.Z
    output: { result: string, metadata: object }
    ```
 
-3. **字段删除**
-   - 删除必填字段
-   - 改变字段含义
+3。 **字段删除**
+   — 删除必填字段
+   — 改变字段含义
 
-4. **功能范围变化**
+4。 **功能范围变化**
    ```yaml
    # 变更前
    # 只分析 JavaScript
@@ -76,17 +76,17 @@ X.Y.Z
 
 ### 非破坏性变更（升级次版本）
 
-1. **新增可选字段**
-2. **新增 Prompt（不是修改现有）**
-3. **完善文档**
-4. **新增示例**
+1。 **新增可选字段**
+2。 **新增 Prompt（不是修改现有）**
+3。 **完善文档**
+4。 **新增示例**
 
 ### Bug 修复（升级修订号）
 
-1. **修复歧义**
-2. **补充遗漏的边界情况**
-3. **修正错误描述**
-4. **完善 anti_patterns / failure_modes**
+1。 **修复歧义**
+2。 **补充遗漏的边界情况**
+3。 **修正错误描述**
+4。 **完善 anti_patterns / failure_modes**
 
 ---
 
@@ -150,7 +150,7 @@ X.Y.Z
 
 当一个 Prompt 出现以下情况时，应拆分：
 
-1. **功能混杂**
+1。 **功能混杂**
    ```yaml
    # 错误：一个 Prompt 做太多事
    "分析代码、修复 Bug、生成测试"
@@ -161,13 +161,13 @@ X.Y.Z
    - generate-test
    ```
 
-2. **组合场景过多**
+2。 **组合场景过多**
    ```yaml
    # 如果一个 Prompt 被用于 >5 个完全不同场景
    # 考虑拆分或创建专门的 Workflow
    ```
 
-3. **可选参数过多**
+3。 **可选参数过多**
    ```yaml
    # 当必填参数 < 总参数 30% 时，考虑拆分
    # 例如：10 个参数，3 个必填
@@ -175,11 +175,11 @@ X.Y.Z
 
 ### 拆分流程
 
-1. **识别核心功能和可选功能**
-2. **创建新的独立 Prompt**
-3. **更新原 Prompt，移除拆分内容**
-4. **建立关联（related_prompts）**
-5. **更新版本号**
+1。 **识别核心功能和可选功能**
+2。 **创建新的独立 Prompt**
+3。 **更新原 Prompt，移除拆分内容**
+4。 **建立关联（related_prompts）**
+5。 **更新版本号**
 
 ### 拆分示例
 
@@ -187,22 +187,22 @@ X.Y.Z
 ```yaml
 id: prompt-task-coding-full-cycle
 name: Full Coding Cycle
-summary: 完整编码周期，包括生成、审查、测试
+summary： 完整编码周期，包括生成、审查、测试
 ```
 
 **拆分后**：
 ```yaml
 id: prompt-task-coding-generate-code-v1
 name: Generate Code
-summary: 根据需求生成代码
+summary： 根据需求生成代码
 
 id: prompt-task-coding-review-code-v1
 name: Review Code
-summary: 审查代码质量
+summary： 审查代码质量
 
 id: prompt-task-coding-generate-test-v1
 name: Generate Test
-summary: 生成测试用例
+summary： 生成测试用例
 
 # Workflow 组合
 id: prompt-workflow-coding-cycle
@@ -249,7 +249,7 @@ id: prompt-task-coding-old-generator
 name: Old Code Generator
 status: deprecated
 version: "1.0.0"
-替代方案: prompt-task-coding-generate-code-v2
+替代方案： prompt—task—coding—generate—code—v2
 deprecated_reason: |
   此 Prompt 的输出格式已被新版取代，
   新版提供更稳定的结构和更好的错误处理。
@@ -263,17 +263,17 @@ deprecated_reason: |
 ### 识别重复
 
 重复的Prompt有以下特征：
-- 功能完全相同
-- 输入输出格式相同
-- 无法说出明显区别
+— 功能完全相同
+— 输入输出格式相同
+— 无法说出明显区别
 
 ### 处理方式
 
-1. **保留最优版本**
-   - 质量更好的保留
-   - 如果质量相同，保留更新时间更近的
+1。 **保留最优版本**
+   — 质量更好的保留
+   — 如果质量相同，保留更新时间更近的
 
-2. **建立别名（可选）**
+2。 **建立别名（可选）**
    ```yaml
    # 在保留的 Prompt 中
    also_known_as:
@@ -281,12 +281,12 @@ deprecated_reason: |
      - prompt-task-coding-generate
    ```
 
-3. **更新引用**
-   - 更新所有引用重复 Prompt 的地方
-   - 将引用指向保留版本
+3。 **更新引用**
+   — 更新所有引用重复 Prompt 的地方
+   — 将引用指向保留版本
 
-4. **废弃其他**
-   - 其他版本标记为 deprecated
+4。 **废弃其他**
+   — 其他版本标记为 deprecated
 
 ---
 
@@ -382,18 +382,18 @@ prompts/task/coding/
 收到 Issue 后：
 
 1. **Bug Report**
-   - 确认是否可复现
-   - 确定影响范围
-   - 决定：修复 / 拆分 / 废弃
+   — 确认是否可复现
+   — 确定影响范围
+   — 决定：修复 / 拆分 / 废弃
 
-2. **功能请求**
-   - 评估是否需要新 Prompt
-   - 评估是否可扩展现有 Prompt
-   - 决定：新增 / 扩展 / 拒绝
+2。 **功能请求**
+   — 评估是否需要新 Prompt
+   — 评估是否可扩展现有 Prompt
+   — 决定：新增 / 扩展 / 拒绝
 
-3. **改进建议**
-   - 评估改进价值
-   - 决定是否实施
+3。 **改进建议**
+   — 评估改进价值
+   — 决定是否实施
 
 ### Commit 规范
 
@@ -442,6 +442,6 @@ prompts/task/coding/
 
 ## 相关文档
 
-- [prompt-writing-standard.md](prompt-writing-standard.md) - 编写规范
-- [prompt-field-spec.md](prompt-field-spec.md) - 字段定义
-- [prompt-quality-checklist.md](prompt-quality-checklist.md) - 质量检查
+— [prompt—writing—standard。md](prompt—writing—standard。md) — 编写规范
+— [prompt—field—spec。md](prompt—field—spec。md) — 字段定义
+— [prompt—quality—checklist。md](prompt—quality—checklist。md) — 质量检查

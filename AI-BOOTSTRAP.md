@@ -24,14 +24,14 @@
 
 ```
 读取文件：
-1. README.md       → 仓库定位
-2. prompts/INDEX.md → Prompts 仓库结构
-3. registry/        → 可用资源索引
+1。 README。md       → 仓库定位
+2。 prompts/INDEX。md → Prompts 仓库结构
+3。 registry/        → 可用资源索引
 
 输出：
-- 仓库功能概览
-- 可用资源地图
-- 快速导航路径
+— 仓库功能概览
+— 可用资源地图
+— 快速导航路径
 ```
 
 ### 第二步：构建任务地图
@@ -40,18 +40,18 @@
 
 ```
 执行扫描后，AI 应该知道：
-- 有哪些任务类型可用
-- 每种任务类型对应哪些 Prompts
-- 如何快速定位需要的资源
+— 有哪些任务类型可用
+— 每种任务类型对应哪些 Prompts
+— 如何快速定位需要的资源
 ```
 
 ### 第三步：理解路由机制
 
 ```
 AI 应该理解：
-1. 何时需要路由？（用户需求不明确时）
-2. 如何路由？（按 AI-ROUTING.md 的流程）
-3. 组合原则？（Prompts 组合规则）
+1。 何时需要路由？（用户需求不明确时）
+2。 如何路由？（按 AI—ROUTING。md 的流程）
+3。 组合原则？（Prompts 组合规则）
 ```
 
 ---
@@ -90,30 +90,30 @@ AI 应该理解：
 用户发起请求
     ↓
 ┌─────────────────────────────────────┐
-│ 1. 快速扫描仓库（如果还没做）          │
-│    - 读取 prompts/INDEX.md          │
-│    - 构建任务类型映射                 │
+│ 1。 快速扫描仓库（如果还没做）          │
+│    — 读取 prompts/INDEX。md          │
+│    — 构建任务类型映射                 │
 └─────────────────────────────────────┘
     ↓
 ┌─────────────────────────────────────┐
-│ 2. 理解用户需求                      │
-│    - 提取核心目标                    │
-│    - 识别隐含需求                    │
-│    - 判断复杂度                      │
+│ 2。 理解用户需求                      │
+│    — 提取核心目标                    │
+│    — 识别隐含需求                    │
+│    — 判断复杂度                      │
 └─────────────────────────────────────┘
     ↓
 ┌─────────────────────────────────────┐
-│ 3. 执行路由选择                      │
-│    - 判断任务类型                    │
-│    - 选择 Prompts                    │
-│    - 判断是否需要 Workflow           │
+│ 3。 执行路由选择                      │
+│    — 判断任务类型                    │
+│    — 选择 Prompts                    │
+│    — 判断是否需要 Workflow           │
 └─────────────────────────────────────┘
     ↓
 ┌─────────────────────────────────────┐
-│ 4. 组合执行                          │
-│    - 按顺序执行 Prompts             │
-│    - 必要时使用 tool-use             │
-│    - 使用 output prompt 格式化       │
+│ 4。 组合执行                          │
+│    — 按顺序执行 Prompts             │
+│    — 必要时使用 tool—use             │
+│    — 使用 output prompt 格式化       │
 └─────────────────────────────────────┘
     ↓
 返回结果给用户
@@ -144,21 +144,21 @@ AI 应在会话中记住：
 ### Q1：用户需求很模糊怎么办？
 
 ```
-使用 workflow/vague-request-to-action
+使用 workflow/vague—request—to—action
 先澄清问题，再确定任务类型
 ```
 
 ### Q2：不确定选哪个 Prompt？
 
 ```
-参考 prompts/_routing/select-relevant-prompts-from-index
-或使用 identify-task-type-and-route 让系统帮你选
+参考 prompts/_routing/select—relevant—prompts—from—index
+或使用 identify—task—type—and—route 让系统帮你选
 ```
 
 ### Q3：需要多个 Prompts 怎么组合？
 
 ```
-使用 prompts/_routing/compose-multiple-prompts-for-one-task
+使用 prompts/_routing/compose—multiple—prompts—for—one—task
 按单一职责、顺序传递、格式统一的原则组合
 ```
 
@@ -166,9 +166,9 @@ AI 应在会话中记住：
 
 ```
 优先扫描：
-1. prompts/INDEX.md        （必须）
-2. prompts/_routing/      （推荐）
-3. 对应任务类型的目录       （按需）
+1。 prompts/INDEX。md        （必须）
+2。 prompts/_routing/      （推荐）
+3。 对应任务类型的目录       （按需）
 
 其他内容：按需读取
 ```

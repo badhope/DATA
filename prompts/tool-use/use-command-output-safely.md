@@ -1,195 +1,387 @@
 ---
 id: prompt-tool-use-use-command-output-safely-v1
 name: Use Command Output Safely
-summary: 安全使用命令输出，强调在基于命令输出做决策前验证输出的完整性和正确性
+summary: 安全地分析命令输出，识别关键信息、错误信息和异常，避免忽略重要输出
 type: tool-use
 status: active
 version: "1.0.0"
 owner: skill-repository
 category: tool-use
-sub_category: command
+sub_category: output-analysis
 tags:
   - tool-use
-  - command
-  - output
-  - safety
-  - verification
+  - command-output
+  - error-analysis
+  - output-parsing
 keywords:
   - 命令输出
-  - 安全使用
-  - 验证
-  - 命令行
+  - 输出分析
+  - 错误识别
+  - 安全分析
 intent: |
-  用于在执行命令并获取输出后，强调验证输出的完整性和正确性，
-  再基于输出做出判断或决策。
+  安全地分析和解释命令输出，确保正确理解输出的含义。
+  强调不忽略错误信息，不误解输出格式，不过度解读正常输出。
+  核心原则：输出是证据，错误是关键，安全解读是责任。
 applicable_models:
   - "*"
-required_inputs:
+input_requirements:
   - command: string 执行的命令
   - raw_output: string 命令的原始输出
-  - context: string 执行上下文（可选）
-outputs:
-  - parsed_output: object 解析后的输出
-  - validation_results: object 验证结果
-  - issues_found: array 发现的问题
-  - safe_to_use: boolean 是否可以安全使用
-  - conclusions: array 基于输出的结论
-steps:
-  - id: 1
-    name: 记录命令执行上下文
-    action: |
-      1. 记录执行的命令
-      2. 记录执行时间和环境
-      3. 记录命令预期用途
+  - expected_behavior: string (可选) 期望的行为
+output_requirements:
+  - output_analysis: object 输出分析结果
+  - key_findings: array 关键发现
+  - errors_warnings: array 错误和警告
+  - conclusion: string 基于输出的结论
+  - confidence: string 分析置信度
+tool_requirements:
+  - Command execution tool
+  - Read tool (用于查看相关文件)
+preconditions:
+  - 已执行某个命令并获得输出
+anti_patterns:
+  - 只看成功输出，忽略错误信息
+  - 把 stderr 输出当作 stdout 处理
+  - 把格式化输出当作原始数据
+  - 过度解读正常输出
+failure_modes:
+  - 输出过长：聚焦关键信息，分段分析
+  - 输出复杂：识别输出格式和关键字段
+  - 错误信息不明确：提供上下文分析
+  - 多命令输出混淆：分离各命令的输出
+self_check: |
+  分析前自检：
+  □ 是否区分了 stdout 和 stderr？
+  □ 是否识别了所有错误和警告？
+  □ 是否理解了输出的格式？
+  □ 结论是否与输出内容一致？
+related_skills:
+  - tool-use-read-files-before-answering
+  - tool-use-search-before-concluding
+  - tool-use-combine-multiple-results
+related_workflows:
+  - workflow-bug-investigation
+  - workflow-tool-assisted-debug
+related_prompts:
+  - prompt-tool-use-read-files-before-answering
+  - prompt-tool-use-search-before-concluding
+---
 
-      上下文信息：
-      - 命令是什么
-      - 为什么执行这个命令
-      - 期望获得什么信息
-      - 在什么环境下执行
-    output: 执行上下文
+# Context
 
-  - id: 2
-    name: 验证输出完整性
-    action: |
-      检查输出的完整性：
-      1. **是否有截断**：输出是否完整
-      2. **是否有错误信息**：stderr 或 error
-      3. **是否有时效性**：输出是否还有效
-      4. **编码是否正确**：是否有乱码
+这是一个约束 AI 行为方式的工具类 prompt。它的核心目标是：**安全地分析和解读命令输出**。
 
-      完整性检查：
-      - [ ] 输出完整无截断
-      - [ ] 无明显错误信息
-      - [ ] 在有效期内
-      - [ ] 编码正确
+当需要分析以下类型的命令输出时，必须遵循此 prompt：
+- 构建命令输出（npm build, docker build, etc）
+- 测试命令输出（npm test, pytest, etc）
+- 部署命令输出
+- 系统命令输出（ps, top, df, etc）
+- API 请求输出
 
-      如果发现问题：
-      - 记录问题
-      - 判断是否需要重新执行
-    output: 完整性验证结果
+# Prompt Body
 
-  - id: 3
-    name: 解析输出
-    action: |
-      1. 理解输出的格式
-      2. 提取关键信息
-      3. 识别输出中的数据和元数据
+## 阶段 1：输出分类和分离
 
-      常见输出格式：
-      - **表格形式**：对齐的列
-      - **JSON 格式**：结构化数据
-      - **纯文本**：自由格式
-      - **树状结构**：层级关系
+### 1.1 输出类型识别
 
-      提取关键信息：
-      - 数值结果
-      - 状态信息
-      - 错误或警告
-      - 文件路径
-      - 标识符
-    output: 解析后的输出
+```markdown
+## 输出分类
 
-  - id: 4
-    name: 验证结果合理性
-    action: |
-      检查解析后的结果是否合理：
-      1. **值域检查**：值是否在合理范围内
-      2. **类型检查**：类型是否正确
-      3. **一致性检查**：是否与其他信息一致
-      4. **完整性检查**：是否包含所有必要字段
+### 输出类型判断
+| 类型 | 特征 | 处理方式 |
+|------|------|----------|
+| stdout | 标准输出，正常信息 | 直接分析 |
+| stderr | 错误输出，红色文字 | 重点关注 |
+| 混合输出 | 同时包含两者 | 分离后分析 |
 
-      合理性标准：
-      - 数值结果合理？
-      - 文件路径存在？
-      - 状态符合预期？
-      - 时间戳合理？
+### 分离策略
+```bash
+# 分离 stdout 和 stderr
+command > stdout.txt 2> stderr.txt
 
-      如果发现问题：
-      - 标记为可疑
-      - 需要进一步验证
-    output: 合理性验证结果
+# 只看 stderr
+command 2>&1 1>/dev/null | grep -i error
 
-  - id: 5
-    name: 处理异常和错误
-    action: |
-      识别并处理输出中的异常：
-      1. **命令错误**：命令本身有问题
-      2. **权限错误**：权限不足
-      3. **路径错误**：文件或目录不存在
-      4. **超时**：命令执行超时
-      5. **格式错误**：输出格式不符合预期
+# 只看退出码
+command; echo "Exit code: $?"
+```
+```
 
-      对每种错误：
-      - 分类错误类型
-      - 评估影响程度
-      - 决定如何处理
+### 1.2 输出格式识别
 
-      处理方式：
-      - 重试命令
-      - 修正命令后重试
-      - 标记为无法获取
-      - 尝试替代方法
-    output: 错误处理结果
+```markdown
+## 输出格式分析
 
-  - id: 6
-    name: 得出安全结论
-    action: |
-      基于验证后的输出：
-      1. 确定可以安全使用的结论
-      2. 标注不确定或有问题的部分
-      3. 给出置信度评估
+### 常见格式
+| 格式 | 特征 | 示例 |
+|------|------|------|
+| JSON | {"key": "value"} | API 响应 |
+| XML | <tag>content</tag> | SOAP 响应 |
+| 表格 | 列对齐，有分隔符 | ls -l, ps |
+| 纯文本 | 无固定格式 | echo, print |
+| 日志 | 时间戳+级别+消息 | 应用日志 |
+| 堆栈 | 多行，异常信息 | Error stack |
 
-      结论格式：
-      ```
-      结论：
-      - [结论1]: [依据]
-      - [结论2]: [依据]
+### 本输出格式识别
+**识别结果**: [格式类型]
+**依据**: [识别依据]
+```
 
-      不确定部分：
-      - [内容]: 原因
+## 阶段 2：错误和警告识别
 
-      置信度: [High/Medium/Low]
-      ```
-    output: 安全结论
+### 2.1 错误信息提取
 
-used_skills: []
-used_prompts: []
-decision_points:
-  - |
-    **如果输出为空**：
-    - 检查命令是否正确执行
-    - 可能是没有匹配结果
-    - 确认是否应该非空
+```markdown
+## 错误和警告提取
 
-  - |
-    **如果输出格式异常**：
-    - 可能是命令版本差异
-    - 可能是输出被截断
-    - 尝试解析能解析的部分
+### 错误识别
+```markdown
+## 识别的错误
 
-  - |
-    **如果结果不符合预期**：
-    - 命令可能执行了不同的操作
-    - 可能需要不同的命令
-    - 验证命令参数是否正确
+| # | 错误信息 | 严重度 | 来源位置 |
+|---|----------|--------|----------|
+| 1 | [错误1] | 严重/警告 | [位置] |
+| 2 | [错误2] | 严重/警告 | [位置] |
+```
 
-  - |
-    **如果命令执行失败**：
-    - 分析错误信息
-    - 修正命令
-    - 或标记无法获取
+### 警告识别
+```markdown
+## 识别的警告
 
-final_deliverables:
-  - 解析后的输出
-  - 验证结果
-  - 发现的问题
-  - 是否可以安全使用
-  - 基于输出的结论
+| # | 警告信息 | 影响 | 来源位置 |
+|---|----------|------|----------|
+| 1 | [警告1] | [影响] | [位置] |
+| 2 | [警告2] | [影响] | [位置] |
+```
 
-notes: |
-  - 核心原则：不盲目相信命令输出
-  - 验证输出的完整性和合理性
-  - 标注不确定的部分
-  - 异常和错误要明确处理
-  - 结论要有依据
+### 退出码分析
+```markdown
+## 退出码分析
+
+**退出码**: [代码]
+**含义**: [解释]
+**是否正常**: [是/否]
+```
+```
+
+### 2.2 错误上下文分析
+
+```markdown
+## 错误上下文分析
+
+### 错误 1: [错误摘要]
+**完整错误**:
+```
+[错误全文]
+```
+
+**上下文**:
+- 命令: [执行的命令]
+- 工作目录: [目录]
+- 时间: [时间]
+
+**可能原因**:
+1. [原因1]
+2. [原因2]
+
+**建议的进一步分析**:
+- [分析步骤1]
+- [分析步骤2]
+```
+
+## 阶段 3：关键信息提取
+
+### 3.1 成功信息分析
+
+```markdown
+## 成功信息分析
+
+### 关键成功指标
+| 指标 | 值 | 说明 |
+|------|-----|------|
+| [指标1] | [值] | [说明] |
+| [指标2] | [值] | [说明] |
+
+### 输出摘要
+```markdown
+[2-3 句话总结命令的主要输出内容]
+```
+```
+
+### 3.2 数据提取
+
+```markdown
+## 关键数据提取
+
+### 提取的数据
+| 字段 | 值 | 格式 |
+|------|-----|------|
+| [字段1] | [值] | [格式] |
+| [字段2] | [值] | [格式] |
+
+### 数据验证
+- [ ] 数据格式是否符合预期？
+- [ ] 数据值是否在合理范围内？
+- [ ] 数据是否与上下文一致？
+```
+
+## 阶段 4：综合分析和结论
+
+### 4.1 综合分析
+
+```markdown
+## 综合分析
+
+### 整体状态评估
+**状态**: [成功/部分成功/失败]
+
+### 分析摘要
+```markdown
+[分析的主要发现]
+```
+
+### 输出可信度
+| 因素 | 评估 |
+|------|------|
+| 输出完整性 | [1-5] |
+| 错误处理 | [1-5] |
+| 数据一致性 | [1-5] |
+| **整体可信度** | **高/中/低** |
+```
+```
+
+### 4.2 结论和后续建议
+
+```markdown
+## 结论
+
+### 基于输出的结论
+[明确的结论]
+
+### 置信度
+**置信度**: [高/中/低]
+
+**依据**:
+- [依据1]
+- [依据2]
+
+### 后续建议
+1. [建议1]
+2. [建议2]
+
+### 需要进一步验证
+- [需要验证的点]
+```
+
+## 阶段 5：输出报告生成
+
+```markdown
+## 输出分析报告
+
+### 命令信息
+| 项目 | 内容 |
+|------|------|
+| 命令 | [执行的命令] |
+| 退出码 | [码] |
+| 执行时间 | [时间] |
+| 工作目录 | [目录] |
+
+### 输出分类
+| 类型 | 行数 | 占比 |
+|------|------|------|
+| 正常输出 | [数量] | [百分比] |
+| 错误输出 | [数量] | [百分比] |
+| 警告 | [数量] | [百分比] |
+
+### 关键发现
+1. [发现1]
+2. [发现2]
+
+### 错误摘要
+```yaml
+errors:
+  - message: "[错误信息]"
+    severity: "[严重度]"
+    line: "[行号]"
+  warnings:
+    - message: "[警告信息]"
+      impact: "[影响]"
+      line: "[行号]"
+```
+
+### 结论
+[结论]
+
+### 后续行动
+1. [行动1]
+2. [行动2]
+
+## 自检清单
+- [ ] 是否分离了 stdout 和 stderr？
+- [ ] 是否识别了所有错误和警告？
+- [ ] 是否正确理解了输出格式？
+- [ ] 结论是否与输出一致？
+- [ ] 是否避免了过度解读？
+```
+
+# Variables
+
+| 变量 | 说明 | 示例 |
+|------|------|------|
+| `command` | 执行的命令 | `npm run build` |
+| `raw_output` | 命令输出 | (实际输出内容) |
+| `expected_behavior` | 期望行为 | `构建成功，无错误` |
+
+# Usage Notes
+
+1. **分离输出**：区分 stdout 和 stderr
+2. **错误优先**：先关注错误和警告
+3. **格式理解**：理解输出格式再解读
+4. **上下文**：考虑命令和环境的上下文
+5. **保守解读**：不确定时保守解读
+
+# Example Input
+
+```yaml
+command: "npm test"
+raw_output: |
+  PASS  tests/unit/user.test.js
+  PASS  tests/unit/order.test.js
+  FAIL  tests/unit/payment.test.js
+  Error: expect(received).toBe(expected)
+  
+  Expected: 200
+  Received: 500
+expected_behavior: "所有测试通过"
+```
+
+# Example Output
+
+```yaml
+output_analysis:
+  total_lines: 45
+  stdout_lines: 42
+  stderr_lines: 3
+  exit_code: 1
+
+errors_warnings:
+  - type: "test_failure"
+    severity: "high"
+    message: "tests/unit/payment.test.js failed"
+    test: "PaymentService.processPayment"
+    expected: 200
+    received: 500
+    stack: "Error: expect(received).toBe(expected)"
+    line: 23
+
+key_findings:
+  - "2/3 测试套件通过"
+  - "payment.test.js 中 PaymentService.processPayment 测试失败"
+  - "测试期望返回 200，实际返回 500"
+
+conclusion: |
+  测试失败，PaymentService.processPayment 在处理支付时返回错误状态码 500。
+  需要检查支付服务的错误处理逻辑。
+
+confidence: "high"
+```

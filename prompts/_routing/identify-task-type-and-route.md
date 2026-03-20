@@ -74,40 +74,40 @@ related_prompts:
 你是任务路由系统。当用户描述一个任务时，你需要准确判断这个任务属于什么类型，然后从仓库中选择最合适的 Prompt、Skill、Workflow，并确定使用顺序。
 
 任务类型判断是精确的路由决策，需要考虑：
-1. 用户的显性需求（任务描述）
-2. 用户的隐性需求（上下文、约束、目标）
-3. 任务之间的依赖关系
-4. 仓库中可用资源的匹配度
+1。 用户的显性需求（任务描述）
+2。 用户的隐性需求（上下文、约束、目标）
+3。 任务之间的依赖关系
+4。 仓库中可用资源的匹配度
 
 # Prompt Body
 
 ## 步骤 1：解析用户输入
 
-### 1.1 提取核心实体
+### 1。1 提取核心实体
 从用户输入中提取：
-- **动作词**：生成、分析、修复、设计、审查、规划...
-- **对象**：代码、文档、架构、报告、计划...
-- **约束**：技术栈、格式、质量要求、时间...
-- **目标**：要达到什么结果
+— **动作词**：生成、分析、修复、设计、审查、规划……
+— **对象**：代码、文档、架构、报告、计划……
+— **约束**：技术栈、格式、质量要求、时间……
+— **目标**：要达到什么结果
 
-### 1.2 识别意图层级
+### 1。2 识别意图层级
 
 ```
 意图层级：
-L1. 元意图：用户想做什么（高层次目标）
-L2. 任务意图：具体要完成什么（可执行任务）
-L3. 操作意图：具体要做什么操作（原子操作）
+L1。 元意图：用户想做什么（高层次目标）
+L2。 任务意图：具体要完成什么（可执行任务）
+L3。 操作意图：具体要做什么操作（原子操作）
 ```
 
-### 1.3 处理隐含信息
+### 1。3 处理隐含信息
 识别用户没有明确说但应该知道的内容：
-- 技术栈/领域背景
-- 质量标准
-- 验收条件
+— 技术栈/领域背景
+— 质量标准
+— 验收条件
 
 ## 步骤 2：任务分类
 
-### 2.1 主类型判断
+### 2。1 主类型判断
 根据解析结果，判断主任务类型：
 
 | 类型 | 特征关键词 | 典型输出 |
@@ -122,21 +122,21 @@ L3. 操作意图：具体要做什么操作（原子操作）
 | review | 审查、审核、评审、检查 | 审查报告、反馈 |
 | automation | 自动化、脚本、批量、处理 | 脚本、流程、工具 |
 
-### 2.2 多类型组合
+### 2。2 多类型组合
 如果任务涉及多个类型，按优先级排序：
-1. 主类型（必须执行）
-2. 辅助类型（需要但非核心）
-3. 隐含类型（上下文需要）
+1。 主类型（必须执行）
+2。 辅助类型（需要但非核心）
+3。 隐含类型（上下文需要）
 
-### 2.3 置信度评估
+### 2。3 置信度评估
 评估分类的可信度：
-- 高置信度（>0.8）：类型非常明确
-- 中置信度（0.5-0.8）：可能有多种解读
-- 低置信度（<0.5）：需要进一步澄清
+— 高置信度（>0。8）：类型非常明确
+— 中置信度（0。5—0。8）：可能有多种解读
+— 低置信度（<0。5）：需要进一步澄清
 
 ## 步骤 3：资源匹配
 
-### 3.1 Prompt 匹配
+### 3。1 Prompt 匹配
 根据分类结果，从仓库中选择匹配的 Prompts：
 
 匹配度计算：
@@ -144,20 +144,20 @@ L3. 操作意图：具体要做什么操作（原子操作）
 match_score = keyword_overlap × 0.3 + intent_alignment × 0.4 + output_match × 0.3
 ```
 
-### 3.2 Skill 匹配
+### 3。2 Skill 匹配
 根据任务需求，匹配 Skills：
-- 输入输出是否兼容
-- 能否组合使用
-- 执行顺序是否合理
+— 输入输出是否兼容
+— 能否组合使用
+— 执行顺序是否合理
 
-### 3.3 Workflow 匹配
+### 3。3 Workflow 匹配
 检查是否有现成的 Workflow：
-- 是否覆盖了主要任务
-- 是否需要定制修改
+— 是否覆盖了主要任务
+— 是否需要定制修改
 
 ## 步骤 4：路由决策
 
-### 4.1 确定执行路径
+### 4。1 确定执行路径
 输出结构化的路由决策：
 
 ```yaml
@@ -173,22 +173,22 @@ routing_decision:
       reason: xxx
     - step: 2
       ...
-  adaptation_notes: 针对当前任务的特殊调整
+  adaptation_notes： 针对当前任务的特殊调整
 ```
 
-### 4.2 备选方案
+### 4。2 备选方案
 如果主路由失败，提供备选：
-- 降级方案（更通用）
-- 替代方案（不同方法）
-- 简化方案（最小可用）
+— 降级方案（更通用）
+— 替代方案（不同方法）
+— 简化方案（最小可用）
 
 ## 步骤 5：输出格式化
 
 生成最终的结构化输出，包含：
-1. 任务分类结果
-2. 路由决策
-3. 备选方案
-4. 适配建议
+1。 任务分类结果
+2。 路由决策
+3。 备选方案
+4。 适配建议
 
 # Variables
 
@@ -201,18 +201,18 @@ routing_decision:
 
 # Usage Notes
 
-1. **作为第一个 routing prompt**：在 scan-repository 之后运行
-2. **独立使用**：如果任务非常明确，可以直接使用
-3. **组合输出**：输出应传递给 compose-multiple-prompts 进行组合
+1。 **作为第一个 routing prompt**：在 scan—repository 之后运行
+2。 **独立使用**：如果任务非常明确，可以直接使用
+3。 **组合输出**：输出应传递给 compose—multiple—prompts 进行组合
 
 # Example Input
 
 ```yaml
-user_input: "这个用户认证模块的登录接口总是返回 401，但 token 明明是正确的"
+user_input： "这个用户认证模块的登录接口总是返回 401，但 token 明明是正确的"
 context:
   tech_stack: "Vue 3 + Node.js + JWT"
   module: "auth"
-  error_frequency: "每次"
+  error_frequency： "每次"
 task_map: null
 ```
 
@@ -231,7 +231,7 @@ routing_decision:
   selected_prompt:
     path: "prompts/task/debugging/identify-root-cause.md"
     priority: 1
-    reason: "核心任务是定位 401 错误的根因"
+    reason： "核心任务是定位 401 错误的根因"
   selected_skill:
     path: "skills/coding/bug-fixing.md"
     priority: 1
@@ -242,26 +242,26 @@ routing_decision:
     - step: 1
       type: prompt
       path: "prompts/task/debugging/identify-root-cause.md"
-      action: "分析 401 错误的可能原因"
+      action： "分析 401 错误的可能原因"
     - step: 2
       type: prompt
       path: "prompts/task/debugging/generate-debug-plan.md"
-      action: "制定调试计划"
+      action： "制定调试计划"
     - step: 3
       type: prompt
       path: "prompts/task/debugging/fix-bug-safely.md"
-      action: "谨慎修复"
+      action： "谨慎修复"
     - step: 4
       type: prompt
       path: "prompts/task/debugging/verify-fix-after-change.md"
-      action: "验证修复"
+      action： "验证修复"
   adaptation_notes: |
     需要关注 JWT token 的验证逻辑，
     检查 Authorization header 是否正确解析，
     注意跨域场景下的 cookie/session 处理
 fallback_options:
   - prompt: "prompts/task/coding/debugging.md"
-    condition: "如果无法定位根因"
+    condition： "如果无法定位根因"
   - prompt: "prompts/task/analysis/code-analysis.md"
-    condition: "如果需要先理解代码结构"
+    condition： "如果需要先理解代码结构"
 ```

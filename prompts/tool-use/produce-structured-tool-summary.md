@@ -1,200 +1,390 @@
 ---
 id: prompt-tool-use-produce-structured-tool-summary-v1
 name: Produce Structured Tool Summary
-summary: 生成结构化工具摘要，强调在复杂任务后整理和归纳工具使用结果
+summary: 将工具执行结果结构化输出，确保信息清晰、易于理解和后续使用
 type: tool-use
 status: active
 version: "1.0.0"
 owner: skill-repository
 category: tool-use
-sub_category: summary
+sub_category: output-formatting
 tags:
   - tool-use
+  - output-format
   - summary
-  - structured
-  - documentation
-  - organize
+  - structure
 keywords:
-  - 结构化摘要
-  - 工具总结
+  - 工具输出
+  - 结构化输出
   - 结果整理
-  - 文档化
+  - 摘要生成
 intent: |
-  用于在完成复杂的多步骤工具使用任务后，
-  系统性地整理和归纳工具使用的过程和结果，生成结构化的摘要。
+  将工具执行结果转换为结构化的摘要输出，确保信息清晰、可追溯、易于理解。
+  强调工具输出必须结构化，而不是简单的原始文本堆砌。
+  核心原则：结构化输出，清晰表达，便于后续使用。
 applicable_models:
   - "*"
-required_inputs:
-  - task_objective: string 任务目标
-  - tool_usages: array 工具使用记录
-  - results: array 各工具的结果
-  - final_outcome: string 最终结果
-outputs:
-  - summary_structure: object 结构化摘要
-  - key_findings: array 关键发现
-  - data_collected: array 收集的数据
-  - issues_encountered: array 遇到的问题
-  - recommendations: array 建议
-steps:
-  - id: 1
-    name: 整理工具使用记录
-    action: |
-      1. 收集所有工具使用的记录
-      2. 按执行顺序排列
-      3. 记录每个工具的输入输出
+input_requirements:
+  - tool_name: string 工具名称
+  - raw_output: string 原始输出
+  - context: string 执行上下文
+output_requirements:
+  - summary: object 结构化摘要
+  - key_points: array 关键点
+  - structured_output: string 结构化输出
+  - metadata: object 元数据
+tool_requirements:
+  - Any tool output
+preconditions:
+  - 有工具执行结果需要整理
+anti_patterns:
+  - 直接输出原始文本
+  - 不区分主次信息
+  - 输出过于冗长
+  - 缺少关键元数据
+failure_modes:
+  - 输出过长：提取关键信息，摘要呈现
+  - 信息碎片化：整合相关联的信息
+  - 格式混乱：统一输出格式
+  - 缺少上下文：补充执行上下文
+self_check: |
+  输出前自检：
+  □ 是否提取了关键信息？
+  □ 是否结构化了输出内容？
+  □ 是否补充了必要的上下文？
+  □ 是否便于后续使用？
+related_skills:
+  - tool-use-read-files-before-answering
+  - tool-use-combine-multiple-results
+  - tool-use-use-command-output-safely
+related_workflows:
+  - workflow-change-verify-report
+  - workflow-feature-implementation
+related_prompts:
+  - prompt-tool-use-read-files-before-answering
+  - prompt-tool-use-combine-multiple-results
+---
 
-      记录格式：
-      ```markdown
-      步骤 [N]: [工具名称]
-      - 输入: [使用的输入]
-      - 输出: [输出摘要]
-      - 结果: [成功/失败/部分成功]
-      ```
-    output: 工具使用时间线
+# Context
 
-  - id: 2
-    name: 提取关键发现
-    action: |
-      从各工具结果中提取关键发现：
-      1. 逐个回顾工具输出
-      2. 识别关键信息点
-      3. 排除噪音和不相关信息
-      4. 按重要性排序
+这是一个约束 AI 行为方式的工具类 prompt。它的核心目标是：**将工具执行结果结构化输出**。
 
-      发现分类：
-      - **直接答案**：直接回答问题的信息
-      - **证据**：支持结论的数据
-      - **新信息**：扩展认知的信息
-      - **问题**：发现的新问题
+当需要整理以下类型的工具输出时，必须遵循此 prompt：
+- 文件读取结果
+- 搜索结果
+- 命令执行结果
+- API 调用结果
+- 复杂分析结果
 
-      对每个发现：
-      - 描述发现内容
-      - 标注来源（哪个工具）
-      - 评估可信度
-    output: 关键发现列表
+# Prompt Body
 
-  - id: 3
-    name: 整理收集的数据
-    action: |
-      1. 收集所有结构化数据
-      2. 去除重复
-      3. 按类型分类
-      4. 整理成表格或列表
+## 阶段 1：信息提取
 
-      数据分类：
-      - **配置数据**：设置和参数
-      - **状态数据**：当前状态
-      - **统计信息**：数量、数值
-      - **关系数据**：文件、模块关系
+### 1.1 原始信息分析
 
-      格式选择：
-      - 适合表格的用表格
-      - 适合列表的用列表
-      - 适合树的用树形结构
-    output: 整理后的数据
+```markdown
+## 原始信息分析
 
-  - id: 4
-    name: 总结遇到的问题
-    action: |
-      1. 回顾工具使用过程中遇到的问题
-      2. 分析问题的原因
-      3. 记录解决方案（如有）
+### 信息类型识别
+| 类型 | 特征 | 提取方式 |
+|------|------|----------|
+| 文件内容 | 代码/文本 | 提取关键部分 |
+| 搜索结果 | 多文件匹配 | 分类整理 |
+| 命令输出 | 结构化文本 | 解析格式 |
+| API 响应 | JSON/XML | 提取字段 |
+| 分析结果 | 混合信息 | 归纳整理 |
 
-      问题分类：
-      - **执行问题**：工具无法执行
-      - **输出问题**：输出不符合预期
-      - **理解问题**：对输出理解有误
-      - **技术问题**：环境或权限问题
+### 信息量评估
+| 指标 | 值 | 说明 |
+|------|-----|------|
+| 总行数 | [数量] | 输出总行数 |
+| 有效信息行 | [数量] | 包含有效信息的行 |
+| 关键信息行 | [数量] | 包含关键信息的行 |
+| 冗余信息行 | [数量] | 可以忽略的行 |
+```
+```
 
-      对每个问题：
-      - 描述问题
-      - 分析原因
-      - 解决方案
-      - 预防建议
-    output: 问题总结
+### 1.2 关键信息提取
 
-  - id: 5
-    name: 生成结构化摘要
-    action: |
-      整合以上内容，生成结构化摘要：
+```markdown
+## 关键信息提取
 
-      ```markdown
-      # 工具使用摘要
+### 必须保留的信息
+| # | 信息 | 来源 | 重要性 |
+|---|------|------|--------|
+| 1 | [信息1] | [位置] | P0 |
+| 2 | [信息2] | [位置] | P1 |
 
-      ## 任务目标
-      [简要描述]
+### 可以省略的信息
+| # | 信息 | 省略原因 |
+|---|------|----------|
+| 1 | [信息1] | [原因] |
 
-      ## 执行概览
-      - 使用的工具数量：[N]
-      - 总执行时间：[如适用]
-      - 成功率：[X/Y]
+### 需要补充的上下文
+- [ ] [上下文1]
+- [ ] [上下文2]
+```
 
-      ## 关键发现
-      1. [发现1]
-      2. [发现2]
-      ...
+## 阶段 2：结构化组织
 
-      ## 数据汇总
-      [整理后的关键数据]
+### 2.1 信息分类
 
-      ## 遇到的问题
-      [问题及解决方案]
+```markdown
+## 信息分类
 
-      ## 结论
-      [最终结论]
+### 分类结果
+| 类别 | 信息项数 | 说明 |
+|------|----------|------|
+| 配置信息 | [数量] | 配置文件相关 |
+| 代码信息 | [数量] | 源代码相关 |
+| 依赖信息 | [数量] | 依赖相关 |
+| 文档信息 | [数量] | 文档相关 |
+| 其他 | [数量] | 其他类型 |
+```
 
-      ## 建议
-      [如有时]
-      ```
-    output: 结构化摘要
+### 2.2 结构化重组
 
-  - id: 6
-    name: 审核和完善
-    action: |
-      1. 检查摘要的完整性
-      2. 确保关键信息不遗漏
-      3. 检查逻辑连贯性
-      4. 优化表达
+```markdown
+## 结构化重组
 
-      检查项：
-      - [ ] 任务目标明确？
-      - [ ] 关键发现完整？
-      - [ ] 数据整理清晰？
-      - [ ] 问题总结准确？
-      - [ ] 结论有依据？
-    output: 最终摘要
+### 输出结构
+```yaml
+summary:
+  title: "[摘要标题]"
+  type: "[类型]"
+  key_findings:
+    - "[关键发现1]"
+    - "[关键发现2]"
+  details:
+    "[详细信息的结构化呈现]"
+  metadata:
+    source: "[来源]"
+    timestamp: "[时间]"
+    context: "[上下文]"
+```
+```
 
-used_skills: []
-used_prompts: []
-decision_points:
-  - |
-    **如果工具有失败**：
-    - 明确标注失败及原因
-    - 说明是否影响最终结论
-    - 是否需要重试
+## 阶段 3：摘要生成
 
-  - |
-    **如果数据不一致**：
-    - 指出不一致之处
-    - 分析可能的原因
-    - 提供可能的解释
+### 3.1 执行摘要
 
-  - |
-    **如果发现新问题**：
-    - 记录发现过程
-    - 评估是否与原任务相关
-    - 建议后续处理
+```markdown
+## 执行摘要
 
-final_deliverables:
-  - 结构化摘要
-  - 关键发现列表
-  - 收集的数据
-  - 遇到的问题
-  - 建议（如有）
+### 摘要内容
+```markdown
+[2-3 句话概括工具执行结果]
 
-notes: |
-  - 核心原则：整理比堆砌更重要
-  - 关键信息突出，噪音去除
-  - 结构清晰，便于阅读
-  - 问题诚实记录，不掩盖
-  - 结论基于证据
+**关键发现**:
+1. [发现1]
+2. [发现2]
+3. [发现3]
+```
+
+### 状态评估
+| 评估项 | 结果 |
+|--------|------|
+| 执行状态 | [成功/失败/部分成功] |
+| 信息完整度 | [完整/部分/不足] |
+| 可信度 | [高/中/低] |
+```
+```
+
+### 3.2 详细摘要
+
+```markdown
+## 详细摘要
+
+### 主要内容
+```markdown
+## [主题]
+
+### 1. [小标题]
+[内容]
+
+### 2. [小标题]
+[内容]
+```
+
+### 关键数据
+| 指标 | 值 |
+|------|-----|
+| [指标1] | [值] |
+| [指标2] | [值] |
+```
+
+## 阶段 4：元数据整理
+
+### 4.1 元数据提取
+
+```markdown
+## 元数据
+
+### 来源信息
+| 项目 | 值 |
+|------|-----|
+| 工具名称 | [名称] |
+| 执行时间 | [时间] |
+| 文件路径 | [路径] |
+| 上下文 | [上下文] |
+
+### 处理信息
+| 项目 | 值 |
+|------|-----|
+| 原始行数 | [数量] |
+| 处理后行数 | [数量] |
+| 压缩比 | [比例] |
+```
+```
+
+### 4.2 可追溯性
+
+```markdown
+## 可追溯性
+
+### 原始数据引用
+| # | 位置 | 内容摘要 |
+|---|------|----------|
+| 1 | [行号/位置] | [摘要] |
+
+### 处理过程
+1. [步骤1]
+2. [步骤2]
+3. [步骤3]
+```
+
+## 阶段 5：最终输出
+
+### 5.1 标准格式
+
+```markdown
+# 工具执行结果摘要
+
+## 基本信息
+| 项目 | 内容 |
+|------|------|
+| 工具 | [工具名称] |
+| 执行时间 | [时间] |
+| 上下文 | [上下文] |
+
+## 执行摘要
+[2-3 句话概括]
+
+## 关键发现
+1. [发现1]
+2. [发现2]
+3. [发现3]
+
+## 详细信息
+[结构化的详细内容]
+
+## 元数据
+```yaml
+[元数据内容]
+```
+
+## 可追溯性
+[原始数据位置和引用]
+```
+```
+
+### 5.2 简化格式
+
+```markdown
+## 工具结果摘要
+
+**工具**: [名称]
+**状态**: [状态]
+**关键发现**:
+- [发现1]
+- [发现2]
+**详细**: [详细信息的链接或位置]
+```
+
+## 自检清单
+
+- [ ] 是否提取了关键信息？
+- [ ] 是否结构化了输出内容？
+- [ ] 是否补充了必要的上下文？
+- [ ] 是否包含了元数据？
+- [ ] 是否便于后续使用？
+- [ ] 是否保持了可追溯性？
+
+# Variables
+
+| 变量 | 说明 | 示例 |
+|------|------|------|
+| `tool_name` | 工具名称 | `Read tool` |
+| `raw_output` | 原始输出 | (实际输出) |
+| `context` | 执行上下文 | `分析用户认证模块` |
+
+# Usage Notes
+
+1. **结构化**：输出必须有清晰的结构
+2. **分层**：区分主次信息，层次分明
+3. **可追溯**：保留对原始数据的引用
+4. **简洁**：提取关键，避免冗余
+5. **可用**：输出要便于后续使用
+
+# Example Input
+
+```yaml
+tool_name: "Read tool"
+raw_output: |
+  // user.service.ts
+  import { Injectable } from '@nestjs/common';
+  import { UserRepository } from './user.repository';
+  import { CreateUserDto } from './dto/create-user.dto';
+
+  @Injectable()
+  export class UserService {
+    constructor(private readonly userRepository: UserRepository) {}
+
+    async create(createUserDto: CreateUserDto) {
+      const user = this.userRepository.create(createUserDto);
+      return this.userRepository.save(user);
+    }
+
+    async findAll() {
+      return this.userRepository.find();
+    }
+  }
+context: "分析用户服务模块"
+```
+
+# Example Output
+
+```yaml
+summary:
+  title: "用户服务模块分析"
+  type: "file_content"
+  key_findings:
+    - "UserService 使用 NestJS @Injectable 装饰器"
+    - "依赖 UserRepository 进行数据操作"
+    - "提供 create 和 findAll 两个方法"
+    - "使用 DTO 模式处理创建用户请求"
+  details:
+    class_name: "UserService"
+    decorators:
+      - "@Injectable()"
+    dependencies:
+      - name: "UserRepository"
+        type: "constructor injection"
+    methods:
+      - name: "create"
+        params: "CreateUserDto"
+        returns: "Promise<User>"
+      - name: "findAll"
+        params: "none"
+        returns: "Promise<User[]>"
+    imports:
+      - "@nestjs/common"
+      - "./user.repository"
+      - "./dto/create-user.dto"
+  metadata:
+    source: "src/user/user.service.ts"
+    line_count: 15
+    language: "TypeScript"
+    framework: "NestJS"
+    timestamp: "2024-01-15T10:30:00Z"
+```

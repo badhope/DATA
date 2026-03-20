@@ -2,7 +2,190 @@
 
 All notable changes to this repository will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+The format is based on [Keep a Changelog](https://keepachangelog.com/en-GB/1.0.0/).
+
+## [v1.1.0] - 2026-03-20
+
+### Added
+
+#### Prompts Expansion - Batch 3B (User-Style-Adaptation + Long-Term-Assistant)
+- **8 User-Style-Adaptation Prompts** in `prompts/general/user-style-adaptation/`:
+  - detect-user-style-and-adapt-tone, adapt-response-structure-to-user-preference
+  - align-detail-level-with-user-expectation, infer-user-output-format-preference
+  - maintain-consistent-style-across-session, refine-style-based-on-user-feedback
+  - avoid-style-drift-over-time, personalize-communication-without-losing-clarity
+
+- **8 Long-Term-Assistant Prompts** in `prompts/general/long-term-assistant/`:
+  - act-as-consistent-long-term-collaborator, preserve-user-goals-across-iterations
+  - maintain-project-continuity-over-time, summarize-progress-before-next-step
+  - remind-and-realign-when-goals-drift, convert-ongoing-conversation-into-working-memory
+  - optimize-collaboration-style-over-time, support-multi-session-task-continuity
+
+#### Prompts Expansion - Batch 4 (Creative-Special + Personal + Reflection + Learning-Support)
+- **10 Creative-Special Prompts** in `prompts/general/creative-special/`:
+  - create-anime-style-companion-role, create-fantasy-world-character-role
+  - create-sci-fi-assistant-persona, create-gentle-companion-persona
+  - create-tsundere-style-safe-roleplay, create-dramatic-dialogue-partner
+  - create-worldbuilding-guide-character, compare-controversial-topics-multi-perspective
+  - analyze-sensitive-topic-safely, reframe-sensitive-user-request-into-safe-creative-task
+
+- **6 Personal Prompts** in `prompts/general/personal/`:
+  - act-as-daily-life-assistant, help-organize-personal-tasks
+  - support-lightweight-daily-conversation, turn-chaotic-thoughts-into-clear-notes
+  - provide-gentle-structured-life-planning, help-maintain-personal-routine
+
+- **6 Reflection Prompts** in `prompts/general/reflection/`:
+  - guide-daily-reflection, summarize-what-went-well-and-what-did-not
+  - turn-experience-into-actionable-lessons, structure-self-review-without-self-attack
+  - identify-patterns-in-repeated-problems, create-next-step-improvement-plan
+
+- **8 Learning-Support Prompts** in `prompts/general/learning-support/`:
+  - explain-complex-topic-step-by-step, adapt-teaching-style-to-learner-level
+  - generate-learning-plan-for-topic, quiz-user-to-check-understanding
+  - turn-notes-into-study-guide, identify-knowledge-gaps
+  - support-learning-by-iteration, summarize-what-to-review-next
+
+#### Registry System Updates
+- `prompts-registry.yaml`: Added all 46 new prompts (Batch 3B + Batch 4) with complete metadata
+- `routes-registry.yaml`: Added 5 new routes (personal, reflection, learning, creative, style-adaptation, long-term)
+- `tags-registry.yaml`: Added 70+ new tags in 5 groups (general, personal, reflection, learning, creative)
+- `INDEX.md`: Updated prompt count from 86 to 132, added all new module categories
+
+#### AI Documentation Updates
+- `AI-BOOTSTRAP.md`: Verified and confirmed accurate references
+- `AI-USAGE.md`: Verified and confirmed accurate references
+- `AI-ROUTING.md`: Updated with new route mappings for personal/reflection/learning/creative tasks
+
+### Changed
+
+- Version date updated from 2026-03-19 to 2026-03-20
+- Statistics updated: Prompts 86 → 132
+- All main documentation files now reference v1.1.0 (2026-03-20)
+
+### Known Issues / Pending Items
+
+- All planned v1.1.0 prompts are now complete
+- Registry synchronization complete
+- Route coverage expanded to handle new task types
+
+### Security
+
+- No security vulnerabilities reported in this release
+
+---
+
+## [v1.1.0] - 2026-03-20 - Final Release Fix
+
+### Fixed
+
+#### Route Configuration (P-002)
+- Added missing route for `refactoring` module with 8 prompts
+- Added missing route for `testing` module with 8 prompts
+- Added missing route for `engineering-planning` module with 8 prompts
+- Added missing route for `documentation-for-code` module with 6 prompts
+- All routes include: trigger_patterns (zh/en), task_type, first_step logic, required_questions, recommended_prompts/skills/workflows
+
+#### Anime Prompt ID Standardization (P-003)
+- Unified anime-related prompt ID: `prompt-general-creative-special-anime-v1`
+- Updated file: `prompt-general-creative-special-create-anime-style-companion-role.md`
+- Synchronized all references in:
+  - `prompt-general-creative-special-create-tsundere-style-safe-roleplay.md`
+  - `prompt-general-creative-special-create-gentle-companion-persona.md`
+  - `prompt-general-creative-special-create-sci-fi-assistant-persona.md`
+  - `prompt-general-creative-special-create-fantasy-world-character-role.md`
+
+#### INDEX Statistics Update (P-004)
+- Added missing categories to INDEX.md:
+  - Task/Refactoring (8 prompts)
+  - Task/Testing (8 prompts)
+  - Task/Engineering-Planning (8 prompts)
+  - Task/Documentation-For-Code (6 prompts)
+- Updated prompt count table to reflect complete v1.1.0 structure
+
+#### Route Skill Reference Fix
+- Removed invalid `skill-documentation-for-code` reference from documentation route
+- Replaced with `skill-coding` and `skill-repo-analysis`
+- Added `skill-planning` to refactoring route
+
+#### Documentation Synchronization
+- All route references verified against actual files
+- All registry entries verified against actual paths
+- No dangling references remain
+
+---
+
+## [v1.1.0] - 2026-03-19
+
+### Added
+
+#### Prompts Expansion
+- **33+ new/updated Prompts** in `task/coding/`:
+  - Added: generate-code-with-error-handling, compare-two-implementations
+  - Added: align-project-style, improve-maintainability, improve-readability
+  - Added: patch-for-scenario, adapt-to-new-requirement, add-feature-without-breaking
+  - Added: modify-with-minimal-change, implement-todo-safely, complete-function-based-on-context
+  - Added: fill-missing-implementation, continue-partially-written-code, turn-task-into-code-plan
+  - Added: generate-from-interface, convert-pseudocode-to-code, write-based-on-project-pattern
+  - Updated: All existing coding prompts now have complete frontmatter and Example Input/Output sections
+
+- **20 Debugging Prompts** (complete Batch 1B):
+  - identify-root-cause, classify-problem-type, summarize-bug-symptoms
+  - detect-most-likely-failure-source, generate-debug-plan, prioritize-debugging-steps
+  - decide-what-to-check-first, create-minimal-debugging-checklist, propose-minimal-risk-fix
+  - patch-without-unnecessary-refactor, fix-bug-safely, fix-issue-under-constraints
+  - analyze-stack-trace, analyze-error-log, reproduce-and-isolate-bug
+  - trace-failure-through-codebase, debug-configuration-issue, debug-environment-problem
+  - detect-regression-risk, verify-fix-after-change
+
+#### Registry System Updates
+- `prompts-registry.yaml`: Updated all debugging prompt IDs and paths to new `prompt-debugging-*` prefix
+- `routes-registry.yaml`: Added all 20 debugging prompts to debugging route
+- `relations-registry.yaml`: Synchronized all debugging-related relations to new prompt IDs
+- `skills-registry.yaml`: Updated related_prompts references for debugging skills
+
+#### AI Documentation Updates
+- `AI-BOOTSTRAP.md`: Verified and confirmed accurate references
+- `AI-USAGE.md`: Verified and confirmed accurate references
+- `AI-ROUTING.md`: Verified and confirmed accurate references
+- System prompts updated with new debugging prompt references
+
+### Fixed
+
+#### Naming Convention Unification
+- All debugging prompts now use `prompt-debugging-*` prefix consistently
+- All registry entries updated from `prompt-task-debugging-*` to `prompt-debugging-*`
+- All route references updated to use new naming convention
+- All relation references updated to use new naming convention
+- All documentation (INDEX, README, AI docs) synchronized
+
+#### Path Synchronization
+- `INDEX.md`: Updated all debugging prompt paths and added all 20 prompts to listing
+- `INDEX.md`: Updated prompt count from 47+ to 80+, debugging from 4 to 20
+- `INDEX.md`: Version updated from v1.0.0 to v1.1.0
+- `README.md`: Updated version badge to v1.1.0, prompt count to 80+
+- `README.zh-CN.md`: Updated version badge to v1.1.0, prompt count to 80+
+
+#### File Organization
+- `.trae/skills/`: Confirmed as legacy/Apache-2.0 licensed, not part of canonical structure
+- `skills/`: Confirmed as the only canonical skills directory
+- No `.trae/skills/` references in registries or official documentation (only in LICENSE)
+
+### Changed
+
+- Version bumped from v1.0.0 to v1.1.0
+- Statistics updated to reflect actual counts (80+ prompts, 20 debugging, 21 coding)
+- All main documentation files now reference v1.1.0
+
+### Known Issues / Pending Items
+
+- `coding-review-code-quality.md` and `coding-review-code-for-quality.md` are functionally similar but have different content structure. Consolidation decision deferred to future version.
+- Some coding prompts may need further content enrichment in future releases
+
+### Security
+
+- No security vulnerabilities reported in this release
+
+---
 
 ## [v1.0.0] - 2026-03-19
 

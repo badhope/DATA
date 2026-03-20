@@ -48,7 +48,7 @@ steps:
       3. 记录复现步骤
       4. 识别错误类型（运行时异常/逻辑错误/性能问题/崩溃）
     used_prompts:
-      - prompt-task-debugging-identify-root-cause
+      - prompt-debugging-identify-root-cause
     output: 错误信息摘要
 
   - id: 2
@@ -74,7 +74,7 @@ steps:
       5. 设计验证实验
       6. 确定最可能的根因
     used_prompts:
-      - prompt-task-debugging-identify-root-cause
+      - prompt-debugging-identify-root-cause
     output: 根因分析报告
 
   - id: 4
@@ -87,7 +87,7 @@ steps:
       4. 定义验证标准
       5. 准备回滚方案
     used_prompts:
-      - prompt-task-debugging-generate-debug-plan
+      - prompt-debugging-generate-debug-plan
     output: 调试计划
 
   - id: 5
@@ -100,7 +100,7 @@ steps:
       4. 确保语法正确
       5. 验证修复不引入新问题
     used_prompts:
-      - prompt-task-debugging-fix-bug-safely
+      - prompt-debugging-fix-bug-safely
     output: 修复后的代码
 
   - id: 6
@@ -113,17 +113,17 @@ steps:
       4. 评估性能影响
       5. 确认所有验证点通过
     used_prompts:
-      - prompt-task-debugging-verify-fix-after-change
+      - prompt-debugging-verify-fix-after-change
     output: 验证报告
 
 used_skills:
   - debugging
   - repo-analysis
 used_prompts:
-  - prompt-task-debugging-identify-root-cause
-  - prompt-task-debugging-generate-debug-plan
-  - prompt-task-debugging-fix-bug-safely
-  - prompt-task-debugging-verify-fix-after-change
+  - prompt-debugging-identify-root-cause
+  - prompt-debugging-generate-debug-plan
+  - prompt-debugging-fix-bug-safely
+  - prompt-debugging-verify-fix-after-change
   - prompt-task-repo-analysis-locate-bug-related-files
 decision_points:
   - |

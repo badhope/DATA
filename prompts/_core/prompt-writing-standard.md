@@ -118,9 +118,9 @@ related_prompts: [prompt-id1, prompt-id2]
 ## Usage
 
 [如何使用，包括：
-1. 前置条件
-2. 调用方式
-3. 注意事项]
+1。 前置条件
+2。 调用方式
+3。 注意事项]
 ```
 
 ### Example Input（示例输入）
@@ -227,8 +227,8 @@ ${code}
 **要求**：清晰、简洁，一句话说清楚 Prompt 做什么。
 
 **示例**：
-- ✅ "分析错误信息，定位 Bug 根因"
-- ❌ "帮我看看代码有什么问题"
+— ✅ "分析错误信息，定位 Bug 根因"
+— ❌ "帮我看看代码有什么问题"
 
 ### intent（使用意图）
 
@@ -247,10 +247,10 @@ ${code}
 **示例**：
 ```
 需要以下输入：
-1. error_message：错误信息或异常堆栈（字符串）
-2. code_snippet：相关代码片段（字符串，可选）
-3. file_path：文件路径（字符串，可选）
-4. language：编程语言（字符串，默认 auto）
+1。 error_message：错误信息或异常堆栈（字符串）
+2。 code_snippet：相关代码片段（字符串，可选）
+3。 file_path：文件路径（字符串，可选）
+4。 language：编程语言（字符串，默认 auto）
 ```
 
 ### output_requirements（输出要求）
@@ -260,10 +260,10 @@ ${code}
 **示例**：
 ```
 输出一个结构化报告，包含：
-1. root_cause（字符串）：根因分析
-2. confidence（字符串：high/medium/low）：置信度
-3. evidence（数组）：支持证据列表
-4. hypothesis（数组）：其他可能原因（如有）
+1。 root_cause（字符串）：根因分析
+2。 confidence（字符串：high/medium/low）：置信度
+3。 evidence（数组）：支持证据列表
+4。 hypothesis（数组）：其他可能原因（如有）
 
 JSON 格式：
 {
@@ -280,10 +280,10 @@ JSON 格式：
 
 **示例**：
 ```
-1. 不要在未分析错误信息的情况下直接修改代码
-2. 不要忽略边界条件和特殊情况
-3. 不要只修复表面症状而不处理根本原因
-4. 不要在没有验证的情况下宣布 Bug 已修复
+1。 不要在未分析错误信息的情况下直接修改代码
+2。 不要忽略边界条件和特殊情况
+3。 不要只修复表面症状而不处理根本原因
+4。 不要在没有验证的情况下宣布 Bug 已修复
 ```
 
 ### failure_modes（失败模式）
@@ -292,9 +292,9 @@ JSON 格式：
 
 **示例**：
 ```
-1. 输入不完整 → 请求补充必要信息
-2. 无法定位根因 → 返回最高可能性的假设和验证方法
-3. 修复后验证失败 → 回滚修改并重新分析
+1。 输入不完整 → 请求补充必要信息
+2。 无法定位根因 → 返回最高可能性的假设和验证方法
+3。 修复后验证失败 → 回滚修改并重新分析
 ```
 
 ### self_check（自检清单）
@@ -304,10 +304,10 @@ JSON 格式：
 **示例**：
 ```
 执行前自检：
-- [ ] 已收集完整的错误信息和上下文
-- [ ] 已验证错误可复现
-- [ ] 已确认代码修改不会引入新问题
-- [ ] 已准备回滚方案
+— [ ] 已收集完整的错误信息和上下文
+— [ ] 已验证错误可复现
+— [ ] 已确认代码修改不会引入新问题
+— [ ] 已准备回滚方案
 ```
 
 ### related_skills（相关 Skills）
@@ -398,9 +398,9 @@ JSON 格式：
 
 每个 Prompt 应只做一件事：
 
-- ✅ `identify-root-cause` - 只做根因识别
-- ✅ `generate-debug-plan` - 只做计划生成
-- ❌ `fix-bug` - 包含太多职责
+— ✅ `identify-root-cause` — 只做根因识别
+— ✅ `generate-debug-plan` — 只做计划生成
+— ❌ `fix-bug` — 包含太多职责
 
 ### 组合使用
 
@@ -408,10 +408,10 @@ JSON 格式：
 
 ```markdown
 Bug 修复工作流：
-1. identify-root-cause（识别根因）
-2. generate-debug-plan（生成计划）
-3. fix-bug-safely（安全修复）
-4. verify-fix-after-change（验证修复）
+1。 identify—root—cause（识别根因）
+2。 generate—debug—plan（生成计划）
+3。 fix—bug—safely（安全修复）
+4。 verify—fix—after—change（验证修复）
 ```
 
 ---
@@ -426,7 +426,7 @@ Bug 修复工作流：
 
 ## 相关文档
 
-- [prompt-field-spec.md](prompt-field-spec.md) - 字段详细定义
-- [prompt-style-guide.md](prompt-style-guide.md) - 写作风格指南
-- [prompt-quality-checklist.md](prompt-quality-checklist.md) - 质量检查清单
-- [prompt-lifecycle.md](prompt-lifecycle.md) - 生命周期管理
+— [prompt—field—spec。md](prompt—field—spec。md) — 字段详细定义
+— [prompt—style—guide。md](prompt—style—guide。md) — 写作风格指南
+— [prompt—quality—checklist。md](prompt—quality—checklist。md) — 质量检查清单
+— [prompt—lifecycle。md](prompt—lifecycle。md) — 生命周期管理

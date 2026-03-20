@@ -134,7 +134,7 @@ To create a custom workflow:
 
 1. **Clear phases**: Each phase has a clear purpose
 2. **Defined outputs**: Each step produces something
-3. **的回滚能力**: Can go back and revise
+3。 **的回滚能力**： Can go back and revise
 4. **Verification gates**: Each phase has acceptance criteria
 5. **Documentation**: Progress is documented
 

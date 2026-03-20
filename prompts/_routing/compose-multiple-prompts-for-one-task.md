@@ -70,17 +70,17 @@ related_prompts:
 # Context
 
 当一个复杂任务需要多个 Prompts 协作时，你需要将它们组合成一个连贯的执行计划。这个 Prompt 负责：
-1. 分析 Prompts 之间的依赖关系
-2. 确定执行顺序（串行/并行）
-3. 设计参数传递流程
-4. 定义共享状态管理
-5. 处理结果汇总和输出
+1。 分析 Prompts 之间的依赖关系
+2。 确定执行顺序（串行/并行）
+3。 设计参数传递流程
+4。 定义共享状态管理
+5。 处理结果汇总和输出
 
 # Prompt Body
 
 ## 阶段 1：依赖分析
 
-### 1.1 构建依赖图
+### 1。1 构建依赖图
 
 分析每个 Prompt 的输入输出关系：
 
@@ -96,7 +96,7 @@ prompts_dependency:
   ...
 ```
 
-### 1.2 识别依赖类型
+### 1。2 识别依赖类型
 
 | 依赖类型 | 说明 | 处理方式 |
 |---------|------|---------|
@@ -105,17 +105,17 @@ prompts_dependency:
 | 验证依赖 | 一个的结果需要被另一个验证 | 添加验证步骤 |
 | 独立依赖 | 互相独立，可并行 | 并行执行 |
 
-### 1.3 检测冲突
+### 1。3 检测冲突
 
 检查是否存在：
-- 循环依赖
-- 输入输出类型不匹配
-- 参数命名冲突
-- 状态修改冲突
+— 循环依赖
+— 输入输出类型不匹配
+— 参数命名冲突
+— 状态修改冲突
 
 ## 阶段 2：执行规划
 
-### 2.1 确定执行模式
+### 2。1 确定执行模式
 
 #### 纯串行模式
 ```
@@ -140,34 +140,34 @@ A → ├→ C → D →├→ F
 ```
 适用：完全独立的任务
 
-### 2.2 划分阶段
+### 2。2 划分阶段
 
 将执行过程划分为逻辑阶段：
 
 ```yaml
 phases:
   - phase: 1
-    name: "准备阶段"
+    name： "准备阶段"
     prompts: [prompt_a]
-    goal: "收集必要信息"
+    goal： "收集必要信息"
   - phase: 2
-    name: "核心执行阶段"
+    name： "核心执行阶段"
     prompts: [prompt_b, prompt_c]
-    goal: "执行主要任务"
+    goal： "执行主要任务"
     parallel: true
   - phase: 3
-    name: "验证阶段"
+    name： "验证阶段"
     prompts: [prompt_d]
-    goal: "验证中间结果"
+    goal： "验证中间结果"
   - phase: 4
-    name: "最终处理阶段"
+    name： "最终处理阶段"
     prompts: [prompt_e]
-    goal: "汇总和输出"
+    goal： "汇总和输出"
 ```
 
 ## 阶段 3：参数流设计
 
-### 3.1 定义参数传递
+### 3。1 定义参数传递
 
 ```yaml
 parameter_flow:
@@ -176,53 +176,53 @@ parameter_flow:
     mappings:
       output_1: input_x
       output_2: input_y
-    transformation: "直接传递"
+    transformation： "直接传递"
   - from: prompt_b
     to: prompt_d
     mappings:
       output_3: input_z
     transformation: |
-      需要提取 output_3.specfic_field
+      需要提取 output_3。specfic_field
 ```
 
-### 3.2 定义共享状态
+### 3。2 定义共享状态
 
 如果多个 Prompts 需要共享状态：
 
 ```yaml
 shared_state:
   context:
-    - task_id: "全局唯一 ID"
-    - user_requirements: "用户原始需求"
-    - constraints: "约束条件"
+    — task_id： "全局唯一 ID"
+    — user_requirements： "用户原始需求"
+    — constraints： "约束条件"
   intermediate_results:
     - key: "phase1_summary"
       source: "prompt_a"
-      usage: "后续 Prompts 参考"
+      usage： "后续 Prompts 参考"
   validation_flags:
     - key: "data_ready"
       type: "boolean"
       default: false
 ```
 
-### 3.3 处理参数缺失
+### 3。3 处理参数缺失
 
 当上游 Prompt 的输出不符合预期时：
-- 使用默认值
-- 重新提取需要的字段
-- 跳过该 Prompt（如果非必需）
-- 请求用户补充信息
+— 使用默认值
+— 重新提取需要的字段
+— 跳过该 Prompt（如果非必需）
+— 请求用户补充信息
 
 ## 阶段 4：结果汇总
 
-### 4.1 定义汇总策略
+### 4。1 定义汇总策略
 
 ```yaml
 result_aggregation:
-  strategy: "分阶段汇总"
+  strategy： "分阶段汇总"
   phases:
     - phase: 1
-      aggregation: "直接传递，不汇总"
+      aggregation： "直接传递，不汇总"
     - phase: 2
       aggregation: |
         合并 B 和 C 的输出，
@@ -237,45 +237,45 @@ result_aggregation:
         整理成最终输出文档
 ```
 
-### 4.2 最终输出格式
+### 4。2 最终输出格式
 
 ```yaml
 final_output:
-  summary: "整个任务的总结"
-  deliverables: "主要产出物列表"
-  execution_log: "执行过程记录"
-  metadata: "元信息（执行时间、使用的 Prompts 等）"
+  summary： "整个任务的总结"
+  deliverables： "主要产出物列表"
+  execution_log： "执行过程记录"
+  metadata： "元信息（执行时间、使用的 Prompts 等）"
 ```
 
 ## 阶段 5：风险评估
 
-### 5.1 识别风险点
+### 5。1 识别风险点
 
 ```yaml
 risk_assessment:
   risks:
     - risk_id: 1
-      description: "Prompt B 可能无法产生预期的输出"
+      description： "Prompt B 可能无法产生预期的输出"
       probability: "medium"
       impact: "high"
-      mitigation: "准备备用 Prompt 或默认输出"
+      mitigation： "准备备用 Prompt 或默认输出"
     - risk_id: 2
-      description: "参数传递过程中数据丢失"
+      description： "参数传递过程中数据丢失"
       probability: "low"
       impact: "medium"
-      mitigation: "添加数据验证"
+      mitigation： "添加数据验证"
 ```
 
-### 5.2 制定回退策略
+### 5。2 制定回退策略
 
 ```yaml
 fallback_strategy:
-  - trigger: "Prompt 执行失败"
-    action: "使用默认输出继续，或跳过该 Prompt"
-  - trigger: "结果验证失败"
-    action: "回退到上一阶段重新执行"
-  - trigger: "整体流程失败"
-    action: "输出已收集的结果，说明未完成部分"
+  — trigger： "Prompt 执行失败"
+    action： "使用默认输出继续，或跳过该 Prompt"
+  — trigger： "结果验证失败"
+    action： "回退到上一阶段重新执行"
+  — trigger： "整体流程失败"
+    action： "输出已收集的结果，说明未完成部分"
 ```
 
 # Variables
@@ -290,17 +290,17 @@ fallback_strategy:
 
 # Usage Notes
 
-1. **复杂任务使用**：当单一 Prompt 不足以完成任务时使用
-2. **Workflow 生成**：其输出可作为创建 Workflow 的基础
-3. **执行指南**：生成的计划可以直接被 AI 执行
+1。 **复杂任务使用**：当单一 Prompt 不足以完成任务时使用
+2。 **Workflow 生成**：其输出可作为创建 Workflow 的基础
+3。 **执行指南**：生成的计划可以直接被 AI 执行
 
 # Example Input
 
 ```yaml
-task_description: "为一个博客系统实现用户评论功能"
+task_description： "为一个博客系统实现用户评论功能"
 selected_prompts:
   - path: "prompts/task/design/database-design.md"
-    inputs: {entity: "评论"}
+    inputs： {entity： "评论"}
   - path: "prompts/task/coding/generate-crud-api.md"
   - path: "prompts/task/coding/write-tests.md"
   - path: "prompts/task/coding/code-review.md"
@@ -308,7 +308,7 @@ context:
   tech_stack: "Node.js + Express + MongoDB"
   existing_modules: ["users", "posts"]
 constraints:
-  must_follow: "RESTful 规范"
+  must_follow： "RESTful 规范"
   code_style: "ES6+"
 ```
 
@@ -318,63 +318,63 @@ constraints:
 execution_plan:
   phases:
     - phase: 1
-      name: "数据设计"
+      name： "数据设计"
       prompts:
         - database-design
-      goal: "设计评论相关的数据模型"
+      goal： "设计评论相关的数据模型"
       parallel: false
 
     - phase: 2
-      name: "API 开发"
+      name： "API 开发"
       prompts:
         - generate-crud-api
-      goal: "生成评论 CRUD API"
+      goal： "生成评论 CRUD API"
       parallel: false
 
     - phase: 3
-      name: "测试编写"
+      name： "测试编写"
       prompts:
         - write-tests
-      goal: "为 API 编写单元测试和集成测试"
+      goal： "为 API 编写单元测试和集成测试"
       parallel: true
       depends_on: [2]
 
     - phase: 4
-      name: "代码审查"
+      name： "代码审查"
       prompts:
         - code-review
-      goal: "审查代码质量和安全性"
+      goal： "审查代码质量和安全性"
       parallel: false
       depends_on: [2, 3]
 
   prompt_chain:
     - step: 1
       prompt: "database-design"
-      inputs: {entity: "评论", relationships: ["posts", "users"]}
-      outputs: {schema: "评论数据模型", indexes: ["post_id", "user_id"]}
+      inputs： {entity： "评论"， relationships： ["posts"， "users"]}
+      outputs： {schema： "评论数据模型"， indexes： ["post_id"， "user_id"]}
 
     - step: 2
       prompt: "generate-crud-api"
       inputs: {schema: "from_step_1", style: "RESTful"}
-      outputs: {api_code: "API 代码", routes: "路由定义"}
+      outputs： {api_code： "API 代码"， routes： "路由定义"}
       depends_on: [1]
 
     - step: 3a
       prompt: "write-tests"
       inputs: {api_code: "from_step_2", coverage_target: "80%"}
-      outputs: {test_code: "测试代码", coverage: "实际覆盖率"}
+      outputs： {test_code： "测试代码"， coverage： "实际覆盖率"}
       depends_on: [2]
 
     - step: 3b
       prompt: "generate-mock-data"
       inputs: {schema: "from_step_1"}
-      outputs: {mock_data: "模拟数据"}
+      outputs： {mock_data： "模拟数据"}
       depends_on: [1]
 
     - step: 4
       prompt: "code-review"
       inputs: {code: "from_step_2", tests: "from_step_3a"}
-      outputs: {review_report: "审查报告", issues: ["严重问题列表"]}
+      outputs： {review_report： "审查报告"， issues： ["严重问题列表"]}
       depends_on: [2, 3a]
 
   parameter_flow:
@@ -393,8 +393,8 @@ execution_plan:
       mappings:
         api_code: code
       verification:
-        passed: "代码审查通过"
-        failed: "返回修改"
+        passed： "代码审查通过"
+        failed： "返回修改"
 
   shared_state:
     context:
@@ -413,56 +413,56 @@ execution_plan:
         default: false
 
   result_aggregation:
-    strategy: "分阶段汇总 + 最终整合"
+    strategy： "分阶段汇总 + 最终整合"
     phases:
       - phase: 1
-        aggregation: "schema 定义作为后续输入"
+        aggregation： "schema 定义作为后续输入"
       - phase: 2
-        aggregation: "API 代码和路由定义"
+        aggregation： "API 代码和路由定义"
       - phase: 3
-        aggregation: "测试代码和覆盖率报告"
+        aggregation： "测试代码和覆盖率报告"
       - phase: 4
-        aggregation: "审查报告"
+        aggregation： "审查报告"
     final_output:
-      summary: "评论功能完整实现"
+      summary： "评论功能完整实现"
       deliverables:
-        - "数据模型设计"
-        - "API 代码"
-        - "测试代码"
-        - "审查报告"
+        — "数据模型设计"
+        — "API 代码"
+        — "测试代码"
+        — "审查报告"
       execution_log:
-        - "Phase 1: 完成"
-        - "Phase 2: 完成"
-        - "Phase 3: 完成"
-        - "Phase 4: 完成"
+        — "Phase 1： 完成"
+        — "Phase 2： 完成"
+        — "Phase 3： 完成"
+        — "Phase 4： 完成"
 
 composition_analysis:
   complexity: "medium"
   estimated_steps: 4
   parallel_opportunities: 1
   total_dependencies: 3
-  potential_bottlenecks: ["API 设计依赖数据库设计"]
+  potential_bottlenecks： ["API 设计依赖数据库设计"]
 
 risk_assessment:
   risks:
     - risk_id: 1
-      description: "数据库设计变更导致 API 需要重构"
+      description： "数据库设计变更导致 API 需要重构"
       probability: "medium"
       impact: "high"
-      mitigation: "Phase 1 设计评审后再进入 Phase 2"
+      mitigation： "Phase 1 设计评审后再进入 Phase 2"
     - risk_id: 2
-      description: "测试覆盖率不达标"
+      description： "测试覆盖率不达标"
       probability: "low"
       impact: "medium"
-      mitigation: "设置覆盖率阈值，低于阈值则报错"
+      mitigation： "设置覆盖率阈值，低于阈值则报错"
 
 fallback_strategy:
-  - trigger: "Phase 1 设计评审不通过"
-    action: "重新设计数据库结构"
-  - trigger: "Phase 2 API 生成失败"
-    action: "使用简化版 API 方案"
-  - trigger: "测试覆盖率低于 70%"
-    action: "补充测试用例"
-  - trigger: "代码审查发现严重问题"
-    action: "返回 Phase 2 修复"
+  — trigger： "Phase 1 设计评审不通过"
+    action： "重新设计数据库结构"
+  — trigger： "Phase 2 API 生成失败"
+    action： "使用简化版 API 方案"
+  — trigger： "测试覆盖率低于 70%"
+    action： "补充测试用例"
+  — trigger： "代码审查发现严重问题"
+    action： "返回 Phase 2 修复"
 ```

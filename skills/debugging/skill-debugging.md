@@ -111,10 +111,10 @@ Use `verify-fix-after-change` to validate:
 
 ## Related Prompts
 
-- `prompt-task-debugging-identify-root-cause`
-- `prompt-task-debugging-generate-debug-plan`
-- `prompt-task-debugging-fix-bug-safely`
-- `prompt-task-debugging-verify-fix-after-change`
+- `prompt-debugging-identify-root-cause`
+- `prompt-debugging-generate-debug-plan`
+- `prompt-debugging-fix-bug-safely`
+- `prompt-debugging-verify-fix-after-change`
 
 ## Related Skills
 

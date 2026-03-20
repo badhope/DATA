@@ -3,10 +3,10 @@
 ## 什么是 Prompt
 
 Prompt 是发送给 AI 模型的文本指令，可以是：
-- 系统级指令 (system)
-- 角色扮演指令 (role)
-- 任务指令 (task)
-- 工作流指令 (workflow)
+— 系统级指令 (system)
+— 角色扮演指令 (role)
+— 任务指令 (task)
+— 工作流指令 (workflow)
 
 ## Prompt 类型
 
@@ -74,10 +74,10 @@ deprecated: false
 
 ### 示例1
 
-**输入变量**:
+**输入变量**：
 - variable_name: xxx
 
-**输出**:
+**输出**：
 xxx
 ```
 
@@ -169,9 +169,9 @@ deprecated: false
 
 ## 使用方法
 
-1. 设置 variables 中的 code 和 language
-2. 将 prompt_body 发送给 AI
-3. AI 将返回结构化的审查结果
+1。 设置 variables 中的 code 和 language
+2。 将 prompt_body 发送给 AI
+3。 AI 将返回结构化的审查结果
 ```
 
 ## System Prompt vs Role Prompt

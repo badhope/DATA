@@ -90,30 +90,30 @@ deprecated: false
 
 ## 详细步骤
 
-### 步骤1: 步骤名称
+### 步骤1： 步骤名称
 
-**动作**: 步骤动作描述
+**动作**： 步骤动作描述
 
-**使用 Skill**: skill-name
-**使用 Prompt**: prompt-name
+**使用 Skill**： skill—name
+**使用 Prompt**： prompt—name
 
-**决策点**:
-- 如果 条件1 → 执行步骤1a
-- 否则 → 执行步骤1b
+**决策点**：
+— 如果 条件1 → 执行步骤1a
+— 否则 → 执行步骤1b
 
-### 步骤2: 步骤名称
+### 步骤2： 步骤名称
 
 ...
 
 ## 使用示例
 
-**输入**:
+**输入**：
 - input_name: xxx
 
-**输出**:
+**输出**：
 - output_name: xxx
 
-**执行路径**: 步骤1 → 条件A → 步骤2 → 步骤3 → 结束
+**执行路径**： 步骤1 → 条件A → 步骤2 → 步骤3 → 结束
 ```
 
 ## 示例：Bug Fix Workflow
@@ -210,20 +210,20 @@ deprecated: false
 ```
 开始 → Bug分析 → 根因定位 → 修复方案 → 验证测试 → 结束
                 ↓
-           简单bug? → 否 → 继续
+           简单bug？ → 否 → 继续
                 ↓ 是
               跳过
 ```
 
 ## 使用场景
 
-1. 收到 bug 报告时
-2. 代码出现异常行为时
-3. 测试失败需要修复时
+1。 收到 bug 报告时
+2。 代码出现异常行为时
+3。 测试失败需要修复时
 
 ## 与其他 Workflow 的区别
 
-- **Bug Fix Workflow**: 专注于修复已知的 bug
-- **Code Review Workflow**: 侧重于代码质量审查
-- **Feature Development Workflow**: 侧重于新功能开发
+— **Bug Fix Workflow**： 专注于修复已知的 bug
+— **Code Review Workflow**： 侧重于代码质量审查
+— **Feature Development Workflow**： 侧重于新功能开发
 ```

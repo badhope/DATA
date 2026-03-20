@@ -111,7 +111,7 @@ steps:
 
       使用 `identify-root-cause` 的方法论
     used_prompts:
-      - prompt-task-debugging-identify-root-cause
+      - prompt-debugging-identify-root-cause
     output: 根因假设清单
 
   - id: 6
@@ -122,7 +122,7 @@ steps:
       2. 确保最小变更
       3. 添加测试防止回归
     used_prompts:
-      - prompt-task-debugging-fix-bug-safely
+      - prompt-debugging-fix-bug-safely
     output: 修复结果
 
   - id: 7
@@ -134,7 +134,7 @@ steps:
       3. 检查边界情况
       4. 确认修复完成
     used_prompts:
-      - prompt-task-debugging-verify-fix-after-change
+      - prompt-debugging-verify-fix-after-change
     output: 验证报告
 
 used_skills:
@@ -143,9 +143,9 @@ used_prompts:
   - prompt-tool-use-read-files-before-answering
   - prompt-tool-use-search-before-concluding
   - prompt-tool-use-inspect-config-then-act
-  - prompt-task-debugging-identify-root-cause
-  - prompt-task-debugging-fix-bug-safely
-  - prompt-task-debugging-verify-fix-after-change
+  - prompt-debugging-identify-root-cause
+  - prompt-debugging-fix-bug-safely
+  - prompt-debugging-verify-fix-after-change
 decision_points:
   - |
     **如果文件太多无法全部读取**：

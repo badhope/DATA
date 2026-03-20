@@ -28,6 +28,27 @@ skills:
       - workflow-prompt-selection-composition
     status: active
 
+  - id: skill-routing-v1
+    name: Routing
+    path: skills/routing/skill-routing.md
+    category: routing
+    tags: [routing, task-identification, selection]
+    summary: 路由和任务类型识别能力
+    intent: 帮助 AI 理解用户需求并路由到合适的资源
+    typical_use_cases:
+      - 用户需求不明确时判断任务类型
+      - 从多个候选中选择合适的 prompts
+      - 组合多个 prompts 处理复杂任务
+    related_prompts:
+      - prompt-routing-scan-repository
+      - prompt-routing-identify-task-type
+      - prompt-routing-select-relevant
+      - prompt-routing-compose
+    related_workflows:
+      - workflow-vague-request-to-action
+      - workflow-prompt-selection-composition
+    status: active
+
   # ==================== CODING ====================
 
   - id: skill-coding-v1
@@ -77,8 +98,8 @@ skills:
       - 回归测试后的修复
       - Hotfix 场景
     related_prompts:
-      - prompt-task-debugging-fix-bug-safely
-      - prompt-task-debugging-verify-fix-after-change
+      - prompt-debugging-fix-bug-safely
+      - prompt-debugging-verify-fix-after-change
     related_workflows:
       - workflow-bug-investigation
     status: active
@@ -98,10 +119,10 @@ skills:
       - 验证修复结果
       - 复杂问题分析
     related_prompts:
-      - prompt-task-debugging-identify-root-cause
-      - prompt-task-debugging-generate-debug-plan
-      - prompt-task-debugging-fix-bug-safely
-      - prompt-task-debugging-verify-fix-after-change
+      - prompt-debugging-identify-root-cause
+      - prompt-debugging-generate-debug-plan
+      - prompt-debugging-fix-bug-safely
+      - prompt-debugging-verify-fix-after-change
     related_workflows:
       - workflow-bug-investigation
       - workflow-tool-assisted-debug
@@ -285,8 +306,8 @@ skills:
 # ==================== METADATA ====================
 
 metadata:
-  version: v1.0.0
-  last_updated: 2026-03-19
+  version: v1.1.0
+  last_updated: 2026-03-20
   total_skills: 14
   canonical_directory: skills/
   note: All skill paths now reference the canonical skills/ directory

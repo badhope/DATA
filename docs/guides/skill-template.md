@@ -3,10 +3,10 @@
 ## 什么是 Skill
 
 Skill 是一个可复用的 AI 能力单元，包含：
-- 明确的目标
-- 输入输出定义
-- 实施步骤
-- 适用场景
+— 明确的目标
+— 输入输出定义
+— 实施步骤
+— 适用场景
 
 ## Skill vs Prompt vs Workflow
 
@@ -81,8 +81,8 @@ deprecated: false
 
 ## 最佳实践
 
-- 最佳实践1
-- 最佳实践2
+— 最佳实践1
+— 最佳实践2
 ```
 
 ## 示例：Article Draft Skill
@@ -157,13 +157,13 @@ deprecated: false
 
 ## 使用方法
 
-1. 提供文章主题
-2. (可选) 指定目标读者
-3. (可选) 选择写作风格
-4. AI 将生成完整的大纲和初稿
+1。 提供文章主题
+2。 (可选) 指定目标读者
+3。 (可选) 选择写作风格
+4。 AI 将生成完整的大纲和初稿
 
 ## 与其他 Skill 配合
 
-- `skill-writing-article-outline`: 生成更详细的大纲
-- `skill-writing-seo-optimize`: 优化 SEO 效果
+— `skill-writing-article-outline`： 生成更详细的大纲
+— `skill-writing-seo-optimize`： 优化 SEO 效果
 ```

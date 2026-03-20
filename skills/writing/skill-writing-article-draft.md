@@ -68,13 +68,13 @@ deprecated: false
 
 ## 使用方法
 
-1. 提供文章主题
-2. (可选) 指定目标读者
-3. (可选) 选择写作风格
-4. AI 将生成完整的大纲和初稿
+1。 提供文章主题
+2。 (可选) 指定目标读者
+3。 (可选) 选择写作风格
+4。 AI 将生成完整的大纲和初稿
 
 ## 与其他 Skill 配合
 
-- `skill-writing-article-outline`: 生成更详细的大纲
-- `skill-writing-seo-optimize`: 优化 SEO 效果
-- `skill-writing-headline-generation`: 生成吸引人的标题
+— `skill-writing-article-outline`： 生成更详细的大纲
+— `skill-writing-seo-optimize`： 优化 SEO 效果
+— `skill-writing-headline-generation`： 生成吸引人的标题

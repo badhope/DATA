@@ -58,28 +58,28 @@ relations:
     usage_note: 代码审查任务时配合使用
 
   - source_id: prompt-system-debugging-agent
-    target_id: prompt-task-debugging-identify-root-cause
+    target_id: prompt-debugging-identify-root-cause
     relation_type: grouped_with
     strength: strong
     reason: Debugging agent 专用于调试任务
     usage_note: 调试任务时先加载 debugging agent system prompt
 
   - source_id: prompt-system-debugging-agent
-    target_id: prompt-task-debugging-generate-plan
+    target_id: prompt-debugging-generate-debug-plan
     relation_type: grouped_with
     strength: strong
     reason: 调试计划是 debugging agent 的标准输出
     usage_note: 调试任务规划时配合使用
 
   - source_id: prompt-system-debugging-agent
-    target_id: prompt-task-debugging-fix-bug
+    target_id: prompt-debugging-fix-bug-safely
     relation_type: grouped_with
     strength: strong
     reason: Bug 修复是 debugging agent 的核心输出
     usage_note: 实施 bug 修复时配合使用
 
   - source_id: prompt-system-debugging-agent
-    target_id: prompt-task-debugging-verify-fix
+    target_id: prompt-debugging-verify-fix-after-change
     relation_type: grouped_with
     strength: strong
     reason: 修复验证是调试闭环的必要环节
@@ -116,7 +116,7 @@ relations:
     usage_note: 需要记录生成结果时使用
 
   - source_id: prompt-task-coding-review-code
-    target_id: prompt-task-debugging-fix-bug
+    target_id: prompt-debugging-fix-bug-safely
     relation_type: specializes
     strength: medium
     reason: 代码审查发现的问题需要通过调试修复 prompt 解决
@@ -131,40 +131,187 @@ relations:
 
   # ==================== DEBUGGING TASK RELATIONS ====================
 
-  - source_id: prompt-task-debugging-identify-root-cause
-    target_id: prompt-task-debugging-generate-plan
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-generate-debug-plan
     relation_type: precedes
     strength: strong
     reason: 找到根因后才能制定调试计划
     usage_note: 根因分析后必须制定调试计划
 
-  - source_id: prompt-task-debugging-generate-plan
-    target_id: prompt-task-debugging-fix-bug
+  - source_id: prompt-debugging-generate-debug-plan
+    target_id: prompt-debugging-fix-bug-safely
     relation_type: precedes
     strength: strong
     reason: 有计划后才能实施修复
     usage_note: 调试计划制定后执行修复
 
-  - source_id: prompt-task-debugging-fix-bug
-    target_id: prompt-task-debugging-verify-fix
+  - source_id: prompt-debugging-fix-bug-safely
+    target_id: prompt-debugging-verify-fix-after-change
     relation_type: requires
     strength: strong
     reason: 修复后必须验证
     usage_note: 修复完成后必须验证
 
-  - source_id: prompt-task-debugging-identify-root-cause
+  - source_id: prompt-debugging-identify-root-cause
     target_id: prompt-task-repo-analysis-locate-files
     relation_type: requires
     strength: strong
     reason: 定位相关文件是根因分析的基础
     usage_note: 根因分析前先定位相关文件
 
-  - source_id: prompt-task-debugging-fix-bug
+  - source_id: prompt-debugging-fix-bug-safely
     target_id: workflow-change-verify-and-report
     relation_type: follows
     strength: medium
     reason: 修复后需要变更验证流程
     usage_note: 修复完成后执行变更验证
+
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-classify-problem-type
+    relation_type: precedes
+    strength: strong
+    reason: 分类是根因分析的前提
+    usage_note: 确定问题类型后再进行根因分析
+
+  - source_id: prompt-debugging-classify-problem-type
+    target_id: prompt-debugging-summarize-bug-symptoms
+    relation_type: precedes
+    strength: medium
+    reason: 分类后才能更好地总结症状
+    usage_note: 问题分类后整理症状表现
+
+  - source_id: prompt-debugging-summarize-bug-symptoms
+    target_id: prompt-debugging-detect-most-likely-failure-source
+    relation_type: precedes
+    strength: strong
+    reason: 总结症状后才能检测最可能的故障源
+    usage_note: 整理完症状后寻找最可能的故障点
+
+  - source_id: prompt-debugging-detect-most-likely-failure-source
+    target_id: prompt-debugging-decide-what-to-check-first
+    relation_type: precedes
+    strength: strong
+    reason: 确定最可能故障源后才能决定首先检查什么
+    usage_note: 确定重点检查方向
+
+  - source_id: prompt-debugging-decide-what-to-check-first
+    target_id: prompt-debugging-prioritize-debugging-steps
+    relation_type: precedes
+    strength: strong
+    reason: 确定首先检查项后才能排序调试步骤
+    usage_note: 确定优先级后系统化调试
+
+  - source_id: prompt-debugging-prioritize-debugging-steps
+    target_id: prompt-debugging-create-minimal-debugging-checklist
+    relation_type: precedes
+    strength: medium
+    reason: 排序调试步骤后创建检查清单
+    usage_note: 制定调试计划后创建检查清单
+
+  - source_id: prompt-debugging-generate-debug-plan
+    target_id: prompt-debugging-create-minimal-debugging-checklist
+    relation_type: precedes
+    strength: strong
+    reason: 调试计划是创建检查清单的基础
+    usage_note: 制定调试计划后创建具体检查清单
+
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-propose-minimal-risk-fix
+    relation_type: precedes
+    strength: strong
+    reason: 根因分析后才能提出最小风险修复方案
+    usage_note: 明确根因后评估修复方案风险
+
+  - source_id: prompt-debugging-propose-minimal-risk-fix
+    target_id: prompt-debugging-patch-without-unnecessary-refactor
+    relation_type: precedes
+    strength: strong
+    reason: 提出修复方案后才能决定是否需要重构
+    usage_note: 确定最小风险方案后决定修改范围
+
+  - source_id: prompt-debugging-propose-minimal-risk-fix
+    target_id: prompt-debugging-fix-issue-under-constraints
+    relation_type: precedes
+    strength: strong
+    reason: 提出修复方案后才能在约束下修复
+    usage_note: 确定修复方案后在约束下实施
+
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-analyze-stack-trace
+    relation_type: precedes
+    strength: medium
+    reason: 根因分析可以借助堆栈跟踪
+    usage_note: 堆栈分析辅助根因定位
+
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-analyze-error-log
+    relation_type: precedes
+    strength: medium
+    reason: 根因分析可以借助错误日志
+    usage_note: 日志分析辅助根因定位
+
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-reproduce-and-isolate-bug
+    relation_type: precedes
+    strength: strong
+    reason: 根因分析后需要复现和隔离问题
+    usage_note: 明确根因后验证和隔离
+
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-trace-failure-through-codebase
+    relation_type: precedes
+    strength: medium
+    reason: 根因分析后可追踪故障传播
+    usage_note: 理解根因后追踪影响范围
+
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-debug-configuration-issue
+    relation_type: precedes
+    strength: medium
+    reason: 根因分析可确定是否为配置问题
+    usage_note: 配置相关问题需要检查配置
+
+  - source_id: prompt-debugging-identify-root-cause
+    target_id: prompt-debugging-debug-environment-problem
+    relation_type: precedes
+    strength: medium
+    reason: 根因分析可确定是否为环境问题
+    usage_note: 环境相关问题需要检查环境
+
+  - source_id: prompt-debugging-fix-bug-safely
+    target_id: prompt-debugging-detect-regression-risk
+    relation_type: precedes
+    strength: strong
+    reason: 修复后需要检测回归风险
+    usage_note: 修复完成后验证是否有回归
+
+  - source_id: prompt-debugging-detect-regression-risk
+    target_id: prompt-debugging-verify-fix-after-change
+    relation_type: precedes
+    strength: strong
+    reason: 检测回归风险后才能验证修复
+    usage_note: 确认无高回归风险后执行验证
+
+  - source_id: prompt-debugging-analyze-stack-trace
+    target_id: prompt-debugging-trace-failure-through-codebase
+    relation_type: precedes
+    strength: medium
+    reason: 堆栈分析后可追踪故障传播
+    usage_note: 从堆栈追踪故障传播路径
+
+  - source_id: prompt-debugging-debug-configuration-issue
+    target_id: prompt-debugging-debug-environment-problem
+    relation_type: adjacent
+    strength: medium
+    reason: 配置和环境问题常相互关联
+    usage_note: 检查配置时也要考虑环境因素
+
+  - source_id: prompt-debugging-reproduce-and-isolate-bug
+    target_id: prompt-debugging-decide-what-to-check-first
+    relation_type: precedes
+    strength: medium
+    reason: 复现和隔离后可确定检查优先级
+    usage_note: 隔离问题后确定检查重点
 
   # ==================== REPO ANALYSIS RELATIONS ====================
 
@@ -183,7 +330,7 @@ relations:
     usage_note: 结构分析后可深入总结架构
 
   - source_id: prompt-task-repo-analysis-locate-files
-    target_id: prompt-task-debugging-identify-root-cause
+    target_id: prompt-debugging-identify-root-cause
     relation_type: requires
     strength: strong
     reason: 调试前需要先找到相关文件
@@ -238,28 +385,28 @@ relations:
   # ==================== WORKFLOW RELATIONS ====================
 
   - source_id: workflow-bug-investigation
-    target_id: prompt-task-debugging-identify-root-cause
+    target_id: prompt-debugging-identify-root-cause
     relation_type: requires
     strength: strong
     reason: Bug 调查工作流的核心是根因分析
     usage_note: 工作流中必须包含根因分析步骤
 
   - source_id: workflow-bug-investigation
-    target_id: prompt-task-debugging-generate-plan
+    target_id: prompt-debugging-generate-debug-plan
     relation_type: requires
     strength: strong
     reason: Bug 调查工作流需要调试计划
     usage_note: 工作流中包含计划生成步骤
 
   - source_id: workflow-bug-investigation
-    target_id: prompt-task-debugging-fix-bug
+    target_id: prompt-debugging-fix-bug-safely
     relation_type: requires
     strength: strong
     reason: Bug 调查工作流包含修复步骤
     usage_note: 工作流中包含修复执行步骤
 
   - source_id: workflow-bug-investigation
-    target_id: prompt-task-debugging-verify-fix
+    target_id: prompt-debugging-verify-fix-after-change
     relation_type: requires
     strength: strong
     reason: Bug 调查工作流需要验证步骤完成闭环
@@ -315,14 +462,14 @@ relations:
     usage_note: 工作流包含任务分解步骤
 
   - source_id: workflow-change-verify-and-report
-    target_id: prompt-task-debugging-verify-fix
+    target_id: prompt-debugging-verify-fix-after-change
     relation_type: specializes
     strength: strong
     reason: 变更验证是调试验证的具体应用
     usage_note: 变更验证场景使用此工作流
 
   - source_id: workflow-tool-assisted-debug
-    target_id: prompt-task-debugging-identify-root-cause
+    target_id: prompt-debugging-identify-root-cause
     relation_type: requires
     strength: strong
     reason: 工具辅助调试用于根因分析
@@ -352,7 +499,7 @@ relations:
   # ==================== TOOL-USE RELATIONS ====================
 
   - source_id: prompt-tool-use-read-files
-    target_id: prompt-task-debugging-identify-root-cause
+    target_id: prompt-debugging-identify-root-cause
     relation_type: requires
     strength: strong
     reason: 根因分析通常需要读取相关代码文件
@@ -387,7 +534,7 @@ relations:
     usage_note: 研究简报准备前搜索
 
   - source_id: prompt-tool-use-use-command
-    target_id: prompt-task-debugging-verify-fix
+    target_id: prompt-debugging-verify-fix-after-change
     relation_type: requires
     strength: strong
     reason: 验证修复常需要执行测试命令
@@ -522,6 +669,335 @@ relations:
     strength: strong
     reason: Prompt 选择组合工作流使用 compose 功能
     usage_note: 工作流中调用 compose prompt
+
+  # ==================== USER-STYLE-ADAPTATION RELATIONS ====================
+
+  - source_id: prompt-general-user-style-adaptation-detect
+    target_id: prompt-general-user-style-adaptation-maintain-consistent
+    relation_type: precedes
+    strength: strong
+    reason: 检测后才能保持一致
+    usage_note: 先检测风格，再保持一致
+
+  - source_id: prompt-general-user-style-adaptation-detect
+    target_id: prompt-general-context-memory-track-preferences
+    relation_type: grouped_with
+    strength: strong
+    reason: 检测到的偏好需要追踪记录
+    usage_note: 检测与记录配合使用
+
+  - source_id: prompt-general-user-style-adaptation-maintain-consistent
+    target_id: prompt-general-user-style-adaptation-avoid-drift
+    relation_type: precedes
+    strength: strong
+    reason: 保持一致需要避免漂移
+    usage_note: 保持一致后监控漂移
+
+  - source_id: prompt-general-user-style-adaptation-refine-feedback
+    target_id: prompt-general-user-style-adaptation-detect
+    relation_type: follows
+    strength: medium
+    reason: 反馈优化后可重新检测
+    usage_note: 反馈后重新检测调整
+
+  - source_id: prompt-general-user-style-adaptation-personalize
+    target_id: prompt-general-context-memory-track-preferences
+    relation_type: grouped_with
+    strength: strong
+    reason: 个性化需要追踪用户偏好
+    usage_note: 个性化和偏好追踪配合
+
+  - source_id: prompt-general-user-style-adaptation-adapt-structure
+    target_id: prompt-general-user-style-adaptation-infer-format
+    relation_type: grouped_with
+    strength: medium
+    reason: 结构和格式都是格式适配
+    usage_note: 结构适配和格式推断配合
+
+  # ==================== LONG-TERM-ASSISTANT RELATIONS ====================
+
+  - source_id: prompt-general-long-term-assistant-consistent
+    target_id: prompt-general-long-term-assistant-preserve-goals
+    relation_type: grouped_with
+    strength: strong
+    reason: 长期协作者需要保持目标和身份一致
+    usage_note: 身份一致和目标保留配合
+
+  - source_id: prompt-general-long-term-assistant-preserve-goals
+    target_id: prompt-general-long-term-assistant-realign
+    relation_type: precedes
+    strength: strong
+    reason: 保留目标后需要在漂移时重新对齐
+    usage_note: 保留目标后监控对齐
+
+  - source_id: prompt-general-long-term-assistant-maintain-continuity
+    target_id: prompt-general-context-memory-maintain-full
+    relation_type: grouped_with
+    strength: strong
+    reason: 连续性需要完整上下文记忆
+    usage_note: 连续性和上下文记忆配合
+
+  - source_id: prompt-general-long-term-assistant-summarize-progress
+    target_id: prompt-general-long-term-assistant-optimize-collaboration
+    relation_type: follows
+    strength: medium
+    reason: 进度总结后可优化协作
+    usage_note: 总结后优化协作风格
+
+  - source_id: prompt-general-long-term-assistant-convert-working-memory
+    target_id: prompt-general-context-memory-restore-context
+    relation_type: grouped_with
+    strength: strong
+    reason: 工作记忆转换后需要恢复上下文
+    usage_note: 工作记忆和上下文恢复配合
+
+  - source_id: prompt-general-long-term-assistant-multi-session
+    target_id: prompt-general-long-term-assistant-maintain-continuity
+    relation_type: grouped_with
+    strength: strong
+    reason: 多会话支持需要连续性
+    usage_note: 多会话和连续性配合
+
+  - source_id: prompt-general-long-term-assistant-optimize-collaboration
+    target_id: prompt-general-user-style-adaptation-maintain-consistent
+    relation_type: grouped_with
+    strength: medium
+    reason: 协作优化和风格一致性相关
+    usage_note: 协作优化参考风格一致
+
+  # ==================== CREATIVE-SPECIAL RELATIONS ====================
+
+  - source_id: prompt-general-creative-special-anime
+    target_id: prompt-general-creative-special-gentle-companion
+    relation_type: grouped_with
+    strength: medium
+    reason: 都是温柔风格的角色
+    usage_note: 动漫和温柔陪伴角色配合
+
+  - source_id: prompt-general-creative-special-fantasy
+    target_id: prompt-general-creative-special-worldbuilding
+    relation_type: precedes
+    strength: strong
+    reason: 奇幻角色需要世界观支撑
+    usage_note: 奇幻角色先构建世界观
+
+  - source_id: prompt-general-creative-special-scifi
+    target_id: prompt-general-creative-special-worldbuilding
+    relation_type: precedes
+    strength: strong
+    reason: 科幻角色需要世界观支撑
+    usage_note: 科幻角色先构建世界观
+
+  - source_id: prompt-general-creative-special-tsundere
+    target_id: prompt-general-creative-special-dramatic
+    relation_type: grouped_with
+    strength: medium
+    reason: 傲娇和戏剧性相关
+    usage_note: 傲娇角色可用于戏剧对话
+
+  - source_id: prompt-general-creative-special-multi-perspective
+    target_id: prompt-general-creative-special-analyze-sensitive
+    relation_type: precedes
+    strength: medium
+    reason: 多视角比较后可分析敏感话题
+    usage_note: 多视角后再分析敏感话题
+
+  - source_id: prompt-general-creative-special-analyze-sensitive
+    target_id: prompt-general-creative-special-reframe-safe
+    relation_type: follows
+    strength: strong
+    reason: 分析敏感话题后可安全转化
+    usage_note: 分析后进行安全转化
+
+  - source_id: prompt-general-creative-special-reframe-safe
+    target_id: prompt-general-creative-special-gentle-companion
+    relation_type: grouped_with
+    strength: medium
+    reason: 安全转化后可温柔陪伴
+    usage_note: 转化后用温柔角色互动
+
+  # ==================== PERSONAL RELATIONS ====================
+
+  - source_id: prompt-general-personal-act-as-assistant
+    target_id: prompt-general-personal-organize-tasks
+    relation_type: grouped_with
+    strength: strong
+    reason: 助手角色和组织任务配合
+    usage_note: 助手角色用于组织任务
+
+  - source_id: prompt-general-personal-organize-tasks
+    target_id: prompt-general-personal-turn-chaotic
+    relation_type: precedes
+    strength: medium
+    reason: 整理混乱思绪后才能组织任务
+    usage_note: 先整理思绪再组织任务
+
+  - source_id: prompt-general-personal-turn-chaotic
+    target_id: prompt-general-personal-life-planning
+    relation_type: follows
+    strength: medium
+    reason: 整理思绪后可做生活规划
+    usage_note: 整理后可规划生活
+
+  - source_id: prompt-general-personal-life-planning
+    target_id: prompt-general-personal-maintain-routine
+    relation_type: precedes
+    strength: medium
+    reason: 规划后需要保持作息
+    usage_note: 规划后保持作息习惯
+
+  - source_id: prompt-general-personal-support-conversation
+    target_id: prompt-general-personal-act-as-assistant
+    relation_type: grouped_with
+    strength: medium
+    reason: 对话支持和助手角色配合
+    usage_note: 对话支持和助手角色配合
+
+  - source_id: prompt-general-personal-maintain-routine
+    target_id: prompt-general-reflection-guide-daily
+    relation_type: grouped_with
+    strength: medium
+    reason: 作息保持需要每日反思
+    usage_note: 配合每日反思保持作息
+
+  # ==================== REFLECTION RELATIONS ====================
+
+  - source_id: prompt-general-reflection-guide-daily
+    target_id: prompt-general-reflection-summarize-went-well
+    relation_type: grouped_with
+    strength: strong
+    reason: 每日引导和总结配合
+    usage_note: 每日引导后进行总结
+
+  - source_id: prompt-general-reflection-summarize-went-well
+    target_id: prompt-general-reflection-turn-experience
+    relation_type: follows
+    strength: medium
+    reason: 总结后可转化为经验
+    usage_note: 总结后转化为经验教训
+
+  - source_id: prompt-general-reflection-turn-experience
+    target_id: prompt-general-reflection-create-improvement
+    relation_type: precedes
+    strength: strong
+    reason: 经验转化后需要创建改进计划
+    usage_note: 经验后创建改进计划
+
+  - source_id: prompt-general-reflection-structure-review
+    target_id: prompt-general-reflection-identify-patterns
+    relation_type: follows
+    strength: medium
+    reason: 结构化审视后可识别模式
+    usage_note: 审视后识别重复模式
+
+  - source_id: prompt-general-reflection-identify-patterns
+    target_id: prompt-general-reflection-turn-experience
+    relation_type: grouped_with
+    strength: medium
+    reason: 模式识别和经验转化配合
+    usage_note: 模式识别后转化为经验
+
+  - source_id: prompt-general-reflection-create-improvement
+    target_id: prompt-general-personal-life-planning
+    relation_type: grouped_with
+    strength: medium
+    reason: 改进计划和人生规划配合
+    usage_note: 改进计划配合生活规划
+
+  - source_id: prompt-general-reflection-guide-daily
+    target_id: prompt-general-personal-maintain-routine
+    relation_type: grouped_with
+    strength: medium
+    reason: 每日反思帮助保持作息
+    usage_note: 每日反思配合作息保持
+
+  # ==================== LEARNING-SUPPORT RELATIONS ====================
+
+  - source_id: prompt-general-learning-support-explain
+    target_id: prompt-general-learning-support-adapt-style
+    relation_type: precedes
+    strength: strong
+    reason: 解释前需要适配教学风格
+    usage_note: 先适配风格再解释
+
+  - source_id: prompt-general-learning-support-adapt-style
+    target_id: prompt-general-learning-support-identify-gaps
+    relation_type: grouped_with
+    strength: medium
+    reason: 适配风格需要了解知识缺口
+    usage_note: 了解缺口后适配风格
+
+  - source_id: prompt-general-learning-support-plan
+    target_id: prompt-general-learning-support-turn-notes
+    relation_type: grouped_with
+    strength: medium
+    reason: 学习计划和笔记整理配合
+    usage_note: 计划后可整理笔记
+
+  - source_id: prompt-general-learning-support-quiz
+    target_id: prompt-general-learning-support-identify-gaps
+    relation_type: follows
+    strength: strong
+    reason: 测验后可识别知识缺口
+    usage_note: 测验后识别缺口
+
+  - source_id: prompt-general-learning-support-identify-gaps
+    target_id: prompt-general-learning-support-plan
+    relation_type: follows
+    strength: strong
+    reason: 识别缺口后制定学习计划
+    usage_note: 识别缺口后制定计划
+
+  - source_id: prompt-general-learning-support-iterate
+    target_id: prompt-general-learning-support-explain
+    relation_type: grouped_with
+    strength: medium
+    reason: 迭代学习和解释配合
+    usage_note: 迭代中继续解释
+
+  - source_id: prompt-general-learning-support-review
+    target_id: prompt-general-learning-support-quiz
+    relation_type: grouped_with
+    strength: medium
+    reason: 复习和测验配合
+    usage_note: 复习时进行测验检查
+
+  - source_id: prompt-general-learning-support-turn-notes
+    target_id: prompt-general-personal-turn-chaotic
+    relation_type: grouped_with
+    strength: weak
+    reason: 笔记整理和思绪整理类似
+    usage_note: 两者都涉及整理信息
+
+  - source_id: prompt-general-learning-support-plan
+    target_id: prompt-general-reflection-create-improvement
+    relation_type: grouped_with
+    strength: medium
+    reason: 学习计划和改进行动计划配合
+    usage_note: 学习计划配合改进计划
+
+  # ==================== CROSS-MODULE RELATIONS ====================
+
+  - source_id: prompt-general-user-style-adaptation-detect
+    target_id: prompt-general-long-term-assistant-optimize-collaboration
+    relation_type: grouped_with
+    strength: medium
+    reason: 风格检测支持协作优化
+    usage_note: 风格检测支持长协优化
+
+  - source_id: prompt-general-context-memory-track-preferences
+    target_id: prompt-general-personal-life-planning
+    relation_type: grouped_with
+    strength: medium
+    reason: 偏好追踪支持生活规划
+    usage_note: 偏好追踪配合生活规划
+
+  - source_id: prompt-general-reflection-turn-experience
+    target_id: prompt-general-learning-support-turn-notes
+    relation_type: grouped_with
+    strength: weak
+    reason: 经验转化为笔记
+    usage_note: 经验可以整理成笔记
 
 # ==================== 待补全项 ====================
 pending_items:

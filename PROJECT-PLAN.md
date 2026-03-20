@@ -129,7 +129,7 @@ Apply output prompt if needed
 
 ## 4. Version Boundaries
 
-### v1.0.0 (Current)
+### v1.0.0 (2026-03-19)
 - Minimum viable product
 - Core task coverage: coding, debugging, repo-analysis, planning, research
 - Registry system operational
@@ -137,30 +137,56 @@ Apply output prompt if needed
 - Dual licensing implemented
 - Bilingual README
 
-### v1.1.0 (Planned)
-- Enhanced workflow coverage
-- Additional routing paths
-- Improved selection hints
-- Extended tag taxonomy
+### v1.1.0 (Current - 2026-03-20)
+- ✅ Prompts expanded from 80+ to 132+
+- ✅ User-Style-Adaptation: 8 prompts
+- ✅ Long-Term-Assistant: 8 prompts
+- ✅ Creative-Special: 10 prompts
+- ✅ Personal: 6 prompts
+- ✅ Reflection: 6 prompts
+- ✅ Learning-Support: 8 prompts
+- ✅ Engineering-Planning: 8 prompts
+- ✅ Testing: 8 prompts
+- ✅ Documentation-for-Code: 6 prompts
+- ✅ Refactoring: 8 prompts
+- ✅ All registries synchronized (prompts, routes, relations, tags)
+- ✅ All documentation updated to v1.1.0
+- ✅ 6 new routes added for new task types
+- ⚠️ Some prompts content enrichment deferred to future release
 
-### v2.0.0 (Future)
-- Skill versioning and dependencies
-- Dynamic prompt composition
-- Interactive workflow builder
+### v1.2.0 (Future)
+- Model variant optimization
+- Example expansion for all prompts
+- Eval framework integration
+- Automation tooling
 - Community contributions integration
 
 ---
 
 ## 5. Completed Content
 
-### Prompts (47+)
+### Prompts (132+)
 - **Routing**: 4 prompts for AI autonomous selection
 - **System**: 3 prompts for AI behavior configuration
-- **Coding**: 3 prompts for code generation and review
-- **Debugging**: 4 prompts for bug investigation and fixing
-- **Repo Analysis**: 3 prompts for project understanding
+- **Coding**: 20 prompts for code generation, review, and modification
+- **Debugging**: 20 prompts for bug investigation, classification, and fixing
+- **Repo Analysis**: 10 prompts for project understanding
 - **Planning**: 2 prompts for task breakdown
 - **Research**: 1 prompt for research briefs
+- **Refactoring**: 8 prompts for code refactoring
+- **Engineering-Planning**: 8 prompts for engineering planning
+- **Testing**: 8 prompts for testing
+- **Documentation-for-Code**: 6 prompts for documentation
+- **General/Clarification**: 8 prompts for clarification
+- **General/Context-Memory**: 8 prompts for context memory
+- **General/Reasoning**: 7 prompts for reasoning
+- **General/Search**: 7 prompts for search
+- **General/User-Style-Adaptation**: 8 prompts for style adaptation
+- **General/Long-Term-Assistant**: 8 prompts for long-term collaboration
+- **General/Creative-Special**: 10 prompts for creative tasks
+- **General/Personal**: 6 prompts for personal assistance
+- **General/Reflection**: 6 prompts for reflection
+- **General/Learning-Support**: 8 prompts for learning support
 - **Workflow**: 10 multi-step execution flows
 - **Tool-Use**: 8 prompts for systematic tool usage
 - **Output**: 6 prompts for format control
@@ -172,10 +198,10 @@ Apply output prompt if needed
 - Plus specialized: coding-bug-fixing, coding-code-review
 
 ### Registries
-- 46 prompt entries
-- 30+ tags
-- 80+ relationships
-- 8 routing paths
+- 132+ prompt entries (updated)
+- 100+ tags (updated)
+- 200+ relationships (updated)
+- 14 routing paths (updated)
 - 14 skill entries
 
 ---

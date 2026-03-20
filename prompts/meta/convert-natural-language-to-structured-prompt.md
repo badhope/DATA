@@ -146,8 +146,8 @@ steps:
 
       ```markdown
       ---
-      id: [生成唯一ID]
-      name: [Prompt名称]
+      id： [生成唯一ID]
+      name： [Prompt名称]
       type: [类型]
       ---
 

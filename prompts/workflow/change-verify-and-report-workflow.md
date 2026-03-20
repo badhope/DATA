@@ -144,7 +144,7 @@ used_skills:
 used_prompts:
   - prompt-tool-use-read-files-before-answering
   - prompt-task-coding-review-code-for-quality
-  - prompt-task-debugging-verify-fix-after-change
+  - prompt-debugging-verify-fix-after-change
 decision_points:
   - |
     **如果测试失败**：

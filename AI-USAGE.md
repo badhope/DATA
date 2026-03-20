@@ -21,11 +21,11 @@
 当 AI 下载这个仓库后，应按以下顺序读取：
 
 ```
-1. README.md              → 了解仓库定位和结构
-2. prompts/INDEX.md       → 了解 Prompts 仓库结构
-3. prompts/_routing/      → 学习如何选择和组合 Prompts
-4. AI-BOOTSTRAP.md        → 启动引导流程
-5. AI-ROUTING.md          → 详细路由指南
+1。 README。md              → 了解仓库定位和结构
+2。 prompts/INDEX。md       → 了解 Prompts 仓库结构
+3。 prompts/_routing/      → 学习如何选择和组合 Prompts
+4。 AI—BOOTSTRAP。md        → 启动引导流程
+5。 AI—ROUTING。md          → 详细路由指南
 ```
 
 ---
@@ -71,23 +71,23 @@
 ### 选择流程
 
 ```
-1. 确定任务类型
+1。 确定任务类型
        ↓
-2. 进入对应目录
+2。 进入对应目录
        ↓
-3. 读取 prompt 文件的 intent 字段
+3。 读取 prompt 文件的 intent 字段
        ↓
-4. 对比 required_inputs 和你的输入
+4。 对比 required_inputs 和你的输入
        ↓
-5. 选择最匹配的 prompt
+5。 选择最匹配的 prompt
 ```
 
 ### 选择标准
 
-- [ ] `intent` 是否与任务匹配？
-- [ ] `required_inputs` 是否可以提供？
-- [ ] `applicable_models` 是否包含当前模型？
-- [ ] `status` 是否为 `active`？
+— [ ] `intent` 是否与任务匹配？
+— [ ] `required_inputs` 是否可以提供？
+— [ ] `applicable_models` 是否包含当前模型？
+— [ ] `status` 是否为 `active`？
 
 ---
 
@@ -112,11 +112,11 @@
 
 ---
 
-## 何使用 tool-use
+## 何使用 tool—use
 
-### tool-use 适用场景
+### tool—use 适用场景
 
-| 场景 | 使用的 tool-use prompt |
+| 场景 | 使用的 tool—use prompt |
 |------|----------------------|
 | 需要读取多个文件 | `read-files-before-answering` |
 | 需要执行命令 | `use-command-output-safely` |
@@ -127,18 +127,18 @@
 | 需要结构化输出工具结果 | `produce-structured-tool-summary` |
 | 需要按步骤使用工具 | `use-tools-step-by-step` |
 
-### tool-use 使用流程
+### tool—use 使用流程
 
 ```
-1. 识别需要使用工具的任务
+1。 识别需要使用工具的任务
         ↓
-2. 选择合适的 tool-use prompt
+2。 选择合适的 tool—use prompt
         ↓
-3. 按 prompt 中的步骤执行
+3。 按 prompt 中的步骤执行
         ↓
-4. 使用 combine-multiple-tool-results 组合结果
+4。 使用 combine—multiple—tool—results 组合结果
         ↓
-5. 使用 output prompt 格式化最终输出
+5。 使用 output prompt 格式化最终输出
 ```
 
 ---
@@ -174,24 +174,24 @@
 
 ### 误选常见原因
 
-1. **关键词匹配过度**：仅凭几个词就判断类型
-2. **忽略 required_inputs**：选择了无法提供输入的 prompt
-3. **忽略前置条件**：没检查 system prompt 是否需要
+1。 **关键词匹配过度**：仅凭几个词就判断类型
+2。 **忽略 required_inputs**：选择了无法提供输入的 prompt
+3。 **忽略前置条件**：没检查 system prompt 是否需要
 
 ### 避免方法
 
-1. **交叉验证**：多个维度确认任务类型
-2. **读取 intent**：仔细阅读 prompt 的 intent 字段
-3. **小规模测试**：先用简单输入测试 prompt 效果
-4. **回退方案**：准备备选的 prompt 组合
+1。 **交叉验证**：多个维度确认任务类型
+2。 **读取 intent**：仔细阅读 prompt 的 intent 字段
+3。 **小规模测试**：先用简单输入测试 prompt 效果
+4。 **回退方案**：准备备选的 prompt 组合
 
 ### 自我检查清单
 
-- [ ] 任务类型判断是否有多个证据支持？
-- [ ] required_inputs 是否可以全部满足？
-- [ ] 选择的 prompt 之间是否有冲突？
-- [ ] 组合后是否能完成完整任务？
-- [ ] 输出格式是否符合用户期望？
+— [ ] 任务类型判断是否有多个证据支持？
+— [ ] required_inputs 是否可以全部满足？
+— [ ] 选择的 prompt 之间是否有冲突？
+— [ ] 组合后是否能完成完整任务？
+— [ ] 输出格式是否符合用户期望？
 
 ---
 

@@ -132,7 +132,7 @@ AI 路由是指 AI 根据用户需求，自主判断任务类型、选择合适 
     ↓
 识别为：模糊需求
     ↓
-使用：workflow/vague-request-to-action
+使用：workflow/vague—request—to—action
     ↓
 先澄清问题，再确定任务类型
 ```
@@ -143,9 +143,9 @@ AI 路由是指 AI 根据用户需求，自主判断任务类型、选择合适 
 用户需求：完整的项目分析
     ↓
 需要的 Skills：
-  - repo-analysis（分析结构）
-  - coding（理解代码）
-  - planning（制定改进计划）
+  — repo—analysis（分析结构）
+  — coding（理解代码）
+  — planning（制定改进计划）
     ↓
 按顺序执行，组合结果
 ```
@@ -154,11 +154,11 @@ AI 路由是指 AI 根据用户需求，自主判断任务类型、选择合适 
 
 ```
 任务需要：
-  - 读取文件 → tool-use/read-files-before-answering
-  - 执行命令 → tool-use/use-command-output-safely
-  - 搜索信息 → tool-use/search-before-concluding
+  — 读取文件 → tool—use/read—files—before—answering
+  — 执行命令 → tool—use/use—command—output—safely
+  — 搜索信息 → tool—use/search—before—concluding
     ↓
-先使用 tool-use prompt，再继续主任务
+先使用 tool—use prompt，再继续主任务
 ```
 
 ---
@@ -200,17 +200,17 @@ AI 路由是指 AI 根据用户需求，自主判断任务类型、选择合适 
 ## 路由自检清单
 
 执行路由前检查：
-- [ ] 是否准确理解了用户需求？
-- [ ] 任务类型判断是否有多个证据支持？
-- [ ] 选择的 Prompt 是否都满足 required_inputs？
-- [ ] 是否需要 Workflow 还是单个 Prompt 就够？
-- [ ] 组合顺序是否符合依赖关系？
-- [ ] 是否有备选方案以防失败？
+— [ ] 是否准确理解了用户需求？
+— [ ] 任务类型判断是否有多个证据支持？
+— [ ] 选择的 Prompt 是否都满足 required_inputs？
+— [ ] 是否需要 Workflow 还是单个 Prompt 就够？
+— [ ] 组合顺序是否符合依赖关系？
+— [ ] 是否有备选方案以防失败？
 
 执行路由后检查：
-- [ ] 执行过程是否顺畅？
-- [ ] 输出是否符合预期？
-- [ ] 是否需要调整组合方式？
+— [ ] 执行过程是否顺畅？
+— [ ] 输出是否符合预期？
+— [ ] 是否需要调整组合方式？
 
 ---
 

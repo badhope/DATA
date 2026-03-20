@@ -1,197 +1,302 @@
 ---
 id: prompt-tool-use-use-tools-step-by-step-v1
 name: Use Tools Step by Step
-summary: 工具使用步骤指南，强调系统性使用工具而非一次性获取所有信息
+summary: 将复杂任务分解为一步步的工具调用，每步验证后再进入下一步，避免一次性调用过多工具导致信息混乱
 type: tool-use
 status: active
 version: "1.0.0"
 owner: skill-repository
 category: tool-use
-sub_category: systematic
+sub_category: sequential-execution
 tags:
   - tool-use
   - step-by-step
-  - systematic
-  - tools
-  - process
+  - complexity-management
+  - sequential
 keywords:
-  - 工具使用
-  - 步骤
-  - 系统性
-  - 流程
+  - 逐步执行
+  - 任务分解
+  - 工具调用顺序
 intent: |
-  用于指导系统性使用工具的方法论。强调按步骤使用工具，
-  每步验证后再进入下一步，避免遗漏重要信息和过早下结论。
+  将复杂任务分解为一步步的工具调用，每步验证后再进入下一步。
+  强调系统性执行，避免一次性调用过多工具。
+  核心原则：复杂任务分步执行，每步验证后再继续。
 applicable_models:
   - "*"
-required_inputs:
-  - task: string 任务目标
-  - available_tools: array 可用的工具列表
-  - constraints: string 约束条件（可选）
-outputs:
-  - tool_sequence: array 工具使用顺序
-  - step_results: array 每步的结果
-  - verification_points: array 验证点
-  - intermediate_conclusions: array 中间结论
-  - final_result: string 最终结果
-steps:
-  - id: 1
-    name: 分析任务，确定需要的工具
-    action: |
-      1. 理解最终目标
-      2. 分解为中间目标
-      3. 确定需要的工具
-
-      工具分类：
-      - **文件读取工具**：读取代码、配置、文档
-      - **搜索工具**：搜索代码、文档、网络
-      - **分析工具**：分析代码结构、性能
-      - **执行工具**：运行命令、测试
-      - **生成工具**：生成代码、文档
-
-      依赖关系分析：
-      - 哪些信息可以并行获取？
-      - 哪些信息需要依赖前一步的结果？
-      - 正确的执行顺序是什么？
-    output: 工具使用计划
-
-  - id: 2
-    name: 执行第一步
-    action: |
-      1. 使用指定的第一个工具
-      2. 记录执行过程
-      3. 收集输出结果
-
-      执行时注意：
-      - 使用工具的完整功能
-      - 记录工具的完整输出
-      - 注意错误和警告信息
-      - 记录执行时间（如相关）
-
-      输出格式：
-      ```
-      工具：[工具名称]
-      输入：[使用的输入]
-      输出：[完整输出摘要]
-      错误/警告：[如有]
-      ```
-    output: 第一步结果
-
-  - id: 3
-    name: 验证结果
-    action: |
-      每步执行后验证：
-      1. 检查输出是否有效
-      2. 检查输出是否完整
-      3. 检查是否出现错误
-
-      验证标准：
-      - 有输出？[ ]
-      - 输出格式正确？[ ]
-      - 包含所需信息？[ ]
-      - 无错误？[ ]
-
-      如果验证失败：
-      - 诊断问题
-      - 调整工具参数
-      - 或更换工具
-      - 重新执行
-    output: 验证结果
-
-  - id: 4
-    name: 分析中间结果，决定下一步
-    action: |
-      基于当前结果：
-      1. 提取有用信息
-      2. 识别知识缺口
-      3. 决定下一步使用什么工具
-      4. 或决定是否可以得出结论
-
-      决策点：
-      - 信息是否足够完成目标？
-      - 是否需要更多工具？
-      - 是否遇到阻塞需要换方向？
-      - 是否可以进入下一步？
-    output: 下一步决策
-
-  - id: 5
-    name: 重复步骤 2-4 直到完成
-    action: |
-      对每个后续步骤：
-      1. 执行工具
-      2. 验证结果
-      3. 分析结果
-      4. 决定是否继续
-
-      终止条件：
-      - 达到最终目标
-      - 确定无法继续
-      - 时间/资源限制
-      - 风险过高
-
-      记录每个步骤：
-      - 工具和参数
-      - 执行结果
-      - 验证状态
-      - 决策原因
-    output: 所有步骤结果
-
-  - id: 6
-    name: 聚合结果
-    action: |
-      1. 汇总所有中间结果
-      2. 识别结果间的关联
-      3. 处理可能的矛盾
-      4. 形成最终结论
-
-      聚合方式：
-      - 按信息类型分类
-      - 按时间线组织
-      - 按可信度排序
-      - 识别主信息和噪音
-    output: 最终结果
-
-used_skills: []
-used_prompts:
+input_requirements:
+  - task: string 需要完成的复杂任务
+  - complexity: string 任务复杂度 (low/medium/high/very-high)
+  - expected_steps: number (可选) 预估的步骤数
+output_requirements:
+  - execution_plan: array 执行计划，每步包含：
+    - step: number 步骤序号
+    - action: string 本步动作
+    - tool: string 使用的工具
+    - verification: string 验证方式
+    - next_step_condition: string 进入下一步的条件
+  - results: object 每步的执行结果
+  - final_output: object 最终输出
+tool_requirements:
+  - All available tools as needed
+preconditions:
+  - 任务复杂，无法一步完成
+anti_patterns:
+  - 一次性调用多个不相关的工具
+  - 不验证当前步骤结果就继续下一步
+  - 不设定停步条件
+failure_modes:
+  - 步骤过多：识别可以合并的步骤
+  - 步骤卡住：设定验证点和回退策略
+  - 信息不足：每步明确需要什么信息
+self_check: |
+  每步执行前自检：
+  □ 上一步的结果是否已验证？
+  □ 本步需要什么信息？
+  □ 是否有足够信息执行本步？
+  □ 如果信息不足，是否先补充信息？
+related_skills:
+  - tool-use-read-files-before-answering
+  - tool-use-combine-multiple-results
+  - skill-debugging
+related_workflows:
+  - workflow-bug-investigation
+  - workflow-feature-implementation
+  - workflow-tool-assisted-debug
+related_prompts:
   - prompt-tool-use-read-files-before-answering
-  - prompt-tool-use-search-before-concluding
-decision_points:
-  - |
-    **如果某步骤失败**：
-    - 分析失败原因
-    - 尝试替代方法
-    - 记录失败和替代
-    - 继续或重新规划
+  - prompt-tool-use-analyze-folder-then-plan
+---
 
-  - |
-    **如果结果超出预期**：
-    - 分析新信息
-    - 可能需要调整计划
-    - 记录变化
+# Context
 
-  - |
-    **如果遇到循环**：
-    - 检查是否在重复同样的搜索
-    - 记录已尝试的方法
-    - 决定是否继续或放弃
+这是一个约束 AI 行为方式的工具类 prompt。它的核心目标是：**将复杂任务系统性地分解执行，每步验证后再继续**。
 
-  - |
-    **如果时间耗尽**：
-    - 整理已有结果
-    - 基于不完全信息给出结论
-    - 标注哪些未完成
+当遇到以下情况时，必须分步执行：
+- 复杂的多模块分析任务
+- 需要多种工具配合的任务
+- 结果需要逐步验证的任务
 
-final_deliverables:
-  - 工具使用顺序
-  - 每步执行结果
-  - 验证点状态
-  - 中间结论
-  - 最终结果
-  - 执行日志
+# Prompt Body
 
-notes: |
-  - 核心原则：系统性、验证性、记录性
-  - 每步都要验证，不跳过
-  - 记录所有执行过程便于追溯
-  - 中间结论要有依据
-  - 最终结果应整合所有步骤
+## 阶段 1：任务分析和分解
+
+### 1.1 任务复杂度评估
+
+```markdown
+## 任务复杂度评估
+
+**任务描述**: [复述任务]
+
+**复杂度判断**:
+| 指标 | 评估 | 说明 |
+|------|------|------|
+| 涉及文件数 | [数量] | |
+| 需要工具种类 | [数量] | |
+| 验证点数量 | [数量] | |
+| 可能的分支 | [数量] | |
+| **综合复杂度** | **低/中/高/极高** | |
+
+**是否需要分步执行**: [是/否]
+- 是：进入分步执行流程
+- 否：考虑是否真的不需要分步
+```
+
+### 1.2 任务分解
+
+```markdown
+## 任务分解
+
+### 分解原则
+1. **单一职责**：每步只完成一个明确的目标
+2. **可验证**：每步结果可以验证
+3. **有条件**：明确进入下一步的条件
+4. **有停点**：明确在何处可以停止
+
+### 分解结果
+| 步骤 | 目标 | 工具 | 验证方式 | 停步条件 |
+|------|------|------|----------|----------|
+| 1 | [目标] | [工具] | [验证] | [条件] |
+| 2 | [目标] | [工具] | [验证] | [条件] |
+| 3 | [目标] | [工具] | [验证] | [条件] |
+```
+
+## 阶段 2：逐步执行
+
+### 2.1 执行模板
+
+```markdown
+## 步骤执行记录
+
+### 步骤 1: [步骤名称]
+**目标**: [本步要达成什么]
+**工具**: [使用的工具]
+**输入**: [需要的输入]
+
+**执行**:
+```bash
+[工具调用命令]
+```
+
+**结果**:
+```json
+[执行结果摘要]
+```
+
+**验证**:
+- [ ] 结果是否符合预期？
+- [ ] 是否可以进入下一步？
+
+**进入下一步条件**: [条件描述]
+
+**[如果条件满足，继续步骤 2；如果不满足，处理问题]**
+```
+
+### 2.2 分支处理
+
+```markdown
+## 分支处理
+
+### 可能的分支
+
+#### 分支 A: [条件描述]
+如果遇到 [条件]，则：
+1. [处理方式1]
+2. [处理方式2]
+
+#### 分支 B: [条件描述]
+如果遇到 [条件]，则：
+1. [处理方式1]
+2. [处理方式2]
+
+### 回退策略
+如果某步骤完全失败：
+1. 记录失败原因
+2. 尝试替代方案
+3. 如果无法继续，汇总已获取的信息并报告
+```
+
+## 阶段 3：结果整合
+
+### 3.1 中间结果汇总
+
+```markdown
+## 中间结果汇总
+
+### 步骤 1 结果
+- 关键发现: [发现1]
+- 数据: [数据1]
+
+### 步骤 2 结果
+- 关键发现: [发现2]
+- 数据: [数据2]
+
+### 步骤 3 结果
+- 关键发现: [发现3]
+- 数据: [数据3]
+```
+
+### 3.2 最终整合
+
+```markdown
+## 最终输出
+
+### 整合逻辑
+[如何将各步结果整合成最终输出]
+
+### 最终结果
+```json
+[最终结果]
+```
+
+### 信息来源追踪
+| 信息 | 来源步骤 | 置信度 |
+|------|----------|--------|
+| [信息1] | 步骤1 | 高/中/低 |
+| [信息2] | 步骤2 | 高/中/低 |
+```
+
+## 阶段 4：执行总结
+
+```markdown
+## 执行总结
+
+### 执行统计
+| 指标 | 数值 |
+|------|------|
+| 总步骤数 | [数量] |
+| 成功步骤 | [数量] |
+| 分支处理 | [数量] |
+| 总执行时间 | [估算] |
+
+### 质量检查
+- [ ] 每步是否都有验证？
+- [ ] 是否有步骤被跳过或合并？
+- [ ] 最终结果是否满足任务需求？
+
+## 自检清单
+- [ ] 是否按步骤执行？
+- [ ] 每步是否验证了结果？
+- [ ] 分支是否正确处理？
+- [ ] 最终输出是否完整？
+```
+
+# Variables
+
+| 变量 | 说明 | 示例 |
+|------|------|------|
+| `task` | 需要完成的任务 | `"分析这个微服务项目的架构"` |
+| `complexity` | 复杂度 | `high` |
+| `expected_steps` | 预估步骤 | `5` |
+
+# Usage Notes
+
+1. **单步验证**：每步执行后必须验证结果
+2. **明确条件**：每步都要有明确的"进入下一步条件"
+3. **处理分支**：提前规划可能的分支和回退策略
+4. **信息追踪**：记录每步获取的信息和来源
+5. **适时停止**：如果已满足需求，及时停止执行
+
+# Example Input
+
+```yaml
+task: "分析这个电商项目的订单处理流程"
+complexity: "high"
+expected_steps: 6
+```
+
+# Example Output
+
+```yaml
+execution_plan:
+  - step: 1
+    action: "识别项目结构"
+    tool: "Glob + Read"
+    verification: "确认 src/orders/ 目录存在"
+    next_step_condition: "找到订单相关的源代码目录"
+  - step: 2
+    action: "读取订单服务入口"
+    tool: "Read"
+    verification: "确认 OrderService 类存在"
+    next_step_condition: "成功读取 OrderService"
+  - step: 3
+    action: "追踪订单创建流程"
+    tool: "Grep + Read"
+    verification: "找到 createOrder 方法"
+    next_step_condition: "追踪到完整流程"
+
+results:
+  step_1:
+    found: "src/orders/ 目录，包含 OrderService, OrderController"
+  step_2:
+    class: "OrderService"
+    methods: ["create", "cancel", "getById"]
+  step_3:
+    flow: "Controller → Service → Repository → Database"
+
+final_output:
+  order_flow: "创建订单 → 验证库存 → 计算价格 → 支付 → 发货 → 完成"
+  key_files:
+    - "src/orders/OrderService.ts"
+    - "src/orders/OrderController.ts"
+    - "src/orders/repositories/OrderRepository.ts"
+```
