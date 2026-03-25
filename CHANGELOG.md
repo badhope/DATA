@@ -4,6 +4,48 @@ All notable changes to this repository will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en-GB/1.0.0/).
 
+## [v1.2.0] - 2026-03-25
+
+### Added
+
+#### Skills Expansion - 16 New Programming Skills
+- **instruction-refinement**: Instruction refinement and enhancement skill for supplementing context, constraints, and output formats
+- **execution-timeout-handler**: Dynamic execution timeout handling based on task type
+- **document-processor**: Multi-format document processing (PDF, Word, Excel, Markdown, etc.)
+- **multi-language-file-handler**: Syntax-aware multi-language file handling
+- **self-memory-manager**: Self-contained memory management with keyword extraction
+- **code-search-navigator**: Expert code search and navigation capabilities
+- **dependency-analyzer**: Dependency analysis and vulnerability detection
+- **test-generator**: Comprehensive test case generation for various frameworks
+- **performance-optimizer**: Performance optimization and bottleneck analysis
+- **security-auditor**: Security vulnerability auditing and remediation guidance
+- **api-integrator**: Third-party API integration with authentication handling
+- **error-recovery**: Error recovery with retry, rollback, and fallback strategies
+- **context-compressor**: Context compression while preserving critical information
+- **incremental-changer**: Minimal, targeted code changes preserving existing behavior
+- **cross-file-refactor**: Safe cross-file refactoring maintaining consistency
+- **prompt-composition**: Compose multiple prompts into coherent workflows
+
+#### GitHub Templates
+- `.github/ISSUE_TEMPLATE/bug_report.md`: Bug report template
+- `.github/ISSUE_TEMPLATE/feature_request.md`: Feature request template
+- `.github/ISSUE_TEMPLATE/prompt_request.md`: Prompt/skill request template
+- `.github/ISSUE_TEMPLATE/documentation.md`: Documentation issue template
+- `.github/ISSUE_TEMPLATE/good_first_issue.md`: Good first issue template
+- `.github/PULL_REQUEST_TEMPLATE.md`: Pull request template
+
+### Changed
+
+- Skills count updated from 27+ to 43+
+- README.md and README.zh-CN.md updated with new skill counts
+- Project structure enhanced with GitHub community templates
+
+### Security
+
+- No security vulnerabilities reported in this release
+
+---
+
 ## [v1.1.0] - 2026-03-20
 
 ### Added

@@ -90,7 +90,7 @@
 
 ---
 
-[![Version](https://img.shields.io/badge/version-v2.0.0-blue.svg)](https://github.com/badhope/skill)
+[![Version](https://img.shields.io/badge/version-v1.2.0-blue.svg)](https://github.com/badhope/skill)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-yellowgreen.svg)](LICENSE-CODE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-orange.svg)](LICENSE-CONTENT)
 [![GitHub stars](https://img.shields.io/github/stars/badhope/skill?style=social)](https://github.com/badhope/skill)
@@ -122,7 +122,7 @@
 | 特性 | 说明 |
 |------|------|
 | 🏆 **132+ 精选提示词** | 覆盖编程、调试、学习、创意等场景 |
-| 🎯 **27+ 标准化技能** | 模块化设计，即插即用 |
+| 🎯 **43+ 标准化技能** | 模块化设计，即插即用 |
 | 🔧 **10+ 预置工作流** | 开箱即用的多步骤任务流 |
 | 🧠 **上下文记忆系统** | <100ms 语义检索响应 |
 | 🤖 **强化学习引擎** | 自适应工作流优化 |
@@ -288,7 +288,7 @@ src/
 | 类别 | 数量 | 描述 |
 |------|:----:|------|
 | **Prompts** | 132+ | 编程、调试、规划、研究用提示词 |
-| **Skills** | 27+ | AI任务路由能力定义 |
+| **Skills** | 43+ | AI任务路由能力定义 |
 | **Workflows** | 10+ | 多步骤执行流程 |
 | **Tool-Use Guides** | 8+ | 文件读取、命令执行系统方法 |
 | **Output Formats** | 6+ | JSON、YAML、Markdown、表格、清单、报告 |
@@ -341,7 +341,7 @@ src/
 | 指标 | 数值 |
 |------|------|
 | 📝 Prompts | 132+ |
-| 🎯 Skills | 27+ |
+| 🎯 Skills | 43+ |
 | 🔧 Workflows | 10+ |
 | ⚙️ Source Modules | 6 |
 | 📚 Documentation | 50+ |
