@@ -1,0 +1,54 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  dependency-review:
+    name: Dependency Review
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+          deny-licenses: GPL-3.0, AGPL-3.0
+
+  check-dependencies:
+    name: Check Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check for package.json files
+        run: |
+          echo "Checking for package.json files..."
+          find . -name "package.json" -type f | while read pkg; do
+            echo "Found: $pkg"
+            dir=$(dirname "$pkg")
+            if [ -f "$dir/package-lock.json" ]; then
+              echo "  ✓ Has package-lock.json"
+            else
+              echo "  ⚠ Missing package-lock.json"
+            fi
+          done
+
+      - name: Check for requirements.txt files
+        run: |
+          echo "Checking for requirements.txt files..."
+          find . -name "requirements.txt" -type f | while read req; do
+            echo "Found: $req"
+          done || echo "No requirements.txt files found"

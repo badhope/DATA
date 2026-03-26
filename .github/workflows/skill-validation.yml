@@ -1,0 +1,136 @@
+name: Skill Validation
+
+on:
+  push:
+    paths:
+      - '.trae/skills/**'
+  pull_request:
+    paths:
+      - '.trae/skills/**'
+  workflow_dispatch:
+
+jobs:
+  validate-skills:
+    name: Validate All Skills
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate skill files
+        run: |
+          python -c "
+          import os
+          import re
+          import sys
+          from pathlib import Path
+          
+          skills_dir = Path('.trae/skills')
+          errors = []
+          warnings = []
+          skill_count = 0
+          
+          # Required fields in frontmatter
+          required_fields = ['name', 'description', 'category', 'tags']
+          
+          for skill_path in skills_dir.glob('*/SKILL.md'):
+              skill_count += 1
+              skill_name = skill_path.parent.name
+              
+              with open(skill_path, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              
+              # Check frontmatter
+              if not content.startswith('---'):
+                  errors.append(f'{skill_name}: Missing frontmatter')
+                  continue
+              
+              # Parse frontmatter
+              frontmatter_match = re.search(r'^---\s*\n(.*?)\n---', content, re.DOTALL)
+              if not frontmatter_match:
+                  errors.append(f'{skill_name}: Invalid frontmatter format')
+                  continue
+              
+              frontmatter = frontmatter_match.group(1)
+              
+              # Check required fields
+              for field in required_fields:
+                  if f'{field}:' not in frontmatter:
+                      errors.append(f'{skill_name}: Missing required field \"{field}\"')
+              
+              # Check content length
+              main_content = content[frontmatter_match.end():].strip()
+              if len(main_content) < 500:
+                  warnings.append(f'{skill_name}: Content is short ({len(main_content)} chars)')
+              
+              # Check for English description
+              if 'description:' in frontmatter:
+                  desc_match = re.search(r'description:\s*[\"|\']?(.+?)[\"|\']?\s*$', frontmatter, re.MULTILINE)
+                  if desc_match:
+                      desc = desc_match.group(1)
+                      if not desc:
+                          errors.append(f'{skill_name}: Empty description')
+              
+              print(f'✓ {skill_name}')
+          
+          print(f'\n📊 Validation Summary:')
+          print(f'   Total skills: {skill_count}')
+          print(f'   Errors: {len(errors)}')
+          print(f'   Warnings: {len(warnings)}')
+          
+          if errors:
+              print('\n❌ Errors:')
+              for e in errors:
+                  print(f'   - {e}')
+          
+          if warnings:
+              print('\n⚠️ Warnings:')
+              for w in warnings:
+                  print(f'   - {w}')
+          
+          if errors:
+              sys.exit(1)
+          
+          print('\n✅ All skills validated successfully!')
+          "
+
+      - name: Check skill categories
+        run: |
+          python -c "
+          import os
+          from pathlib import Path
+          from collections import Counter
+          
+          skills_dir = Path('.trae/skills')
+          categories = Counter()
+          
+          for skill_path in skills_dir.glob('*/SKILL.md'):
+              with open(skill_path, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              
+              # Extract category
+              for line in content.split('\n'):
+                  if line.startswith('category:'):
+                      cat = line.split(':', 1)[1].strip().strip('\"').strip(\"'\")
+                      categories[cat] += 1
+                      break
+          
+          print('📊 Skills by Category:')
+          print('-' * 40)
+          for cat, count in sorted(categories.items(), key=lambda x: -x[1]):
+              print(f'  {cat}: {count}')
+          print('-' * 40)
+          print(f'  Total: {sum(categories.values())}')
+          "
+
+      - name: Generate skill report
+        run: |
+          echo "## Skill Validation Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          skill_count=$(find .trae/skills -name "SKILL.md" | wc -l)
+          echo "✅ **$skill_count skills validated successfully**" >> $GITHUB_STEP_SUMMARY

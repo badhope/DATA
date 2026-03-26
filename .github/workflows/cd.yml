@@ -1,0 +1,141 @@
+name: CD
+
+on:
+  push:
+    branches: [ main ]
+  release:
+    types: [ published ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  prepare:
+    name: Prepare Deployment
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get version
+        id: version
+        run: |
+          VERSION=$(grep 'version-v' README.md | head -1 | sed 's/.*version-v\([0-9.]*\).*/\1/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+  build-docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    needs: prepare
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Generate documentation site
+        run: |
+          mkdir -p _site
+          
+          # Copy main documentation
+          cp README.md _site/index.md
+          cp SKILLS-INDEX.md _site/
+          cp CHANGELOG.md _site/
+          cp CONTRIBUTING.md _site/
+          cp SECURITY.md _site/
+          
+          # Create documentation index
+          cat > _site/docs-index.md << 'EOF'
+          # Documentation Index
+          
+          ## Core Documentation
+          
+          - [README](index.md) - Project overview
+          - [Skills Index](SKILLS-INDEX.md) - Complete skill catalog
+          - [Changelog](CHANGELOG.md) - Version history
+          - [Contributing](CONTRIBUTING.md) - Contribution guide
+          - [Security](SECURITY.md) - Security policy
+          
+          ## Statistics
+          
+          EOF
+          
+          # Add statistics
+          skill_count=$(find .trae/skills -name "SKILL.md" | wc -l)
+          prompt_count=$(find prompts -name "*.md" | wc -l)
+          
+          echo "- **Skills**: $skill_count" >> _site/docs-index.md
+          echo "- **Prompts**: $prompt_count" >> _site/docs-index.md
+          
+          echo "Documentation site built successfully!"
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy-pages:
+    name: Deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    needs: build-docs
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  release-notes:
+    name: Generate Release Notes
+    runs-on: ubuntu-latest
+    needs: [prepare, deploy-pages]
+    if: github.event_name == 'release'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Generate release notes
+        run: |
+          echo "## Release v${{ needs.prepare.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Changes" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          git log --oneline $(git describe --tags --abbrev=0 HEAD^)..HEAD >> $GITHUB_STEP_SUMMARY || true
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "- GitHub Pages: https://badhope.github.io/skill/" >> $GITHUB_STEP_SUMMARY
+
+  notify-success:
+    name: Notify Deployment Success
+    runs-on: ubuntu-latest
+    needs: [prepare, deploy-pages]
+    if: success()
+    steps:
+      - name: Deployment summary
+        run: |
+          echo "## ✅ Deployment Successful" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Version: v${{ needs.prepare.outputs.version }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Deployed Resources" >> $GITHUB_STEP_SUMMARY
+          echo "- GitHub Pages: https://badhope.github.io/skill/" >> $GITHUB_STEP_SUMMARY
+          echo "- Repository: https://github.com/badhope/skill" >> $GITHUB_STEP_SUMMARY
