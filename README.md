@@ -4,7 +4,7 @@
 
 ---
 
-[![Version](https://img.shields.io/badge/version-v2.0.0-blue.svg)](https://github.com/badhope/skill)
+[![Version](https://img.shields.io/badge/version-v2.1.0-blue.svg)](https://github.com/badhope/skill)
 [![License: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-yellowgreen.svg)](LICENSE-CODE)
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-orange.svg)](LICENSE-CONTENT)
 [![GitHub stars](https://img.shields.io/github/stars/badhope/skill?style=social)](https://github.com/badhope/skill)
@@ -34,7 +34,7 @@
 | Feature | Description |
 |---------|-------------|
 | 🏆 **132+ Curated Prompts** | Covering coding, debugging, learning, creative scenarios |
-| 🎯 **78+ Standardized Skills** | Modular design, plug-and-play |
+| 🎯 **110+ Standardized Skills** | Modular design, plug-and-play |
 | 🔧 **10+ Pre-built Workflows** | Ready-to-use multi-step task flows |
 | 🧠 **Context Memory System** | <100ms semantic search response |
 | 🤖 **Reinforcement Learning Engine** | Adaptive workflow optimization |
@@ -100,165 +100,264 @@ Extensible tool framework with professional modules:
 
 ---
 
-## 📚 Academic & Professional Tools
+## 📚 Skill Categories
 
-### 🔬 Academic Writing Suite
+### 🔌 MCP Skills (19 skills)
 
-| Module | Function |
-|--------|----------|
-| **Context-Aware Literature Search** | Semantic search of research databases |
-| **Research Paper Enhancement** | Structure optimization, clarity improvement |
-| **Plagiarism Detection** | Originality verification and citation checking |
-| **Academic Integrity Verification** | Academic integrity verification |
-
-### 🎓 Learning Support Modules
-
-- Adaptive learning path recommendation
-- Knowledge gap identification
-- Spaced repetition scheduling
-- Progress tracking and assessment
-
-### ✍️ Professional Writing Tools
-
-- Multi-audience tone adaptation (formal/casual/technical)
-- Brand voice consistency checking
-- A/B title optimization
-- Call-to-action effectiveness analysis
-
----
-
-## 🎨 Creative Content Generation
-
-### 📖 Fiction & Story Development
-
-| Feature | Description |
-|---------|-------------|
-| **Narrative Structure Assistance** | Three-act, Hero's Journey, Save the Cat |
-| **Character Development** | Archetype mapping, motivation analysis |
-| **Worldbuilding** | Consistency checking, world management |
-| **Dialogue Generation** | Tone adaptation, character voice maintenance |
-
-### 🎬 Multimodal Content Generation
-
-| Modality | Capability |
-|----------|------------|
-| **Text-to-Image** | Stable Diffusion integration ready |
-| **Text-to-Video** | Storyboard generation, scene description |
-| **Audio-Visual** | Subtitle sync, audio description |
-
-### 🤖 Intelligent Agent Toolkit
-
-- Customizable behavior patterns
-- Persona configuration
-- Memory and context management
-- Tool use workflow integration
-
----
-
-## 🏗️ Architecture
-
-### 📦 Modular Architecture
-
-```
-src/
-├── context_memory/     # Layered memory + semantic search
-│   ├── stores.py       # Short/medium/long-term storage
-│   ├── semantic_search.py  # Vector operations, similarity
-│   └── manager.py      # Memory orchestration
-├── rl_engine/          # Reinforcement learning
-│   ├── engine.py       # RL core implementation
-│   ├── ppo.py          # Policy/Value networks
-│   └── reward.py       # Reward calculation
-├── coding_engine/      # Code analysis and generation
-│   ├── analyzer.py     # Syntax analysis
-│   ├── quality.py      # Code quality checking
-│   ├── patterns.py     # Design pattern library
-│   └── algorithms.py   # Algorithm implementation
-├── network/            # Distributed communication
-│   └── communication.py  # Service mesh, load balancing
-├── mcp_tools/          # MCP tool framework
-│   ├── framework.py    # Tool orchestration
-│   ├── tools.py        # Built-in tools
-│   └── mcu_tools.py    # MCU code generation
-└── special/            # Special function modules
-    └── modules.py      # Animation, games, simulation, etc.
-```
-
----
-
-## ✨ Repository at a Glance
-
-| Category | Count | Description |
-|----------|:-----:|-------------|
-| **Prompts** | 132+ | Coding, debugging, planning, research prompts |
-| **Skills** | 95+ | AI task routing capability definitions |
-| **MCP Skills** | 15+ | Model Context Protocol integration skills |
-| **Workflows** | 10+ | Multi-step execution flows |
-| **Tool-Use Guides** | 8+ | File reading, command execution methods |
-| **Output Formats** | 6+ | JSON, YAML, Markdown, Table, Checklist, Report |
-| **Meta Prompts** | 8+ | Prompt engineering tools |
-| **Special Modules** | 6 | Animation, games, simulation, etc. |
-
----
-
-## 🔌 MCP (Model Context Protocol) Skills
-
-MCP is an open protocol that standardizes how AI models interact with external tools, resources, and data sources. Our repository includes comprehensive MCP skills:
-
-### Core MCP Skills
+Model Context Protocol integration for AI tool interaction.
 
 | Skill | Description |
 |-------|-------------|
-| **mcp-server-development** | Server architecture, tools, resources, prompts |
-| **mcp-client-integration** | Client connection, tool discovery, multi-server |
-| **mcp-tool-creation** | Tool design, validation, security, performance |
-| **mcp-resource-management** | Resource exposure, subscription, caching |
-| **mcp-prompt-templates** | Parameterized prompts, multi-turn templates |
+| mcp-server-development | Server architecture, tools, resources |
+| mcp-client-integration | Client connection, tool discovery |
+| mcp-tool-creation | Tool design, validation, security |
+| mcp-resource-management | Resource exposure, subscription |
+| mcp-prompt-templates | Parameterized prompts, templates |
+| mcp-debugging-testing | MCP Inspector, unit tests |
+| mcp-deployment-operations | Docker, Kubernetes, cloud deployment |
+| mcp-security-best-practices | Authentication, authorization |
+| mcp-filesystem-integration | Secure file system operations |
+| mcp-database-integration | PostgreSQL, MySQL, MongoDB, Redis |
+| mcp-browser-automation | Puppeteer, Playwright automation |
+| mcp-github-integration | Repository, Issues, PRs |
+| mcp-api-gateway | Multi-server routing, load balancing |
+| mcp-protocol-deep-dive | Protocol specification, transport |
+| mcp-memory-context | Session memory, vector search |
+| mcp-error-handling | Error classification, recovery |
+| mcp-web-search | Web search integration |
+| mcp-slack-integration | Slack bot and automation |
+| mcp-aws-integration | AWS resource management |
 
-### Integration Skills
+### 💻 Coding Skills (8 skills)
 
-| Skill | Description |
-|-------|-------------|
-| **mcp-filesystem-integration** | Secure file system access and operations |
-| **mcp-database-integration** | PostgreSQL, MySQL, MongoDB, Redis, SQLite |
-| **mcp-browser-automation** | Puppeteer, Playwright, Chrome DevTools |
-| **mcp-github-integration** | Repository, Issues, PRs, code search |
-
-### Operations Skills
-
-| Skill | Description |
-|-------|-------------|
-| **mcp-debugging-testing** | MCP Inspector, unit tests, integration tests |
-| **mcp-deployment-operations** | Docker, Kubernetes, AWS, GCP, Azure |
-| **mcp-security-best-practices** | Authentication, authorization, input validation |
-| **mcp-api-gateway** | Multi-server routing, load balancing, caching |
-
-### Advanced Skills
+Code generation, review, and implementation.
 
 | Skill | Description |
 |-------|-------------|
-| **mcp-protocol-deep-dive** | Protocol specification, message format, transport |
-| **mcp-memory-context** | Session memory, long-term storage, vector search |
-| **mcp-error-handling** | Error classification, recovery, retry mechanisms |
+| coding | Code generation and implementation |
+| coding-code-review | Code quality review |
+| coding-bug-fixing | Bug analysis and fixing |
+| incremental-changer | Minimal targeted changes |
+| cross-file-refactor | Safe cross-file refactoring |
+| multi-language-file-handler | Multi-language file handling |
+| test-generator | Test case generation |
+| prompt-engineering | Prompt optimization techniques |
 
-### Quick Start
+### 🐛 Debugging Skills (5 skills)
 
-```json
-// Claude Desktop Configuration
-{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/workspace"]
-    },
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": { "GITHUB_TOKEN": "your-token" }
-    }
-  }
-}
-```
+Systematic debugging and troubleshooting.
+
+| Skill | Description |
+|-------|-------------|
+| debugging | Systematic debugging process |
+| system-debugging-agent | Debugging agent capabilities |
+| workflow-bug-investigation | Bug investigation workflow |
+| workflow-tool-assisted-debug | Tool-assisted debugging |
+| error-recovery | Error recovery strategies |
+
+### 🔧 DevOps Skills (12 skills)
+
+Infrastructure and deployment automation.
+
+| Skill | Description |
+|-------|-------------|
+| git-operations | Git workflow and operations |
+| shell-scripting | Shell script automation |
+| docker-containerization | Docker container management |
+| ci-cd-pipeline | CI/CD pipeline configuration |
+| database-migration | Database migration scripts |
+| kubernetes-orchestration | Kubernetes deployment |
+| terraform-iac | Infrastructure as code |
+| incident-response | Production incident handling |
+| network-debugging | Network troubleshooting |
+| linting-config | Linting tool configuration |
+| config-management | Configuration management |
+| secret-management | Secret and credential management |
+
+### 🎨 Frontend Skills (7 skills)
+
+UI/UX and client-side development.
+
+| Skill | Description |
+|-------|-------------|
+| frontend-react | React development |
+| frontend-vue | Vue.js development |
+| css-tailwind | Tailwind CSS styling |
+| web-design-teroop | Design-first architecture |
+| accessibility-a11y | Web accessibility standards |
+| i18n-localization | Internationalization |
+| web-scraping | Web scraping with Puppeteer |
+
+### ⚙️ Backend Skills (13 skills)
+
+Server-side and API development.
+
+| Skill | Description |
+|-------|-------------|
+| api-design | RESTful and GraphQL API design |
+| backend-nodejs | Node.js backend development |
+| backend-python | Python backend development |
+| backend-go | Go backend development |
+| microservices-patterns | Microservices architecture |
+| event-driven-architecture | Event sourcing, CQRS |
+| graphql-development | GraphQL schema design |
+| sql-optimization | SQL query optimization |
+| redis-caching | Redis caching strategies |
+| message-queue | Message queue systems |
+| websocket-realtime | WebSocket communication |
+| state-management | Redux, Zustand, Pinia |
+| mobile-development | React Native, Flutter |
+
+### 🧪 Testing Skills (5 skills)
+
+Test automation and coverage.
+
+| Skill | Description |
+|-------|-------------|
+| e2e-testing | End-to-end testing |
+| test-generator | Test case generation |
+| code-coverage | Test coverage analysis |
+| performance-optimizer | Performance optimization |
+| security-auditor | Security vulnerability audit |
+
+### 📊 Data Skills (6 skills)
+
+Database, caching, and data processing.
+
+| Skill | Description |
+|-------|-------------|
+| sql-optimization | SQL query optimization |
+| redis-caching | Redis caching strategies |
+| data-pipeline | ETL and data pipelines |
+| rag-implementation | RAG systems |
+| llm-fine-tuning | LLM fine-tuning |
+| message-queue | Message queue systems |
+
+### 🔒 Security Skills (4 skills)
+
+Security auditing and secrets management.
+
+| Skill | Description |
+|-------|-------------|
+| security-auditor | Security vulnerability audit |
+| auth-implementation | OAuth2, JWT, SSO, MFA |
+| secret-management | Secret management |
+| mcp-security-best-practices | MCP security practices |
+
+### 🔄 Workflow Skills (12 skills)
+
+Multi-step task automation.
+
+| Skill | Description |
+|-------|-------------|
+| workflows | Workflow templates and guidance |
+| workflow-feature-implementation | Feature development workflow |
+| workflow-repo-reading-to-change-plan | Code understanding workflow |
+| workflow-documentation-generation | Documentation generation |
+| workflow-change-verify-report | Change verification workflow |
+| workflow-bug-investigation | Bug investigation workflow |
+| workflow-research-to-summary | Research to summary workflow |
+| workflow-new-repo-onboarding | New repo onboarding |
+| workflow-vague-request-to-action | Request clarification workflow |
+| workflow-prompt-selection-composition | Prompt composition workflow |
+| planning | Task planning and breakdown |
+| self-memory-manager | Self-contained memory |
+
+### 🛠️ Tool-Use Skills (8 skills)
+
+Tool usage patterns and best practices.
+
+| Skill | Description |
+|-------|-------------|
+| tool-use | Tool usage guidance |
+| tool-use-step-by-step | Step-by-step tool usage |
+| tool-use-combine-multiple-results | Result combination |
+| tool-use-read-files-first | Read files before answering |
+| tool-use-search-before-concluding | Search before concluding |
+| tool-use-inspect-config-before-action | Inspect config first |
+| tool-use-analyze-folder-then-plan | Analyze then plan |
+| context-compressor | Context compression |
+
+### 📝 Documentation Skills (3 skills)
+
+Documentation generation.
+
+| Skill | Description |
+|-------|-------------|
+| document-processor | Document format processing |
+| workflow-documentation-generation | Documentation generation |
+| cn-punctuation-checker | Chinese punctuation checker |
+
+### 🧠 AI/ML Skills (4 skills)
+
+AI agent design and prompt engineering.
+
+| Skill | Description |
+|-------|-------------|
+| ai-agent-design | AI agent architecture |
+| prompt-engineering | Prompt optimization |
+| rag-implementation | RAG systems |
+| llm-fine-tuning | LLM fine-tuning |
+
+### 🌐 Integration Skills (6 skills)
+
+Third-party API and service integration.
+
+| Skill | Description |
+|-------|-------------|
+| api-integrator | Third-party API integration |
+| mcp-github-integration | GitHub integration |
+| mcp-slack-integration | Slack integration |
+| mcp-aws-integration | AWS integration |
+| mcp-web-search | Web search integration |
+| mcp-browser-automation | Browser automation |
+
+### 💰 Cost Optimization Skills (1 skill)
+
+Cloud cost management.
+
+| Skill | Description |
+|-------|-------------|
+| cost-optimization | Cloud cost optimization |
+
+### 🧹 Project Maintenance Skills (2 skills)
+
+Project cleanup and maintenance.
+
+| Skill | Description |
+|-------|-------------|
+| project-cleaner | Redundant file cleanup |
+| dependency-analyzer | Dependency analysis |
+
+### 📱 Platform-Specific Skills (2 skills)
+
+Platform-specific development.
+
+| Skill | Description |
+|-------|-------------|
+| wechat-mini-program-development | WeChat mini-program |
+| daily-trend-writer | WeChat article generation |
+
+### 🎬 Media Skills (2 skills)
+
+Media processing and generation.
+
+| Skill | Description |
+|-------|-------------|
+| video-to-keyframes | Video keyframe extraction |
+| zopia-api | AI video production |
+
+---
+
+## 📈 Statistics
+
+| Metric | Value |
+|--------|-------|
+| 📝 Prompts | 132+ |
+| 🎯 Skills | 110+ |
+| 🔧 Workflows | 10+ |
+| 📚 Categories | 18 |
+| 🌍 Languages | 2 (EN/ZH) |
 
 ---
 
@@ -279,7 +378,7 @@ MCP is an open protocol that standardizes how AI models interact with external t
 | 📤 Output specific formats | [prompts/output/](prompts/output/) |
 | 🛠️ Optimize prompts | [prompts/meta/](prompts/meta/) |
 | 📧 Daily email writing | [prompts/everyday/](prompts/everyday/) |
-| ✅ Checklist generation | [prompts/everyday/prompt-everyday-checklist.md](prompts/everyday/) |
+| 📋 Skill Index | [SKILLS-INDEX.md](SKILLS-INDEX.md) |
 
 ---
 
@@ -297,20 +396,8 @@ MCP is an open protocol that standardizes how AI models interact with external t
 7. AI-USAGE.md                → Usage patterns
 8. AI-ROUTING.md              → Routing logic
 9. AI-BOOTSTRAP.md            → Initial setup
+10. SKILLS-INDEX.md           → Skill catalog
 ```
-
----
-
-## 📈 Statistics
-
-| Metric | Value |
-|--------|-------|
-| 📝 Prompts | 132+ |
-| 🎯 Skills | 78+ |
-| 🔧 Workflows | 10+ |
-| ⚙️ Source Modules | 6 |
-| 📚 Documentation | 50+ |
-| 🌍 Languages | 2 (EN/ZH) |
 
 ---
 
@@ -322,7 +409,7 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 
 1. Fork this repository
 2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+3. Commit your changes (`git commit - m 'Add some AmazingFeature'`)
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Create a Pull Request
 
@@ -343,11 +430,10 @@ This project uses dual licensing:
 
 | Link | Description |
 |------|-------------|
-| [📦 NPM Package](https://npmjs.com/) | Frontend component package (coming soon) |
-| [🐍 PyPI Package](https://pypi.org/) | Python SDK (coming soon) |
 | [📖 Documentation](https://github.com/badhope/skill/wiki) | Full documentation |
 | [🐛 Issue Tracker](https://github.com/badhope/skill/issues) | Bug reports |
 | [💬 Discussions](https://github.com/badhope/skill/discussions) | Community discussions |
+| [📋 Skill Index](SKILLS-INDEX.md) | Complete skill catalog |
 
 ---
 

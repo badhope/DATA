@@ -4,7 +4,7 @@
 
 ---
 
-[![版本](https://img.shields.io/badge/version-v2.0.0-blue.svg)](https://github.com/badhope/skill)
+[![版本](https://img.shields.io/badge/version-v2.1.0-blue.svg)](https://github.com/badhope/skill)
 [![许可证: Apache-2.0](https://img.shields.io/badge/License-Apache--2.0-yellowgreen.svg)](LICENSE-CODE)
 [![许可证: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-orange.svg)](LICENSE-CONTENT)
 [![GitHub stars](https://img.shields.io/github/stars/badhope/skill?style=social)](https://github.com/badhope/skill)
@@ -34,7 +34,7 @@
 | 特性 | 说明 |
 |------|------|
 | 🏆 **132+ 精选提示词** | 覆盖编程、调试、学习、创意等场景 |
-| 🎯 **78+ 标准化技能** | 模块化设计，即插即用 |
+| 🎯 **110+ 标准化技能** | 模块化设计，即插即用 |
 | 🔧 **10+ 预置工作流** | 开箱即用的多步骤任务流 |
 | 🧠 **上下文记忆系统** | <100ms 语义检索响应 |
 | 🤖 **强化学习引擎** | 自适应工作流优化 |
@@ -100,165 +100,264 @@ engine = RLEngine(config)
 
 ---
 
-## 📚 学术与专业工具
+## 📚 技能分类
 
-### 🔬 学术写作套件
+### 🔌 MCP 技能 (19 个)
 
-| 模块 | 功能 |
-|------|------|
-| **上下文感知文献搜索** | 语义搜索研究数据库 |
-| **研究论文增强** | 结构优化、清晰度提升 |
-| **抄袭检测** | 原创性验证与引用检查 |
-| **学术诚信验证** | 学术诚信验证 |
-
-### 🎓 学习支持模块
-
-- 自适应学习路径推荐
-- 知识缺口识别
-- 间隔重复调度
-- 进度跟踪与评估
-
-### ✍️ 专业写作工具
-
-- 多受众语气适配（正式/休闲/技术）
-- 品牌调性一致性检查
-- A/B 标题优化
-- 行动号召效果分析
-
----
-
-## 🎨 创意内容生成
-
-### 📖 小说与故事开发
-
-| 特性 | 描述 |
-|------|------|
-| **叙事结构辅助** | 三幕式、英雄之旅、救命猫 |
-| **角色发展** | 原型映射、动机分析 |
-| **世界观构建** | 一致性检查、世界观管理 |
-| **对话生成** | 语气适配、角色声音保持 |
-
-### 🎬 多模态内容生成
-
-| 模态 | 能力 |
-|------|------|
-| **文本转图像** | Stable Diffusion 集成就绪 |
-| **文本转视频** | 故事板生成、场景描述 |
-| **音视频** | 字幕同步、音频描述 |
-
-### 🤖 智能体开发工具包
-
-- 可定制行为模式
-- 人格配置
-- 记忆与上下文管理
-- 工具使用工作流集成
-
----
-
-## 🏗️ 架构设计
-
-### 📦 模块化架构
-
-```
-src/
-├── context_memory/     # 分层记忆 + 语义搜索
-│   ├── stores.py       # 短期/中期/长期存储
-│   ├── semantic_search.py  # 向量运算、相似度
-│   └── manager.py      # 记忆编排
-├── rl_engine/          # 强化学习
-│   ├── engine.py       # RL核心实现
-│   ├── ppo.py          # Policy/Value网络
-│   └── reward.py       # 奖励计算
-├── coding_engine/     # 代码分析与生成
-│   ├── analyzer.py     # 语法分析
-│   ├── quality.py      # 代码质量检查
-│   ├── patterns.py     # 设计模式库
-│   └── algorithms.py   # 算法实现
-├── network/           # 分布式通信
-│   └── communication.py  # 服务网格、负载均衡
-├── mcp_tools/        # MCP工具框架
-│   ├── framework.py    # 工具编排
-│   ├── tools.py       # 内置工具
-│   └── mcu_tools.py   # MCU代码生成
-└── special/          # 特殊功能模块
-    └── modules.py     # 动画、游戏、模拟等
-```
-
----
-
-## ✨ 资源一览
-
-| 类别 | 数量 | 描述 |
-|------|:----:|------|
-| **Prompts** | 132+ | 编程、调试、规划、研究用提示词 |
-| **Skills** | 95+ | AI任务路由能力定义 |
-| **MCP Skills** | 15+ | Model Context Protocol 集成技能 |
-| **Workflows** | 10+ | 多步骤执行流程 |
-| **Tool-Use Guides** | 8+ | 文件读取、命令执行系统方法 |
-| **Output Formats** | 6+ | JSON、YAML、Markdown、表格、清单、报告 |
-| **Meta Prompts** | 8+ | 提示词工程工具 |
-| **Special Modules** | 6 | 动画、游戏、模拟等专业模块 |
-
----
-
-## 🔌 MCP (Model Context Protocol) 技能
-
-MCP 是一个开放协议，标准化 AI 模型与外部工具、资源和数据源的交互方式。本仓库包含全面的 MCP 技能：
-
-### 核心 MCP 技能
+模型上下文协议集成，用于 AI 工具交互。
 
 | 技能 | 描述 |
 |------|------|
-| **mcp-server-development** | 服务器架构、工具、资源、提示词 |
-| **mcp-client-integration** | 客户端连接、工具发现、多服务器 |
-| **mcp-tool-creation** | 工具设计、验证、安全、性能 |
-| **mcp-resource-management** | 资源暴露、订阅、缓存 |
-| **mcp-prompt-templates** | 参数化提示词、多轮对话模板 |
+| mcp-server-development | 服务器架构、工具、资源 |
+| mcp-client-integration | 客户端连接、工具发现 |
+| mcp-tool-creation | 工具设计、验证、安全 |
+| mcp-resource-management | 资源暴露、订阅 |
+| mcp-prompt-templates | 参数化提示词、模板 |
+| mcp-debugging-testing | MCP Inspector、单元测试 |
+| mcp-deployment-operations | Docker、Kubernetes、云部署 |
+| mcp-security-best-practices | 认证、授权 |
+| mcp-filesystem-integration | 安全文件系统操作 |
+| mcp-database-integration | PostgreSQL、MySQL、MongoDB、Redis |
+| mcp-browser-automation | Puppeteer、Playwright 自动化 |
+| mcp-github-integration | 仓库、Issues、PRs |
+| mcp-api-gateway | 多服务器路由、负载均衡 |
+| mcp-protocol-deep-dive | 协议规范、传输 |
+| mcp-memory-context | 会话记忆、向量搜索 |
+| mcp-error-handling | 错误分类、恢复 |
+| mcp-web-search | 网页搜索集成 |
+| mcp-slack-integration | Slack 机器人和自动化 |
+| mcp-aws-integration | AWS 资源管理 |
 
-### 集成技能
+### 💻 编程技能 (8 个)
 
-| 技能 | 描述 |
-|------|------|
-| **mcp-filesystem-integration** | 安全文件系统访问和操作 |
-| **mcp-database-integration** | PostgreSQL、MySQL、MongoDB、Redis、SQLite |
-| **mcp-browser-automation** | Puppeteer、Playwright、Chrome DevTools |
-| **mcp-github-integration** | 仓库、Issue、PR、代码搜索 |
-
-### 运维技能
-
-| 技能 | 描述 |
-|------|------|
-| **mcp-debugging-testing** | MCP Inspector、单元测试、集成测试 |
-| **mcp-deployment-operations** | Docker、Kubernetes、AWS、GCP、Azure |
-| **mcp-security-best-practices** | 认证、授权、输入验证 |
-| **mcp-api-gateway** | 多服务器路由、负载均衡、缓存 |
-
-### 高级技能
+代码生成、审查和实现。
 
 | 技能 | 描述 |
 |------|------|
-| **mcp-protocol-deep-dive** | 协议规范、消息格式、传输层 |
-| **mcp-memory-context** | 会话记忆、长期存储、向量搜索 |
-| **mcp-error-handling** | 错误分类、恢复、重试机制 |
+| coding | 代码生成和实现 |
+| coding-code-review | 代码质量审查 |
+| coding-bug-fixing | Bug 分析和修复 |
+| incremental-changer | 最小化目标修改 |
+| cross-file-refactor | 安全的跨文件重构 |
+| multi-language-file-handler | 多语言文件处理 |
+| test-generator | 测试用例生成 |
+| prompt-engineering | 提示词优化技术 |
 
-### 快速开始
+### 🐛 调试技能 (5 个)
 
-```json
-// Claude Desktop 配置
-{
-  "mcpServers": {
-    "filesystem": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "/path/to/workspace"]
-    },
-    "github": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-github"],
-      "env": { "GITHUB_TOKEN": "your-token" }
-    }
-  }
-}
-```
+系统性调试和故障排除。
+
+| 技能 | 描述 |
+|------|------|
+| debugging | 系统性调试流程 |
+| system-debugging-agent | 调试代理能力 |
+| workflow-bug-investigation | Bug 调查工作流 |
+| workflow-tool-assisted-debug | 工具辅助调试 |
+| error-recovery | 错误恢复策略 |
+
+### 🔧 DevOps 技能 (12 个)
+
+基础设施和部署自动化。
+
+| 技能 | 描述 |
+|------|------|
+| git-operations | Git 工作流和操作 |
+| shell-scripting | Shell 脚本自动化 |
+| docker-containerization | Docker 容器管理 |
+| ci-cd-pipeline | CI/CD 流水线配置 |
+| database-migration | 数据库迁移脚本 |
+| kubernetes-orchestration | Kubernetes 部署 |
+| terraform-iac | 基础设施即代码 |
+| incident-response | 生产事故处理 |
+| network-debugging | 网络故障排除 |
+| linting-config | Linting 工具配置 |
+| config-management | 配置管理 |
+| secret-management | 密钥和凭证管理 |
+
+### 🎨 前端技能 (7 个)
+
+UI/UX 和客户端开发。
+
+| 技能 | 描述 |
+|------|------|
+| frontend-react | React 开发 |
+| frontend-vue | Vue.js 开发 |
+| css-tailwind | Tailwind CSS 样式 |
+| web-design-teroop | 设计优先架构 |
+| accessibility-a11y | 网页无障碍标准 |
+| i18n-localization | 国际化 |
+| web-scraping | Puppeteer 网页抓取 |
+
+### ⚙️ 后端技能 (13 个)
+
+服务端和 API 开发。
+
+| 技能 | 描述 |
+|------|------|
+| api-design | RESTful 和 GraphQL API 设计 |
+| backend-nodejs | Node.js 后端开发 |
+| backend-python | Python 后端开发 |
+| backend-go | Go 后端开发 |
+| microservices-patterns | 微服务架构 |
+| event-driven-architecture | 事件溯源、CQRS |
+| graphql-development | GraphQL 模式设计 |
+| sql-optimization | SQL 查询优化 |
+| redis-caching | Redis 缓存策略 |
+| message-queue | 消息队列系统 |
+| websocket-realtime | WebSocket 通信 |
+| state-management | Redux、Zustand、Pinia |
+| mobile-development | React Native、Flutter |
+
+### 🧪 测试技能 (5 个)
+
+测试自动化和覆盖率。
+
+| 技能 | 描述 |
+|------|------|
+| e2e-testing | 端到端测试 |
+| test-generator | 测试用例生成 |
+| code-coverage | 测试覆盖率分析 |
+| performance-optimizer | 性能优化 |
+| security-auditor | 安全漏洞审计 |
+
+### 📊 数据技能 (6 个)
+
+数据库、缓存和数据处理。
+
+| 技能 | 描述 |
+|------|------|
+| sql-optimization | SQL 查询优化 |
+| redis-caching | Redis 缓存策略 |
+| data-pipeline | ETL 和数据管道 |
+| rag-implementation | RAG 系统 |
+| llm-fine-tuning | LLM 微调 |
+| message-queue | 消息队列系统 |
+
+### 🔒 安全技能 (4 个)
+
+安全审计和密钥管理。
+
+| 技能 | 描述 |
+|------|------|
+| security-auditor | 安全漏洞审计 |
+| auth-implementation | OAuth2、JWT、SSO、MFA |
+| secret-management | 密钥管理 |
+| mcp-security-best-practices | MCP 安全实践 |
+
+### 🔄 工作流技能 (12 个)
+
+多步骤任务自动化。
+
+| 技能 | 描述 |
+|------|------|
+| workflows | 工作流模板和指导 |
+| workflow-feature-implementation | 功能开发工作流 |
+| workflow-repo-reading-to-change-plan | 代码理解工作流 |
+| workflow-documentation-generation | 文档生成 |
+| workflow-change-verify-report | 变更验证工作流 |
+| workflow-bug-investigation | Bug 调查工作流 |
+| workflow-research-to-summary | 研究到总结工作流 |
+| workflow-new-repo-onboarding | 新仓库入门 |
+| workflow-vague-request-to-action | 需求澄清工作流 |
+| workflow-prompt-selection-composition | 提示词组合工作流 |
+| planning | 任务规划和分解 |
+| self-memory-manager | 自包含记忆 |
+
+### 🛠️ 工具使用技能 (8 个)
+
+工具使用模式和最佳实践。
+
+| 技能 | 描述 |
+|------|------|
+| tool-use | 工具使用指导 |
+| tool-use-step-by-step | 逐步工具使用 |
+| tool-use-combine-multiple-results | 结果组合 |
+| tool-use-read-files-first | 先读文件再回答 |
+| tool-use-search-before-concluding | 先搜索再下结论 |
+| tool-use-inspect-config-before-action | 先检查配置再操作 |
+| tool-use-analyze-folder-then-plan | 先分析再计划 |
+| context-compressor | 上下文压缩 |
+
+### 📝 文档技能 (3 个)
+
+文档生成。
+
+| 技能 | 描述 |
+|------|------|
+| document-processor | 文档格式处理 |
+| workflow-documentation-generation | 文档生成 |
+| cn-punctuation-checker | 中文标点检查器 |
+
+### 🧠 AI/ML 技能 (4 个)
+
+AI 代理设计和提示词工程。
+
+| 技能 | 描述 |
+|------|------|
+| ai-agent-design | AI 代理架构 |
+| prompt-engineering | 提示词优化 |
+| rag-implementation | RAG 系统 |
+| llm-fine-tuning | LLM 微调 |
+
+### 🌐 集成技能 (6 个)
+
+第三方 API 和服务集成。
+
+| 技能 | 描述 |
+|------|------|
+| api-integrator | 第三方 API 集成 |
+| mcp-github-integration | GitHub 集成 |
+| mcp-slack-integration | Slack 集成 |
+| mcp-aws-integration | AWS 集成 |
+| mcp-web-search | 网页搜索集成 |
+| mcp-browser-automation | 浏览器自动化 |
+
+### 💰 成本优化技能 (1 个)
+
+云成本管理。
+
+| 技能 | 描述 |
+|------|------|
+| cost-optimization | 云成本优化 |
+
+### 🧹 项目维护技能 (2 个)
+
+项目清理和维护。
+
+| 技能 | 描述 |
+|------|------|
+| project-cleaner | 冗余文件清理 |
+| dependency-analyzer | 依赖分析 |
+
+### 📱 平台特定技能 (2 个)
+
+平台特定开发。
+
+| 技能 | 描述 |
+|------|------|
+| wechat-mini-program-development | 微信小程序 |
+| daily-trend-writer | 微信文章生成 |
+
+### 🎬 媒体技能 (2 个)
+
+媒体处理和生成。
+
+| 技能 | 描述 |
+|------|------|
+| video-to-keyframes | 视频关键帧提取 |
+| zopia-api | AI 视频制作 |
+
+---
+
+## 📈 统计数据
+
+| 指标 | 数值 |
+|------|------|
+| 📝 提示词 | 132+ |
+| 🎯 技能 | 110+ |
+| 🔧 工作流 | 10+ |
+| 📚 分类 | 18 |
+| 🌍 语言 | 2 (中/英) |
 
 ---
 
@@ -266,26 +365,26 @@ MCP 是一个开放协议，标准化 AI 模型与外部工具、资源和数据
 
 ### 人类用户
 
-> **"我想要AI帮我..."**
+> **"我想让 AI..."**
 
 | 任务 | 链接 |
 |------|------|
 | 🔨 生成或修改代码 | [prompts/task/coding/](prompts/task/coding/) |
-| 🐛 调试和修复Bug | [prompts/task/debugging/](prompts/task/debugging/) |
+| 🐛 调试和修复 Bug | [prompts/task/debugging/](prompts/task/debugging/) |
 | 📊 理解代码仓库 | [prompts/task/repo-analysis/](prompts/task/repo-analysis/) |
 | 📋 创建执行计划 | [prompts/task/planning/](prompts/task/planning/) |
 | 🔬 进行研究 | [prompts/task/research/](prompts/task/research/) |
 | 🔄 执行多步骤工作流 | [prompts/workflow/](prompts/workflow/) |
 | 📤 输出特定格式 | [prompts/output/](prompts/output/) |
 | 🛠️ 优化提示词 | [prompts/meta/](prompts/meta/) |
-| 📧 日常邮件撰写 | [prompts/everyday/](prompts/everyday/) |
-| ✅ 清单生成 | [prompts/everyday/prompt-everyday-checklist.md](prompts/everyday/) |
+| 📧 日常邮件写作 | [prompts/everyday/](prompts/everyday/) |
+| 📋 技能索引 | [SKILLS-INDEX.md](SKILLS-INDEX.md) |
 
 ---
 
 ### AI 系统
 
-**引导顺序** — 按此顺序读取文件：
+**启动序列** — 按顺序阅读以下文件：
 
 ```
 1. START-HERE.md              → 入口点
@@ -296,32 +395,20 @@ MCP 是一个开放协议，标准化 AI 模型与外部工具、资源和数据
 6. registry/routes-registry.yaml   → 学习路由
 7. AI-USAGE.md                → 使用模式
 8. AI-ROUTING.md              → 路由逻辑
-9. AI-BOOTSTRAP.md            → 首次设置
+9. AI-BOOTSTRAP.md            → 初始设置
+10. SKILLS-INDEX.md           → 技能目录
 ```
 
 ---
 
-## 📈 统计数据
-
-| 指标 | 数值 |
-|------|------|
-| 📝 Prompts | 132+ |
-| 🎯 Skills | 78+ |
-| 🔧 Workflows | 10+ |
-| ⚙️ Source Modules | 6 |
-| 📚 Documentation | 50+ |
-| 🌍 Languages | 2 (EN/ZH) |
-
----
-
-## 🤝 贡献指南
+## 🤝 贡献
 
 欢迎贡献！请随时提交 Pull Request。
 
-**贡献方式:**
+**如何贡献:**
 
 1. Fork 本仓库
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
 3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
 4. 推送到分支 (`git push origin feature/AmazingFeature`)
 5. 创建 Pull Request
@@ -334,8 +421,8 @@ MCP 是一个开放协议，标准化 AI 模型与外部工具、资源和数据
 
 本项目采用双许可证：
 
-- **代码部分**: [Apache-2.0 License](LICENSE-CODE)
-- **内容部分**: [CC BY 4.0 License](LICENSE-CONTENT)
+- **代码**: [Apache-2.0 许可证](LICENSE-CODE)
+- **内容**: [CC BY 4.0 许可证](LICENSE-CONTENT)
 
 ---
 
@@ -343,23 +430,22 @@ MCP 是一个开放协议，标准化 AI 模型与外部工具、资源和数据
 
 | 链接 | 描述 |
 |------|------|
-| [📦 NPM Package](https://npmjs.com/) | 前端组件包 (即将上线) |
-| [🐍 PyPI Package](https://pypi.org/) | Python SDK (即将上线) |
-| [📖 Documentation](https://github.com/badhope/skill/wiki) | 完整文档 |
-| [🐛 Issue Tracker](https://github.com/badhope/skill/issues) | 问题反馈 |
-| [💬 Discussions](https://github.com/badhope/skill/discussions) | 讨论区 |
+| [📖 文档](https://github.com/badhope/skill/wiki) | 完整文档 |
+| [🐛 问题追踪](https://github.com/badhope/skill/issues) | Bug 报告 |
+| [💬 讨论](https://github.com/badhope/skill/discussions) | 社区讨论 |
+| [📋 技能索引](SKILLS-INDEX.md) | 完整技能目录 |
 
 ---
 
 ## 📬 联系方式
 
 - **GitHub**: [badhope](https://github.com/badhope)
-- **Project Link**: [https://github.com/badhope/skill](https://github.com/badhope/skill)
+- **项目链接**: [https://github.com/badhope/skill](https://github.com/badhope/skill)
 
 ---
 
 <div align="center">
-  <strong>如果这个项目对你有帮助，请给它一个 ⭐</strong>
+  <strong>如果这个项目对你有帮助，请给一个 ⭐</strong>
   <br>
-  <em>使用 ❤️ 由 badhope 构建</em>
+  <em>由 badhope 用 ❤️ 构建</em>
 </div>
