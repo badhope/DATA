@@ -4,14 +4,16 @@ const mobileMenuBtn = document.getElementById('mobileMenuBtn');
 
 window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
-        nav.classList.add('scrolled');
+        nav?.classList.add('scrolled');
     } else {
-        nav.classList.remove('scrolled');
+        nav?.classList.remove('scrolled');
     }
 });
 
 mobileMenuBtn?.addEventListener('click', () => {
     mobileMenuBtn.classList.toggle('active');
+    const isExpanded = mobileMenuBtn.classList.contains('active');
+    mobileMenuBtn.setAttribute('aria-expanded', isExpanded);
 });
 
 // ==================== Smooth Scroll ====================
@@ -107,18 +109,31 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 });
 
 // ==================== Parallax Effect for Orbs ====================
-document.addEventListener('mousemove', (e) => {
-    const orbs = document.querySelectorAll('.gradient-orb');
-    const x = e.clientX / window.innerWidth;
-    const y = e.clientY / window.innerHeight;
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (!prefersReducedMotion) {
+    let ticking = false;
     
-    orbs.forEach((orb, index) => {
-        const speed = (index + 1) * 20;
-        const xMove = (x - 0.5) * speed;
-        const yMove = (y - 0.5) * speed;
-        orb.style.transform = `translate(${xMove}px, ${yMove}px)`;
+    document.addEventListener('mousemove', (e) => {
+        if (!ticking) {
+            requestAnimationFrame(() => {
+                const orbs = document.querySelectorAll('.gradient-orb');
+                const x = e.clientX / window.innerWidth;
+                const y = e.clientY / window.innerHeight;
+                
+                orbs.forEach((orb, index) => {
+                    const speed = (index + 1) * 20;
+                    const xMove = (x - 0.5) * speed;
+                    const yMove = (y - 0.5) * speed;
+                    orb.style.transform = `translate(${xMove}px, ${yMove}px)`;
+                });
+                
+                ticking = false;
+            });
+            ticking = true;
+        }
     });
-});
+}
 
 // ==================== Initialize ====================
 document.addEventListener('DOMContentLoaded', () => {
@@ -133,3 +148,28 @@ document.addEventListener('DOMContentLoaded', () => {
     
     console.log('🤖 AI Skill Repository - Website Loaded');
 });
+
+// ==================== Keyboard Navigation ====================
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        mobileMenuBtn?.classList.remove('active');
+        mobileMenuBtn?.setAttribute('aria-expanded', 'false');
+    }
+});
+
+// ==================== Scroll to Top ====================
+const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+};
+
+// ==================== Service Worker Registration ====================
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {
+            // Service worker registration failed, but that's okay for a static site
+        });
+    });
+}
