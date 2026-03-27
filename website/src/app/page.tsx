@@ -112,16 +112,16 @@ export default function Home() {
 
           <div className="hero-cta flex gap-4 justify-center flex-wrap">
             <a
-              href="/features"
+              href="/skills"
               className="px-8 py-4 bg-gradient-to-r from-primary-500 to-accent-500 rounded-full font-semibold text-white shadow-lg shadow-primary-500/25 hover:shadow-primary-500/40 transition-all duration-300 hover:scale-105"
             >
-              探索功能
+              探索技能库
             </a>
             <a
-              href="/docs"
+              href="/prompts"
               className="px-8 py-4 border border-neutral-600 rounded-full font-semibold text-neutral-300 hover:bg-neutral-800/50 hover:border-neutral-500 transition-all duration-300"
             >
-              查看文档
+              浏览提示词
             </a>
           </div>
         </div>

@@ -7,3 +7,9 @@ dist/
 build/
 .eggs/
 *.egg
+
+# Website dependencies
+website/node_modules/
+
+# Next.js build output
+website/.next/

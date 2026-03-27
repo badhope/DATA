@@ -149,10 +149,11 @@ export default function RootLayout({
               <span className="font-bold text-xl hidden sm:block">Skill Repo</span>
             </a>
 
-            <div className="flex items-center gap-8">
+            <div className="flex items-center gap-6">
+              <NavLink href="/skills">技能库</NavLink>
+              <NavLink href="/prompts">提示词</NavLink>
               <NavLink href="/features">功能</NavLink>
               <NavLink href="/docs">文档</NavLink>
-              <NavLink href="/about">关于</NavLink>
               <a
                 href="https://github.com/badhope/skill"
                 target="_blank"
