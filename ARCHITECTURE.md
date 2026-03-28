@@ -8,165 +8,133 @@ This document explains **why** this repository is structured the way it is, and 
 
 This repository follows three core principles:
 
-1. **Dual Audience**: Content is optimized for both human users (quick find-and-copy) and AI systems (autonomous discovery and routing)
-2. **Modularity**: Each asset (prompt, skill, workflow) is self-contained and composable
-3. **AI-First Discoverability**: The registry system enables AI to autonomously find, select, and compose assets
+1. **Hierarchical Collaborative Skill Architecture (HCSA)**: Skills are organized in four layers - Meta, Workflow, Action, Domain
+2. **AI-First Discoverability**: The routing system enables AI to autonomously find, select, and compose skills
+3. **Modularity**: Each skill is self-contained and composable
+
+---
+
+## HCSA Architecture
+
+```
+┌─────────────────────────────────────────┐
+│           Meta Layer (战略层)            │
+│   task-planner | orchestrator | reflector│
+│   - Strategic planning                   │
+│   - Task decomposition                   │
+│   - Self-reflection                      │
+├─────────────────────────────────────────┤
+│         Workflow Layer (战术层)          │
+│      coding-workflow | debugging-workflow│
+│   - Process coordination                 │
+│   - State management                     │
+│   - Result aggregation                   │
+├─────────────────────────────────────────┤
+│          Action Layer (执行层)           │
+│   code-generator | test-generator | ...  │
+│   - Specific operations                  │
+│   - Tool calls                           │
+│   - Data processing                      │
+├─────────────────────────────────────────┤
+│          Domain Layer (领域层)           │
+│   AI | Backend | Frontend | DevOps | ... │
+│   - Domain-specific expertise            │
+│   - Best practices                       │
+│   - Patterns and conventions             │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## Directory Structure
+
+```
+.trae/skills/
+├── meta/               # Strategic planning skills
+│   ├── task-planner/   # Task decomposition
+│   ├── orchestrator/   # Execution coordination
+│   └── reflector/      # Self-reflection
+├── workflows/          # Process coordination skills
+│   ├── coding-workflow/
+│   └── debugging-workflow/
+├── actions/            # Execution skills
+│   ├── code-generator/
+│   ├── test/
+│   ├── documentation/
+│   └── tools/
+├── domains/            # Domain-specific skills
+│   ├── ai/
+│   ├── backend/
+│   ├── frontend/
+│   ├── devops/
+│   ├── database/
+│   ├── testing/
+│   ├── mobile/
+│   ├── data/
+│   ├── security/
+│   ├── performance/
+│   └── mcp/
+├── config/             # Configuration files
+│   └── routing.yaml    # Routing rules
+└── shared/             # Shared resources
+    └── schemas/        # JSON schemas
+```
 
 ---
 
 ## Why This Structure?
 
-### prompts/ vs skills/ vs workflows/
+### Layer Separation
 
-| Directory | Purpose | What it Contains |
-|-----------|---------|------------------|
-| **prompts/** | Executable instructions | Direct prompts AI uses to generate outputs |
-| **skills/** | Capability definitions | Descriptions of what an AI can do, with use cases |
-| **workflows/** | Multi-step processes | Sequences of prompts chained together |
+| Layer | Responsibility | When to Use |
+|-------|---------------|-------------|
+| **Meta** | Strategic decisions | Complex tasks (complexity > 5) |
+| **Workflow** | Process coordination | Medium tasks (complexity 3-5) |
+| **Action** | Execute operations | Simple tasks (complexity < 3) |
+| **Domain** | Domain expertise | Domain-specific tasks |
 
-**Analogy**:
-- **Prompts** = Individual tools in a toolbox
-- **Skills** = Tool categories + usage instructions
-- **Workflows** = Tool combinations for specific jobs
+### Routing System
 
-### Why registry/?
+The `config/routing.yaml` file defines:
+- Complexity thresholds for each layer
+- Keyword-based routing rules
+- Skill invocation chains
 
-The `registry/` directory contains YAML files that AI systems read to:
-- Discover available assets
-- Understand relationships between assets
-- Route tasks to appropriate prompts
-- Find related skills and workflows
+### Skill Composition
 
-**Key registries**:
-- `prompts-registry.yaml` - All prompts with metadata
-- `routes-registry.yaml` - Task-to-prompt routing rules
-- `skills-registry.yaml` - Skill definitions and relationships
-- `relations-registry.yaml` - Cross-asset relationships
-- `tags-registry.yaml` - Unified tag vocabulary
-
-### Why .trae/skills/ is not canonical?
-
-The `.trae/skills/` directory contains skills with Apache-2.0 licensing (from Trae). The canonical directory for this repository's own skills is `skills/` (CC BY 4.0). This separation ensures clean licensing.
+Skills can invoke other skills:
+- Meta skills invoke Workflow skills
+- Workflow skills invoke Action skills
+- Action skills invoke Domain skills
+- Domain skills provide expertise
 
 ---
 
-## Directory Responsibilities
+## Skill Metadata
 
-### prompts/ - Core Content
+Each skill has standardized frontmatter:
 
-```
-prompts/
-├── _routing/          # AI's "navigation" prompts
-├── _core/            # Standards other prompts must follow
-├── system/           # System-level AI behavior prompts
-├── task/             # Task-specific prompts (coding, debugging, etc.)
-├── general/          # General capability prompts
-├── workflow/          # Multi-step workflows
-├── tool-use/          # Tool operation guides
-├── output/            # Output format specifications
-└── meta/              # Prompt self-optimization
+```yaml
+---
+name: skill-name
+description: "Description of the skill"
+layer: meta | workflow | action | domain
+role: planner | coordinator | executor | expert
+version: 1.0.0
+invokes: []        # Skills this skill calls
+invoked_by: []     # Skills that call this skill
+capabilities: []   # What this skill can do
+triggers:
+  keywords: []     # Keywords that trigger this skill
+---
 ```
 
-### skills/ - Capability Descriptions
-
-Each skill defines:
-- What the skill does
-- When to use it
-- What prompts it uses
-- What workflows it enables
-
-### registry/ - AI Discoverability
-
-All registries are machine-readable YAML. AI reads these to operate autonomously.
-
-### docs/ - Human Documentation
-
-Guides for:
-- How to write prompts
-- How to create skills
-- How to structure workflows
-- Directory conventions
-
 ---
 
-## What is Main Line vs Extension?
+## Configuration Files
 
-### Main Line (v1.0.0 - v1.1.0)
-
-Core capabilities that form the foundation:
-
-| Module | Description |
-|--------|-------------|
-| coding | Code generation, implementation, review |
-| debugging | Bug investigation and fixing |
-| repo-analysis | Project understanding |
-| planning | Task breakdown and execution planning |
-| research | Structured research |
-| tool-use | Safe tool operation |
-| system | AI behavior configuration |
-
-### Extension Modules (v1.1.0+)
-
-Additional capabilities built on top of main line:
-
-| Module | Description |
-|--------|-------------|
-| refactoring | Code restructuring |
-| testing | Test generation and strategy |
-| engineering-planning | Technical project planning |
-| documentation-for-code | Code documentation |
-| creative-special | Creative writing assistance |
-| personal | Personal life assistance |
-| reflection | Self-improvement |
-| learning-support | Educational support |
-| user-style-adaptation | Personalized interaction |
-| long-term-assistant | Extended collaboration |
-
----
-
-## What Not to Change Lightly
-
-The following are architectural decisions that should not be changed without careful consideration:
-
-1. **`skills/` as canonical directory** - All skill definitions must be here
-2. **`prompts/` as content library** - All prompts must be here
-3. **`registry/` for AI discoverability** - AI relies on these files
-4. **YAML format for registries** - Machine-readable requirement
-5. **Frontmatter in all prompt files** - Standard metadata format
-6. **CC BY 4.0 for content** - Licensing requirement
-7. **Two-audience design** - Both human and AI must be supported
-
----
-
-## Extension Points
-
-The repository is designed to be extended in these ways:
-
-1. **New prompts** → Add to appropriate `prompts/task/` or `prompts/general/` subdirectory
-2. **New skills** → Add to `skills/` with registry entry
-3. **New workflows** → Add to `prompts/workflow/`
-4. **New registries** → Add to `registry/` with proper relations
-5. **New examples** → Add to `examples/`
-6. **Author picks** → Curate in `author-picks/`
-
----
-
-## Versioning Strategy
-
-| Version | Focus |
-|---------|-------|
-| v1.0.0 | MVP - Core task coverage |
-| v1.1.0 | Expansion - New modules, registry completion |
-| v1.2.0 (planned) | Model variants, examples, evals |
-
-See [PROJECT-PLAN.md](PROJECT-PLAN.md) for details.
-
----
-
-## Key Design Decisions
-
-See [DECISION-LOG.md](DECISION-LOG.md) for the rationale behind major architectural choices.
-
----
-
-**Last Updated**: 2026-03-20
+| File | Purpose |
+|------|---------|
+| `config/routing.yaml` | Task routing rules |
+| `shared/schemas/task.json` | Task schema |
+| `shared/schemas/result.json` | Result schema |
