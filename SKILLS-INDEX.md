@@ -1,6 +1,6 @@
 # Skills Index
 
-Complete index of all 70 skills organized in two views:
+Complete index of all 97 skills organized in two views:
 1. **By Layer**: Enhanced HCSA 6-layer architecture (AI-friendly)
 2. **By Function**: Functional categories (human-friendly)
 3. **By Tier**: Complexity tier (for collaboration mode)
@@ -110,6 +110,21 @@ Process coordination skills.
 | progress-reporter | Report progress, show status, estimate ETA | [workflows/progress-reporter](.trae/skills/workflows/progress-reporter) |
 | fallback-manager | Handle failures gracefully with fallback strategies | [workflows/fallback-manager](.trae/skills/workflows/fallback-manager) |
 | human-in-the-loop | Involve human in decision making | [workflows/human-in-the-loop](.trae/skills/workflows/human-in-the-loop) |
+| requirements-collector | Requirements collection and validation (NEW) | [workflows/requirements-collector](.trae/skills/workflows/requirements-collector) |
+| technical-design-doc | Technical design document creation (NEW) | [workflows/technical-design-doc](.trae/skills/workflows/technical-design-doc) |
+| project-scaffold | Project scaffold generation (NEW) | [workflows/project-scaffold](.trae/skills/workflows/project-scaffold) |
+| seo-optimizer | Search engine optimization (NEW) | [workflows/seo-optimizer](.trae/skills/workflows/seo-optimizer) |
+| user-experience-test | User experience testing (NEW) | [workflows/user-experience-test](.trae/skills/workflows/user-experience-test) |
+| system-architecture | System architecture design (NEW) | [workflows/system-architecture](.trae/skills/workflows/system-architecture) |
+| database-design | Database design and modeling (NEW) | [workflows/database-design](.trae/skills/workflows/database-design) |
+| security-design | Security design and threat modeling (NEW) | [workflows/security-design](.trae/skills/workflows/security-design) |
+| performance-testing | Performance testing and optimization (NEW) | [workflows/performance-testing](.trae/skills/workflows/performance-testing) |
+| launch-checklist | Launch checklist and go-live preparation (NEW) | [workflows/launch-checklist](.trae/skills/workflows/launch-checklist) |
+| model-evaluator | AI model evaluation and selection (NEW) | [workflows/model-evaluator](.trae/skills/workflows/model-evaluator) |
+| conversation-design | Conversation flow design for chatbots (NEW) | [workflows/conversation-design](.trae/skills/workflows/conversation-design) |
+| data-augmentation | Data augmentation for training data (NEW) | [workflows/data-augmentation](.trae/skills/workflows/data-augmentation) |
+| model-finetuning | Model fine-tuning and customization (NEW) | [workflows/model-finetuning](.trae/skills/workflows/model-finetuning) |
+| ab-testing | A/B testing and experimentation (NEW) | [workflows/ab-testing](.trae/skills/workflows/ab-testing) |
 
 ---
 
@@ -375,6 +390,26 @@ Skills organized by what they do, not by architecture layer.
 | problem-decomposer | Problem decomposition (Divide & Conquer) | Workflow |
 | solution-merger | Merge subproblem solutions | Workflow |
 | code-modularizer | Break monolith into modules | Workflow |
+| iteration-controller | Control iterations, prevent infinite loops | Workflow |
+| content-generator | Generate content - blogs, product descriptions | Workflow |
+| progress-reporter | Report progress, show status, estimate ETA | Workflow |
+| fallback-manager | Handle failures gracefully with fallback strategies | Workflow |
+| human-in-the-loop | Involve human in decision making | Workflow |
+| requirements-collector | Requirements collection and validation (NEW) | Workflow |
+| technical-design-doc | Technical design document creation (NEW) | Workflow |
+| project-scaffold | Project scaffold generation (NEW) | Workflow |
+| seo-optimizer | Search engine optimization (NEW) | Workflow |
+| user-experience-test | User experience testing (NEW) | Workflow |
+| system-architecture | System architecture design (NEW) | Workflow |
+| database-design | Database design and modeling (NEW) | Workflow |
+| security-design | Security design and threat modeling (NEW) | Workflow |
+| performance-testing | Performance testing and optimization (NEW) | Workflow |
+| launch-checklist | Launch checklist and go-live preparation (NEW) | Workflow |
+| model-evaluator | AI model evaluation and selection (NEW) | Workflow |
+| conversation-design | Conversation flow design for chatbots (NEW) | Workflow |
+| data-augmentation | Data augmentation for training data (NEW) | Workflow |
+| model-finetuning | Model fine-tuning and customization (NEW) | Workflow |
+| ab-testing | A/B testing and experimentation (NEW) | Workflow |
 | task-planner | Task decomposition and planning | Meta |
 | model-router | Intelligent model routing | Dispatcher |
 | concurrency-manager | Concurrent task management | Dispatcher |
@@ -392,18 +427,18 @@ All remaining 58 skills (Actions, Domains, most Learning) are Tier 1 - single ag
 | Learning | 4 |
 | Meta | 4 |
 | Dispatcher | 2 |
-| Workflow | 19 (14 + 5 NEW) |
+| Workflow | 34 (19 + 15 NEW) |
 | Action | 14 |
 | Domain | 39 |
-| **Total** | **82** |
+| **Total** | **97** |
 
 ### By Tier
 | Tier | Count |
 |------|-------|
 | Tier 1 | ~61 |
-| Tier 2 | ~15 |
+| Tier 2 | ~30 |
 | Tier 3 | ~6 |
-| **Total** | **82** |
+| **Total** | **97** |
 
 ---
 
