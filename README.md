@@ -35,7 +35,7 @@
 | 🏗️ **Enhanced HCSA六层架构** | Learning → Meta → Dispatcher → Workflow → Action → Domain 层级协作 |
 | 🧠 **Learning Layer** | 反思学习、策略优化、自我增强、知识积累 |
 | 🔀 **Dispatcher Layer** | 智能模型路由、并发管理、成本优化 |
-| 🎯 **130+ 标准化Skills** | 模块化设计，即插即用 |
+| 🎯 **131+ 标准化Skills** | 模块化设计，即插即用 |
 | 🤖 **多模型路由** | 根据任务复杂度自动选择最优模型 |
 | 📱 **全栈开发覆盖** | 前端、后端、移动端、DevOps全覆盖 |
 | 💾 **持久化存储** | 任务追踪、知识库、学习记录持久化 |

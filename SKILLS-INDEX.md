@@ -1,6 +1,6 @@
 # Skills Index
 
-Complete index of all 130 skills organized in two views:
+Complete index of all 131 skills organized in two views:
 1. **By Layer**: Enhanced HCSA 6-layer architecture (AI-friendly)
 2. **By Function**: Functional categories (human-friendly)
 3. **By Tier**: Complexity tier (for collaboration mode)
@@ -74,6 +74,7 @@ Strategic planning and coordination skills.
 | orchestrator | Execution coordination | [meta/orchestrator](.trae/skills/meta/orchestrator) |
 | decomposition-planner | Advanced task decomposition | [meta/decomposition-planner](.trae/skills/meta/decomposition-planner) |
 | task-registry | Task tracking and history | [meta/task-registry](.trae/skills/meta/task-registry) |
+| reflector | Self-reflection and learning | [meta/reflector](.trae/skills/meta/reflector) |
 
 ---
 
@@ -484,20 +485,20 @@ All remaining 58 skills (Actions, Domains, most Learning) are Tier 1 - single ag
 | Layer | Count |
 |-------|-------|
 | Learning | 4 |
-| Meta | 4 |
+| Meta | 5 |
 | Dispatcher | 2 |
 | Workflow | 42 |
 | Action | 14 |
-| Domain | 64 (39 + 25 NEW) |
-| **Total** | **130** |
+| Domain | 64 |
+| **Total** | **131** |
 
 ### By Tier
 | Tier | Count |
 |------|-------|
-| Tier 1 | ~86 |
+| Tier 1 | ~87 |
 | Tier 2 | ~37 |
 | Tier 3 | ~7 |
-| **Total** | **130** |
+| **Total** | **131** |
 
 ---
 
