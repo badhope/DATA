@@ -99,6 +99,12 @@ Process coordination skills.
 | research-workflow | Systematic research workflow | [workflows/research-workflow](.trae/skills/workflows/research-workflow) |
 | refactoring-workflow | Code refactoring workflow | [workflows/refactoring-workflow](.trae/skills/workflows/refactoring-workflow) |
 | aggregation-processor | Result aggregation and conflict resolution | [workflows/aggregation-processor](.trae/skills/workflows/aggregation-processor) |
+| hierarchical-debugger | Multi-granularity hierarchical debugger (MGDebugger) | [workflows/hierarchical-debugger](.trae/skills/workflows/hierarchical-debugger) |
+| delta-debugger | Delta debugging - binary search for minimal failing input | [workflows/delta-debugger](.trae/skills/workflows/delta-debugger) |
+| problem-decomposer | Systematic problem decomposition (Divide & Conquer) | [workflows/problem-decomposer](.trae/skills/workflows/problem-decomposer) |
+| solution-merger | Merge subproblem solutions into final solution | [workflows/solution-merger](.trae/skills/workflows/solution-merger) |
+| git-bisect-debugger | Git bisect - binary search commit history | [workflows/git-bisect-debugger](.trae/skills/workflows/git-bisect-debugger) |
+| code-modularizer | Break monolithic code into clean modules | [workflows/code-modularizer](.trae/skills/workflows/code-modularizer) |
 
 ---
 
@@ -240,6 +246,9 @@ Skills organized by what they do, not by architecture layer.
 | code-review | Code review | Tier 1 |
 | coding-workflow | Code implementation workflow | Tier 2 |
 | refactoring-workflow | Code refactoring workflow | Tier 2 |
+| problem-decomposer | Problem decomposition (Divide & Conquer) | Tier 2 |
+| solution-merger | Merge subproblem solutions | Tier 2 |
+| code-modularizer | Break monolith into modules | Tier 2 |
 
 ### Testing & Quality
 | Skill | Description | Tier |
@@ -250,6 +259,9 @@ Skills organized by what they do, not by architecture layer.
 | integration-test | Integration testing | Tier 1 |
 | e2e-test | E2E testing | Tier 1 |
 | debugging-workflow | Bug fixing workflow | Tier 2 |
+| hierarchical-debugger | Multi-granularity hierarchical debugger | Tier 2 |
+| delta-debugger | Delta debugging (binary search) | Tier 2 |
+| git-bisect-debugger | Git bisect (commit binary search) | Tier 1 |
 | error-analyzer | Error analysis | Tier 1 |
 
 ### AI & Agents
@@ -353,6 +365,11 @@ Skills organized by what they do, not by architecture layer.
 | debugging-workflow | Bug fixing workflow | Workflow |
 | research-workflow | Systematic research workflow | Workflow |
 | refactoring-workflow | Code refactoring workflow | Workflow |
+| hierarchical-debugger | Multi-granularity hierarchical debugger | Workflow |
+| delta-debugger | Delta debugging (binary search) | Workflow |
+| problem-decomposer | Problem decomposition (Divide & Conquer) | Workflow |
+| solution-merger | Merge subproblem solutions | Workflow |
+| code-modularizer | Break monolith into modules | Workflow |
 | task-planner | Task decomposition and planning | Meta |
 | model-router | Intelligent model routing | Dispatcher |
 | concurrency-manager | Concurrent task management | Dispatcher |
@@ -370,18 +387,18 @@ All remaining 58 skills (Actions, Domains, most Learning) are Tier 1 - single ag
 | Learning | 4 |
 | Meta | 4 |
 | Dispatcher | 2 |
-| Workflow | 8 (5 + 3 NEW) |
+| Workflow | 14 (8 + 6 NEW) |
 | Action | 14 |
 | Domain | 39 |
-| **Total** | **71** |
+| **Total** | **77** |
 
 ### By Tier
 | Tier | Count |
 |------|-------|
-| Tier 1 | ~58 |
-| Tier 2 | ~7 |
+| Tier 1 | ~59 |
+| Tier 2 | ~12 |
 | Tier 3 | ~6 |
-| **Total** | **71** |
+| **Total** | **77** |
 
 ---
 
