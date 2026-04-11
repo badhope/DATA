@@ -7,11 +7,25 @@ export interface ToolParameter {
   items?: ToolParameter
 }
 
+export type MiddlewareNext = () => Promise<any>
+
+export interface ToolMiddleware {
+  name: string
+  priority?: number
+  before?: (params: Record<string, any>, tool: ToolDefinition) => Promise<Record<string, any>>
+  after?: (result: any, params: Record<string, any>, tool: ToolDefinition) => Promise<any>
+  onError?: (error: Error, params: Record<string, any>, tool: ToolDefinition) => Promise<any>
+}
+
 export interface ToolDefinition {
   name: string
   description: string
   parameters: Record<string, ToolParameter>
   execute: (params: Record<string, any>) => Promise<any>
+  timeout?: number
+  category?: string
+  tags?: string[]
+  examples?: Array<{ params: Record<string, any>; description: string }>
 }
 
 export interface Resource {
@@ -36,18 +50,61 @@ export interface PromptDefinition {
   generate: (args?: Record<string, any>) => Promise<string>
 }
 
+export interface CacheStrategy {
+  ttl?: number
+  key?: (params: Record<string, any>) => string
+  invalidate?: string[]
+}
+
+export interface AuthConfig {
+  type: 'apiKey' | 'oauth2' | 'bearer' | 'basic'
+  envKey?: string
+  header?: string
+  validate?: (credentials: string) => Promise<boolean>
+}
+
+export interface RateLimitConfig {
+  maxRequests: number
+  windowMs: number
+  key?: (params: Record<string, any>) => string
+}
+
+export interface PluginHooks {
+  preServerInit?: (config: MCPServerConfig) => Promise<MCPServerConfig>
+  postServerInit?: (server: MCPServer) => Promise<MCPServer>
+  preToolCall?: (toolName: string, params: Record<string, any>) => Promise<void>
+  postToolCall?: (toolName: string, result: any) => Promise<void>
+}
+
+export interface MCPPlugin {
+  name: string
+  version: string
+  author?: string
+  hooks?: PluginHooks
+  middleware?: ToolMiddleware[]
+  tools?: ToolDefinition[]
+  resources?: Resource[]
+}
+
 export interface MCPServerConfig {
   name: string
   version: string
   description: string
   author?: string
   icon?: string
+  homepage?: string
+  repository?: string
+  license?: string
   trae?: {
     categories?: string[]
     visibility?: 'public' | 'private'
     rating?: 'beginner' | 'intermediate' | 'advanced'
     features?: string[]
   }
+  cache?: CacheStrategy
+  auth?: AuthConfig
+  rateLimit?: RateLimitConfig
+  plugins?: MCPPlugin[]
 }
 
 export interface MCPServer {

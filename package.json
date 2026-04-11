@@ -59,6 +59,15 @@
       "official": true,
       "badges": ["Editor's Pick", "Productivity"]
     },
+    "skills": [
+      "code-review",
+      "bug-fixer",
+      "test-generator",
+      "explain-this",
+      "refactor-this",
+      "doc-generator",
+      "architect"
+    ],
     "mcpServers": {
       "git": "mcp/git/index.ts",
       "terminal": "mcp/terminal/index.ts",
@@ -75,7 +84,41 @@
       "performance-optimizer": "mcp/performance-optimizer/index.ts",
       "coding-workflow": "mcp/coding-workflow/index.ts",
       "debugging-workflow": "mcp/debugging-workflow/index.ts",
-      "refactoring-workflow": "mcp/refactoring-workflow/index.ts"
+      "refactoring-workflow": "mcp/refactoring-workflow/index.ts",
+      "github": "mcp/github/index.ts",
+      "gitlab": "mcp/gitlab/index.ts",
+      "openai": "mcp/openai/index.ts",
+      "filesystem": "mcp/filesystem/index.ts",
+      "database": "mcp/database/index.ts",
+      "pdf": "mcp/pdf/index.ts",
+      "word": "mcp/word/index.ts",
+      "powerpoint": "mcp/powerpoint/index.ts",
+      "spreadsheet": "mcp/spreadsheet/index.ts",
+      "images": "mcp/images/index.ts",
+      "cloudflare": "mcp/cloudflare/index.ts",
+      "vercel": "mcp/vercel/index.ts",
+      "gitee": "mcp/gitee/index.ts",
+      "bitbucket": "mcp/bitbucket/index.ts",
+      "jira": "mcp/jira/index.ts",
+      "mongodb": "mcp/mongodb/index.ts",
+      "redis": "mcp/redis/index.ts",
+      "sentry": "mcp/sentry/index.ts",
+      "puppeteer": "mcp/puppeteer/index.ts",
+      "aliyun": "mcp/aliyun/index.ts",
+      "docker": "mcp/docker/index.ts",
+      "kubernetes": "mcp/kubernetes/index.ts",
+      "aws": "mcp/aws/index.ts",
+      "ssh": "mcp/ssh/index.ts",
+      "npm": "mcp/npm/index.ts",
+      "memory": "mcp/memory/index.ts",
+      "vector": "mcp/vector/index.ts",
+      "prompt": "mcp/prompt/index.ts",
+      "agent": "mcp/agent/index.ts",
+      "llm": "mcp/llm/index.ts",
+      "site-generator": "mcp/site-generator/index.ts",
+      "browser-automation": "mcp/browser-automation/index.ts",
+      "web-crawler": "mcp/web-crawler/index.ts",
+      "code-rag": "mcp/code-rag/index.ts"
     }
   },
   "author": "Trae Skills Team",
@@ -100,16 +143,5 @@
   },
   "publishConfig": {
     "access": "public"
-  },
-  "trae": {
-    "skills": [
-      "code-review",
-      "bug-fixer",
-      "test-generator",
-      "explain-this",
-      "refactor-this",
-      "doc-generator",
-      "architect"
-    ]
   }
 }

@@ -1,29 +1,171 @@
 id: badhope/trae-skills
-name: Trae Skills Collection
+name: Trae Skills Bundle
 version: 1.0.0
-description: 16 Production-grade MCP Servers for AI Development
+description: 🏆 World's Largest MCP Collection - 50 Production-grade MCP Servers
 author: badhope
 tags:
   - mcp
+  - model-context-protocol
   - ai
   - developer-tools
-  - code-review
-  - testing
   - git
   - terminal
+  - code-review
+  - testing
+  - debugging
+  - cloud
+  - database
+  - devops
+  - office
 
 mcpServers:
-  git:
+  agent:
     command: npx
-    args: ["-y", "@badhope/trae-skills", "mcp", "git"]
-  
-  terminal:
+    args: ["-y", "@badhope/trae-skills", "mcp", "agent"]
+  aliyun:
     command: npx
-    args: ["-y", "@badhope/trae-skills", "mcp", "terminal"]
-  
+    args: ["-y", "@badhope/trae-skills", "mcp", "aliyun"]
+  aws:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "aws"]
+  bitbucket:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "bitbucket"]
+  browser-automation:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "browser-automation"]
+  cloudflare:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "cloudflare"]
+  code-generator:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "code-generator"]
+  code-rag:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "code-rag"]
   code-review:
     command: npx
     args: ["-y", "@badhope/trae-skills", "mcp", "code-review"]
+  coding-workflow:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "coding-workflow"]
+  database:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "database"]
+  debugging-workflow:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "debugging-workflow"]
+  dependency-analyzer:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "dependency-analyzer"]
+  docker:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "docker"]
+  documentation:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "documentation"]
+  filesystem:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "filesystem"]
+  git:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "git"]
+  github:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "github"]
+  gitlab:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "gitlab"]
+  gitee:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "gitee"]
+  images:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "images"]
+  jira:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "jira"]
+  kubernetes:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "kubernetes"]
+  llm:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "llm"]
+  memory:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "memory"]
+  mongodb:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "mongodb"]
+  npm:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "npm"]
+  openai:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "openai"]
+  pdf:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "pdf"]
+  performance-optimizer:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "performance-optimizer"]
+  powerpoint:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "powerpoint"]
+  prompt:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "prompt"]
+  puppeteer:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "puppeteer"]
+  react:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "react"]
+  redis:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "redis"]
+  refactoring-workflow:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "refactoring-workflow"]
+  search:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "search"]
+  security-auditor:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "security-auditor"]
+  sentry:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "sentry"]
+  site-generator:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "site-generator"]
+  spreadsheet:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "spreadsheet"]
+  ssh:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "ssh"]
+  terminal:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "terminal"]
+  test-generator:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "test-generator"]
+  typescript:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "typescript"]
+  vector:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "vector"]
+  vercel:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "vercel"]
+  web-crawler:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "web-crawler"]
+  word:
+    command: npx
+    args: ["-y", "@badhope/trae-skills", "mcp", "word"]
 
 homepage: https://github.com/badhope/skill
 repository: https://github.com/badhope/skill.git

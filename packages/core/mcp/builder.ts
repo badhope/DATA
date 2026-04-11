@@ -4,7 +4,9 @@ import {
   Resource, 
   PromptDefinition, 
   MCPServer,
-  ToolResult 
+  ToolResult,
+  ToolMiddleware,
+  MCPPlugin
 } from './types'
 
 export class MCPServerBuilder {
@@ -12,11 +14,17 @@ export class MCPServerBuilder {
   private tools: ToolDefinition[] = []
   private resources: Resource[] = []
   private prompts: PromptDefinition[] = []
+  private middleware: ToolMiddleware[] = []
+  private plugins: MCPPlugin[] = []
+  private cache: Map<string, { data: any; expires: number }> = new Map()
 
   constructor(config: MCPServerConfig) {
     this.config = {
       ...config,
       author: config.author || 'Trae Official',
+      homepage: config.homepage || 'https://skills.trae.dev',
+      repository: config.repository || 'https://github.com/badhope/trae-skills',
+      license: config.license || 'Apache-2.0',
       trae: {
         visibility: 'public',
         rating: 'intermediate',
@@ -54,13 +62,113 @@ export class MCPServerBuilder {
     return this
   }
 
+  use(middleware: ToolMiddleware): this {
+    this.middleware.push({
+      priority: 100,
+      ...middleware
+    })
+    this.middleware.sort((a, b) => (a.priority || 100) - (b.priority || 100))
+    return this
+  }
+
+  usePlugin(plugin: MCPPlugin): this {
+    this.plugins.push(plugin)
+    if (plugin.middleware) {
+      plugin.middleware.forEach(m => this.use(m))
+    }
+    if (plugin.tools) {
+      plugin.tools.forEach(t => this.addTool(t))
+    }
+    if (plugin.resources) {
+      plugin.resources.forEach(r => this.addResource(r))
+    }
+    return this
+  }
+
+  withCache(ttlSeconds: number = 300): this {
+    this.config.cache = {
+      ttl: ttlSeconds * 1000
+    }
+    return this
+  }
+
+  withRateLimit(maxRequests: number, windowMinutes: number = 1): this {
+    this.config.rateLimit = {
+      maxRequests,
+      windowMs: windowMinutes * 60 * 1000
+    }
+    return this
+  }
+
+  withAuth(type: 'apiKey' | 'bearer', envKey: string): this {
+    this.config.auth = { type, envKey }
+    return this
+  }
+
+  private async applyMiddlewareChain(
+    tool: ToolDefinition,
+    params: Record<string, any>
+  ): Promise<any> {
+    let currentParams = { ...params }
+    
+    for (const mw of this.middleware) {
+      if (mw.before) {
+        currentParams = await mw.before(currentParams, tool)
+      }
+    }
+
+    try {
+      const cacheKey = this.config.cache?.key?.(currentParams) || 
+                      `${tool.name}:${JSON.stringify(currentParams)}`
+      
+      if (this.config.cache?.ttl) {
+        const cached = this.cache.get(cacheKey)
+        if (cached && cached.expires > Date.now()) {
+          return cached.data
+        }
+      }
+
+      let result = await tool.execute(currentParams)
+
+      for (const mw of this.middleware.slice().reverse()) {
+        if (mw.after) {
+          result = await mw.after(result, currentParams, tool)
+        }
+      }
+
+      if (this.config.cache?.ttl) {
+        this.cache.set(cacheKey, {
+          data: result,
+          expires: Date.now() + this.config.cache.ttl
+        })
+      }
+
+      return result
+    } catch (e: any) {
+      for (const mw of this.middleware) {
+        if (mw.onError) {
+          return mw.onError(e, currentParams, tool)
+        }
+      }
+      throw e
+    }
+  }
+
   build(): MCPServer {
+    const wrappedTools = this.tools.map(tool => ({
+      ...tool,
+      execute: async (params: Record<string, any>) => {
+        return this.applyMiddlewareChain(tool, params)
+      }
+    }))
+
     return {
       config: this.config,
-      tools: this.tools,
+      tools: wrappedTools,
       resources: this.resources,
-      prompts: this.prompts
-    }
+      prompts: this.prompts,
+      $builder: this
+    } as any
   }
 }
 

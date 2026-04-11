@@ -1,7 +1,71 @@
-import { MCPServer } from './types'
+import { MCPServer, ToolMiddleware, MCPPlugin } from './types'
 import { callTool, getResource, generatePrompt } from './builder'
 import fs from 'fs/promises'
 import path from 'path'
+
+export const LoggingMiddleware: ToolMiddleware = {
+  name: 'logging',
+  priority: 10,
+  before: async (params, tool) => {
+    console.log(`[MCP] Executing ${tool.name} with params:`, Object.keys(params))
+    return params
+  },
+  after: async (result, params, tool) => {
+    console.log(`[MCP] Completed ${tool.name}`)
+    return result
+  }
+}
+
+export const ErrorHandlerMiddleware: ToolMiddleware = {
+  name: 'error-handler',
+  priority: 1,
+  onError: async (error, params, tool) => {
+    console.error(`[MCP] Error in ${tool.name}:`, error.message)
+    return {
+      success: false,
+      error: error.message,
+      tool: tool.name
+    }
+  }
+}
+
+export const ValidationMiddleware: ToolMiddleware = {
+  name: 'validation',
+  priority: 50,
+  before: async (params, tool) => {
+    for (const [key, paramDef] of Object.entries(tool.parameters)) {
+      if (paramDef.required && params[key] === undefined) {
+        throw new Error(`Missing required parameter: ${key}`)
+      }
+    }
+    return params
+  }
+}
+
+export const TimeoutMiddleware = (timeoutMs: number = 30000): ToolMiddleware => ({
+  name: 'timeout',
+  priority: 20,
+  before: async (params, tool) => {
+    const timeout = tool.timeout || timeoutMs
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error(`Tool ${tool.name} timed out after ${timeout}ms`)), timeout)
+    })
+    return params
+  }
+})
+
+export const CorePlugins: Record<string, MCPPlugin> = {
+  metrics: {
+    name: 'metrics',
+    version: '1.0.0',
+    middleware: [LoggingMiddleware, ErrorHandlerMiddleware]
+  },
+  validation: {
+    name: 'validation',
+    version: '1.0.0',
+    middleware: [ValidationMiddleware]
+  }
+}
 
 export class MCPRegistry {
   private servers: Map<string, MCPServer> = new Map()
